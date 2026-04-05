@@ -1,18 +1,16 @@
-from src.data_loader import load_all
+from src.data_loader import load_all, display_dataset, save_instances
+from to_csv import save_to_csv
+
+
+
 
 if __name__ == "__main__":
     datasets = load_all("data/taillard")
 
-    for name, instances in datasets.items():
-        print(f"\n{'='*40}")
-        print(f"Dataset : {name}")
-        print(f"Nombre d'instances : {len(instances)}")
-
-        for idx, inst in enumerate(instances):
-            print(f"\n  Instance {idx+1}:")
-            print(f"    Jobs     : {inst['n_jobs']}")
-            print(f"    Machines : {inst['n_machines']}")
-            print(f"    UB       : {inst['ub']}")
-            print(f"    LB       : {inst['lb']}")
-            print(f"    Shape    : {inst['processing_times'].shape}")
-            print(f"    PT[0]    : {inst['processing_times'][0]}")  # 1ère ligne (machine 1)
+    # Sauvegarder en CSV
+    #display_dataset(datasets)
+    print(f"\n{'='*50}")
+    print("Sauvegarde des fichiers CSV...")
+    save_to_csv(datasets, output_dir="data")
+    save_instances(datasets)
+    print("Done !")
