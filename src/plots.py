@@ -30,9 +30,7 @@ def plot_gantt(sequence, processing_times, due_dates, weights=None, title="Gantt
     n_machines = processing_times.shape[0]
     n_jobs     = len(sequence)
 
-    output_dir  = os.path.join("data", "gantts")
-    output_path = os.path.join(output_dir, filename)
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    os.makedirs(os.path.dirname(filename), exist_ok=True)
 
     C      = compute_completion_times(sequence, processing_times)
     #colors = plt.cm.tab20(np.linspace(0, 1, n_jobs))
@@ -125,6 +123,6 @@ def plot_gantt(sequence, processing_times, due_dates, weights=None, title="Gantt
     ax_gantt.set_xticks([])
 
     plt.tight_layout()
-    plt.savefig(output_path, dpi=150, bbox_inches='tight')
+    plt.savefig(filename, dpi=150, bbox_inches='tight')
     plt.close()
     #print(f"Gantt sauvegardé : {output_path}")

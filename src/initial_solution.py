@@ -43,14 +43,14 @@ def taillard_sequences(datasets):
                 filepath         = f"resultats/taillard/{folder}/{instance_id}.csv"
             )
 
-            plot_gantt(
+            """plot_gantt(
                 sequence         = sequence,
                 processing_times = pt,
                 due_dates        = due_dates,
                 weights          = weights,
                 title            = f"Taillard — {name} Instance {idx+1}",
                 filename         = f"gantts/taillard/{folder}/instance_{idx+1}.png"
-            )
+            )"""
 
 """
 1. Trier les jobs par due date croissante → ordre EDD
@@ -142,11 +142,11 @@ def nehEdd(datasets):
                     filepath = f"resultats/nehedd/{folder}/{instance_id}_{objective}.csv"
                 )
 
-                plot_gantt(
+                """plot_gantt(
                     sequence         = sequence,
                     processing_times = pt,
                     due_dates        = due_dates,
                     weights          = weights,
                     title            = f"NEHedd [{objective}] — {name} Instance {idx+1}",
                     filename         = f"gantts/nehedd/{folder}/instance_{idx+1}_{objective}.png"
-                )
+                )"""
