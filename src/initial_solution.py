@@ -1,5 +1,6 @@
 import numpy as np
 
+from src.results import save_results
 from src.dd_generator import generate_due_dates_brah, generate_weights
 from src.plots import plot_gantt
 from src.scheduler import compute_objectives
@@ -23,6 +24,7 @@ def taillard_sequences(datasets):
             weights   = generate_weights(inst)
             n_jobs    = inst['n_jobs']
             sequence  = list(range(n_jobs))
+            instance_id = f"instance_{idx+1}"
 
             obj = compute_objectives(sequence, pt, due_dates, weights)
 
@@ -33,13 +35,21 @@ def taillard_sequences(datasets):
             print(f"    T_max    : {obj['T_max']}")
             print(f"    NT       : {obj['NT']}")"""
 
+            save_results(
+                sequence         = sequence,
+                processing_times = pt,
+                due_dates        = due_dates,
+                weights          = weights,
+                filepath         = f"resultats/taillard/{folder}/{instance_id}.csv"
+            )
+
             plot_gantt(
                 sequence         = sequence,
                 processing_times = pt,
                 due_dates        = due_dates,
                 weights          = weights,
                 title            = f"Taillard — {name} Instance {idx+1}",
-                filename         = f"tai/{folder}_instance_{idx+1}.png"
+                filename         = f"gantts/taillard/{folder}/instance_{idx+1}.png"
             )
 
 """
@@ -112,6 +122,7 @@ def nehEdd(datasets):
             pt        = inst['processing_times']
             due_dates = generate_due_dates_brah(inst, tau=2)
             weights   = generate_weights(inst)
+            instance_id = f"instance_{idx+1}"
 
             print(f"\n  {name} — Instance {idx+1}:")
 
@@ -122,6 +133,14 @@ def nehEdd(datasets):
                 """print(f"    [{objective}] Séquence : {[j+1 for j in sequence]}")
                 print(f"           TT={obj['TT']}, TWT={obj['TWT']}, "
                       f"T_max={obj['T_max']}, NT={obj['NT']}")"""
+                
+                save_results(
+                    sequence         = sequence,
+                    processing_times = pt,
+                    due_dates        = due_dates,
+                    weights          = weights,
+                    filepath = f"resultats/nehedd/{folder}/{instance_id}_{objective}.csv"
+                )
 
                 plot_gantt(
                     sequence         = sequence,
@@ -129,5 +148,5 @@ def nehEdd(datasets):
                     due_dates        = due_dates,
                     weights          = weights,
                     title            = f"NEHedd [{objective}] — {name} Instance {idx+1}",
-                    filename         = f"nehedd/{folder}_instance_{idx+1}_{objective}.png"
+                    filename         = f"gantts/nehedd/{folder}/instance_{idx+1}_{objective}.png"
                 )

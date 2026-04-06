@@ -126,53 +126,6 @@ def plot_gantt(sequence, processing_times, due_dates, weights=None, title="Gantt
     # Supprimer les ticks x par défaut
     ax_gantt.set_xticks([])
 
-
-    # ─── Tableau ─────────────────────────────────────────────
-    ax_table.axis('off')
-
-    col_labels = ["Job", "Due date", "Weight",
-                  "Start M1", "Completion Cj", "Tardiness", "Tardy"]
-    table_data = []
-
-    for j, job in enumerate(sequence):
-        start_m1  = starts[0][j]
-        cj        = completion_times[j]
-        dd        = due_dates[job]
-        w         = weights[job] if weights is not None else 1
-        tardiness = max(0, cj - dd)
-        tardy     = "1" if tardiness > 0 else "0"
-
-        table_data.append([
-            f"J{job+1}",
-            dd,
-            w,
-            start_m1,
-            cj,
-            tardiness,
-            tardy
-        ])
-
-    table = ax_table.table(
-        cellText  = table_data,
-        colLabels = col_labels,
-        cellLoc   = 'center',
-        loc       = 'center'
-    )
-    table.auto_set_font_size(False)
-    table.set_fontsize(7.5)
-    table.scale(1, 1.2)
-
-    # Header
-    for k in range(len(col_labels)):
-        table[0, k].set_facecolor('#DDDDDD')
-        table[0, k].set_text_props(fontweight='bold')
-
-    # Couleur selon tardy
-    for j in range(len(table_data)):
-        color_row = '#FFCCCC' if table_data[j][6] == "1" else '#CCFFCC'
-        for k in range(len(col_labels)):
-            table[j+1, k].set_facecolor(color_row)
-
     plt.tight_layout()
     plt.savefig(output_path, dpi=150, bbox_inches='tight')
     plt.close()
