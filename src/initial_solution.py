@@ -2,7 +2,6 @@ import numpy as np
 
 from src.results import save_results
 from src.dd_generator import generate_due_dates_brah, generate_weights
-from src.plots import plot_gantt
 from src.scheduler import compute_objectives
 from config import FOLDE_MAP
 

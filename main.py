@@ -1,6 +1,6 @@
 import numpy as np
 from src.initial_solution import nehEdd, nehedd, taillard_sequences
-from src.plots import plot_gantt
+from src.plots import plot_gantt, run_plots
 from src.dd_generator import generate_due_dates_brah, generate_weights
 from src.scheduler import compute_objectives
 from src.data_loader import load_all, display_dataset, save_instances
@@ -30,10 +30,12 @@ if __name__ == "__main__":
 
     runIG(datasets)
 
+    run_plots(datasets)
+
     print("Done !")   
 
     
-
+""" 
 
     # ── Charger une instance ────────────────────────────────
     inst      = datasets["tai20j_5m"][0]
@@ -81,7 +83,7 @@ if __name__ == "__main__":
     print(f"{'NT':15} {obj_avant['NT']:>10} {obj_apres['NT']:>10}")
     print(f"{'='*40}")
 
-"""    for objective in ['TT', 'TWT', 'T_max', 'NT']:
+    for objective in ['TT', 'TWT', 'T_max', 'NT']:
         print(f"\n{'='*40}")
         print(f"Objectif : {objective}")
 

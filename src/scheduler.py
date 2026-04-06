@@ -1,7 +1,5 @@
 import numpy as np
 
-from src.dd_generator import generate_due_dates_brah, generate_weights
-
 
 def compute_completion_times(sequence, processing_times):
     """

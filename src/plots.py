@@ -3,7 +3,11 @@ import colorsys
 import matplotlib.pyplot as plt
 import numpy as np
 import os
-from src.scheduler import compute_completion_times
+
+from src.IG_TS_approche import ig
+from src.dd_generator import generate_due_dates_brah, generate_weights
+from src.initial_solution import nehedd
+from src.scheduler import compute_completion_times, compute_objectives
 
 
 
@@ -126,3 +130,121 @@ def plot_gantt(sequence, processing_times, due_dates, weights=None, title="Gantt
     plt.savefig(filename, dpi=150, bbox_inches='tight')
     plt.close()
     #print(f"Gantt sauvegardé : {output_path}")
+
+def compute_all_results(datasets):
+    """
+    Calcule les résultats pour toutes les méthodes et instances.
+    Retourne un dict structuré.
+    """
+    results = {}
+
+    for name, instances in datasets.items():
+        results[name] = {
+            'taillard': {'TT': [], 'TWT': [], 'T_max': [], 'NT': []},
+            'nehedd':   {'TT': [], 'TWT': [], 'T_max': [], 'NT': []},
+            'ig':       {'TT': [], 'TWT': [], 'T_max': [], 'NT': []}
+        }
+
+        for idx, inst in enumerate(instances):
+            pt        = inst['processing_times']
+            due_dates = generate_due_dates_brah(inst, tau=2)
+            weights   = generate_weights(inst)
+            n_jobs    = inst['n_jobs']
+
+            print(f"  {name} — Instance {idx+1}...")
+
+            # ── Taillard (séquence identitaire) ──────────────
+            seq_tai = list(range(n_jobs))
+            obj_tai = compute_objectives(seq_tai, pt, due_dates, weights)
+            for obj in ['TT', 'TWT', 'T_max', 'NT']:
+                results[name]['taillard'][obj].append(obj_tai[obj])
+
+            # ── NEHedd ───────────────────────────────────────
+            for obj in ['TT', 'TWT', 'T_max', 'NT']:
+                seq_neh = nehedd(pt, due_dates, weights, objective=obj)
+                obj_neh = compute_objectives(seq_neh, pt, due_dates, weights)
+                results[name]['nehedd'][obj].append(obj_neh[obj])
+
+            # ── IG ───────────────────────────────────────────
+            for obj in ['TT', 'TWT', 'T_max', 'NT']:
+                seq_ig, _, _ = ig(
+                    processing_times = pt,
+                    due_dates        = due_dates,
+                    weights          = weights,
+                    objective        = obj,
+                    k                = 4,
+                    max_iter         = 100
+                )
+                obj_ig = compute_objectives(seq_ig, pt, due_dates, weights)
+                results[name]['ig'][obj].append(obj_ig[obj])
+
+    return results
+
+
+def plot_comparison(results):
+    """
+    Affiche et sauvegarde les courbes de comparaison
+    pour chaque dataset et chaque objectif.
+    """
+    os.makedirs("resultats/plots", exist_ok=True)
+
+    objectives  = ['TT', 'TWT', 'T_max', 'NT']
+    obj_labels  = {
+        'TT':    'Total Tardiness',
+        'TWT':   'Total Weighted Tardiness',
+        'T_max': 'Maximum Tardiness',
+        'NT':    'Number of Tardy Jobs'
+    }
+
+    methods = {
+        'taillard': {'label': 'Taillard (identity)', 'color': '#607D8B', 'marker': 'o'},
+        'nehedd':   {'label': 'NEHedd',               'color': '#2196F3', 'marker': 's'},
+        'ig':       {'label': 'IG',                   'color': '#4CAF50', 'marker': '^'}
+    }
+
+    for name, data in results.items():
+        n_instances = len(data['taillard']['TT'])
+        x           = list(range(1, n_instances + 1))
+
+        fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+        fig.suptitle(f"Comparaison des méthodes — {name}", fontsize=14, fontweight='bold')
+
+        axes_flat = axes.flatten()
+
+        for ax, obj in zip(axes_flat, objectives):
+            for method, style in methods.items():
+                ax.plot(
+                    x,
+                    data[method][obj],
+                    label     = style['label'],
+                    color     = style['color'],
+                    marker    = style['marker'],
+                    linewidth = 2,
+                    markersize= 6
+                )
+
+            ax.set_title(obj_labels[obj], fontsize=11)
+            ax.set_xlabel("Instance")
+            ax.set_ylabel("Valeur")
+            ax.set_xticks(x)
+            ax.legend(fontsize=9)
+            ax.grid(linestyle='--', alpha=0.4)
+
+        plt.tight_layout()
+        filepath = f"resultats/plots/{name}_comparison.png"
+        plt.savefig(filepath, dpi=150, bbox_inches='tight')
+        plt.close()
+        print(f"Plot sauvegardé : {filepath}")
+
+
+def run_plots(datasets):
+    """
+    Pipeline complet : calcul + affichage.
+    """
+    print("\n" + "="*50)
+    print("Calcul des résultats...")
+    results = compute_all_results(datasets)
+
+    print("\n" + "="*50)
+    print("Génération des plots...")
+    plot_comparison(results)

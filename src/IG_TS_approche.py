@@ -1,10 +1,9 @@
 import os
 import numpy as np
 from src.dd_generator import generate_due_dates_brah, generate_weights
-from src.initial_solution import nehEdd, nehedd
+from src.initial_solution import nehedd
 from src.scheduler import compute_objectives
 from src.results import save_results
-from src.plots import plot_gantt
 
 
 """1. Solution initiale  → NEHedd
