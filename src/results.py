@@ -49,7 +49,7 @@ def save_results(sequence, processing_times, due_dates, weights=None,
             w         = int(weights[job]) if weights is not None else 1
             start_m1  = int(starts[0][j])
             tardiness = max(0, cj - dd)
-            tardy     = "YES" if tardiness > 0 else "NO"
+            tardy     = "1" if tardiness > 0 else "0"
 
             writer.writerow([
                 f"J{job+1}",

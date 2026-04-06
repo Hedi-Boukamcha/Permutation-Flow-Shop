@@ -54,10 +54,8 @@ def plot_gantt(sequence, processing_times, due_dates, weights=None, title="Gantt
     # Completion times de la dernière machine
     completion_times = C[n_machines-1]  # shape: (n_jobs,)
 
-    fig, (ax_gantt, ax_table) = plt.subplots(
-        2, 1,
-        figsize     = (16, n_machines * 1.5 + n_jobs * 0.45 + 2),
-        gridspec_kw = {'height_ratios': [n_machines * 1.5, n_jobs * 0.45]}
+    fig, ax_gantt = plt.subplots(
+        figsize = (16, n_machines * 1.5 + 3)
     )
 
     # ─── Gantt ───────────────────────────────────────────────
