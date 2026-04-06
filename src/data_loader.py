@@ -2,6 +2,7 @@ import csv
 import numpy as np
 import os
 
+from config import FOLDE_MAP
 from src.dd_generator import generate_all_scenarios, generate_due_dates_brah
 
 def parse_taillard(filepath):
@@ -89,13 +90,9 @@ def save_instances(datasets, output_dir="data/instances"):
     Sauvegarde chaque instance dans un fichier CSV.
     Une ligne par job avec toutes les due dates en colonnes.
     """
-    folder_map = {
-        "tai20j_5m":  "20j_5m",
-        "tai50j_10m": "50j_10m"
-    }
 
     for name, instances in datasets.items():
-        folder_name = folder_map.get(name, name)
+        folder_name = FOLDE_MAP.get(name, name)
         folder_path = os.path.join(output_dir, folder_name)
         os.makedirs(folder_path, exist_ok=True)
 

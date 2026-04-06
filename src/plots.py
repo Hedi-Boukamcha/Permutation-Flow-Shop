@@ -25,15 +25,14 @@ def generate_colors(n_jobs, seed=42):
     return colors
 
 
-def plot_gantt(sequence, processing_times, due_dates, weights=None,
-               title="Gantt Chart", filename="gantt.png"):
+def plot_gantt(sequence, processing_times, due_dates, weights=None, title="Gantt Chart", filename="gantt.png"):
 
     n_machines = processing_times.shape[0]
     n_jobs     = len(sequence)
 
-    output_dir  = os.path.join("data", "gantt")
-    os.makedirs(output_dir, exist_ok=True)
+    output_dir  = os.path.join("data", "gantts")
     output_path = os.path.join(output_dir, filename)
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
     C      = compute_completion_times(sequence, processing_times)
     #colors = plt.cm.tab20(np.linspace(0, 1, n_jobs))
@@ -141,7 +140,7 @@ def plot_gantt(sequence, processing_times, due_dates, weights=None,
         dd        = due_dates[job]
         w         = weights[job] if weights is not None else 1
         tardiness = max(0, cj - dd)
-        tardy     = "YES" if tardiness > 0 else "NO"
+        tardy     = "1" if tardiness > 0 else "0"
 
         table_data.append([
             f"J{job+1}",
@@ -170,11 +169,11 @@ def plot_gantt(sequence, processing_times, due_dates, weights=None,
 
     # Couleur selon tardy
     for j in range(len(table_data)):
-        color_row = '#FFCCCC' if table_data[j][6] == "YES" else '#CCFFCC'
+        color_row = '#FFCCCC' if table_data[j][6] == "1" else '#CCFFCC'
         for k in range(len(col_labels)):
             table[j+1, k].set_facecolor(color_row)
 
     plt.tight_layout()
     plt.savefig(output_path, dpi=150, bbox_inches='tight')
     plt.close()
-    print(f"✅ Gantt sauvegardé : {output_path}")
+    #print(f"Gantt sauvegardé : {output_path}")

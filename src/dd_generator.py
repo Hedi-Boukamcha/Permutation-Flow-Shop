@@ -58,3 +58,21 @@ def generate_due_dates_brah(instance, tau=2):
     due_dates = tau * total_work
     
     return due_dates.astype(int)
+
+
+def generate_weights(instance, seed=42):
+    """
+    Génère les poids w_j pour chaque job.
+    w_j ~ U[1, 10] (distribution uniforme entière)
+
+    Args:
+        instance : dict avec 'n_jobs'
+        seed     : pour reproductibilité
+
+    Returns:
+        weights : array de taille n_jobs
+    """
+    np.random.seed(seed)
+    n_jobs  = instance['n_jobs']
+    weights = np.random.randint(1, 11, size=n_jobs)
+    return weights
