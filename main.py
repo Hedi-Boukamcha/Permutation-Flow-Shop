@@ -5,7 +5,7 @@ from src.dd_generator import generate_due_dates_brah, generate_weights
 from src.scheduler import compute_objectives
 from src.data_loader import load_all, display_dataset, save_instances
 from to_csv import save_to_csv
-from src.IG_TS_approche import destruction, reconstruction
+from src.IG_TS_approche import runIG, destruction, reconstruction, runIG
 
 
 
@@ -27,7 +27,12 @@ if __name__ == "__main__":
 
     # ── NEHedd ─────────────────────────────────────────────
     nehEdd(datasets) 
+
+    runIG(datasets)
+
     print("Done !")   
+
+    
 
 
     # ── Charger une instance ────────────────────────────────
@@ -75,4 +80,26 @@ if __name__ == "__main__":
     print(f"{'T_max':15} {obj_avant['T_max']:>10} {obj_apres['T_max']:>10}")
     print(f"{'NT':15} {obj_avant['NT']:>10} {obj_apres['NT']:>10}")
     print(f"{'='*40}")
+
+"""    for objective in ['TT', 'TWT', 'T_max', 'NT']:
+        print(f"\n{'='*40}")
+        print(f"Objectif : {objective}")
+
+        best_seq, best_val, history = IG(
+            processing_times = pt,
+            due_dates        = due_dates,
+            weights          = weights,
+            objective        = objective,
+            k                = 4,
+            max_iter         = 100,
+            filepath         = f"resultats/ig/20j_5m/instance_1_{objective}.csv"
+        )
+
+        obj = compute_objectives(best_seq, pt, due_dates, weights)
+        print(f"  Séquence : {[j+1 for j in best_seq]}")
+        print(f"  TT       : {obj['TT']}")
+        print(f"  TWT      : {obj['TWT']}")
+        print(f"  T_max    : {obj['T_max']}")
+        print(f"  NT       : {obj['NT']}")"""
+ 
 
