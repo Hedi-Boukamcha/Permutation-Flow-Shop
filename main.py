@@ -1,6 +1,7 @@
 import os
 import sys
 import numpy as np
+from src.GA_PathR import ga_pr_wrapper
 from src.riahi_IGA import iga_riahi_final, run_riahi_IGA
 from src.NEHedd_FV import nehedd_tbit1, run_nehedd_FV, save_results
 from src.initial_solution import nehEdd, nehedd, taillard_sequences
@@ -40,27 +41,32 @@ if __name__ == "__main__":
     print("  RUNNING: NEHedd — Tie-Breaking IT1")
     print("=" * 55)
     
-    out_neh = "resultats/nehedd_FV"
-    out_iga = "resultats/iga_riahi"
-    os.makedirs(out_neh, exist_ok=True)
-    os.makedirs(out_iga, exist_ok=True)
+    out_neh   = "resultats/nehedd_FV"
+    out_iga   = "resultats/iga_riahi"
+    out_ga_pr = "resultats/ga_pr"
+    os.makedirs(out_neh,   exist_ok=True)
+    os.makedirs(out_iga,   exist_ok=True)
+    os.makedirs(out_ga_pr, exist_ok=True)
 
     # 3. Boucle sur les datasets
     for name, instances in datasets.items():
         if name in folder_map:
             label = folder_map[name]
-            
+
             # --- EXECUTION NEH ---
             print(f"\nLancement NEHedd sur {name}...")
-            # On passe 'nehedd_tbit1' comme algo_func
-            res_neh = run_riahi_IGA(name, instances, nehedd_tbit1) 
+            res_neh = run_riahi_IGA(name, instances, nehedd_tbit1)
             save_results(res_neh, os.path.join(out_neh, f"{label}_results.csv"))
 
             # --- EXECUTION IGA ---
             print(f"\nLancement IGA Riahi sur {name}...")
-            # On passe 'iga_riahi_final' comme algo_func
-            res_iga = run_riahi_IGA(name, instances, iga_riahi_final) 
+            res_iga = run_riahi_IGA(name, instances, iga_riahi_final)
             save_results(res_iga, os.path.join(out_iga, f"{label}_results.csv"))
+
+            # --- EXECUTION GA-PR ---
+            print(f"\nLancement GA-PR sur {name}...")
+            res_ga_pr = run_riahi_IGA(name, instances, ga_pr_wrapper)
+            save_results(res_ga_pr, os.path.join(out_ga_pr, f"{label}_results.csv"))
 
     print("\n[OK] Tous les calculs sont terminés.") 
 
