@@ -1,5 +1,7 @@
+import os
 import sys
 import numpy as np
+from src.NEHedd_FV import run_dataset, save_results
 from src.initial_solution import nehEdd, nehedd, taillard_sequences
 from src.plots import plot_gantt, run_plots
 from src.dd_generator import generate_due_dates_brah, generate_weights
@@ -15,6 +17,35 @@ from src.math_model import solve_milp_tt
 
 if __name__ == "__main__":
     datasets = load_all("data/taillard")
+    
+    folder_map = {
+        "tai20j_5m":  "20j_5m",
+        "tai50j_10m": "50j_10m",
+    }
+
+# ─────────────────────────────────────────────────────────
+# NEH_EDD - NEH-based heuristics for the permutation flowshop scheduling problem to minimise total tardiness
+# Victor Fernandez-Viagas1†, Jose M. Framinan1
+# ─────────────────────────────────────────────────────────
+
+    print("=" * 55)
+    print("  NEHedd — Tie-Breaking IT1 (Fernandez-Viagas 2015)")
+    print("  Objectif : minimisation TT")
+    print("=" * 55)
+    output_dir="resultats/nehedd_FV"
+    # 2. Définir les alias pour les noms de fichiers
+
+
+    # 3. Boucler sur les dossiers trouvés
+    for name, instances in datasets.items():
+        # Lancer le calcul (défini dans heuristics.py)
+        results = run_dataset(name, instances)
+        # Déterminer le nom du fichier CSV
+        label    = folder_map.get(name, name)
+        filepath = os.path.join(output_dir, f"{label}_results.csv")
+        # Sauvegarder
+        save_results(results, filepath)
+    print("\n[OK] Tous les calculs sont terminés.")
 
     # Sauvegarder en CSV
     #display_dataset(datasets)
@@ -37,7 +68,7 @@ if __name__ == "__main__":
 
     run_plots(datasets)"""
 
-        # Récupérer les arguments
+"""        # Récupérer les arguments
     instance_id  = int(sys.argv[1])   # 0 à 9
     dataset_name = sys.argv[2]         # tai20j_5m ou tai50j_10m
 
@@ -73,7 +104,7 @@ if __name__ == "__main__":
         print(f"  Status   : {result['status']}")
         print(f"  TT       : {result['TT']}")
         print(f"  Séquence : {[j+1 for j in result['sequence']]}")
-    print("Done !")   
+    print("Done !")  """ 
 
     
 """ 
