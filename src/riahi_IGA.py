@@ -161,7 +161,7 @@ def local_search_riahi(sequence, pt, due_dates, beta):
             
     return best_s, best_t
 
-def run_riahi_IGA(name, instances, algo_func):
+def run_on_instances(name, instances, algo_func):
     results = []
     print(f"\n  Dataset : {name} ({len(instances)} instances)")
 

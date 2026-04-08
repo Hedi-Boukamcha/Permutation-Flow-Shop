@@ -1,8 +1,9 @@
 import os
 import sys
 import numpy as np
+from src.TM_IG import tmig_wrapper
 from src.GA_PathR import ga_pr_wrapper
-from src.riahi_IGA import iga_riahi_final, run_riahi_IGA
+from src.riahi_IGA import iga_riahi_final, run_on_instances
 from src.NEHedd_FV import nehedd_tbit1, run_nehedd_FV, save_results
 from src.initial_solution import nehEdd, nehedd, taillard_sequences
 from src.plots import plot_gantt, run_plots
@@ -44,29 +45,36 @@ if __name__ == "__main__":
     out_neh   = "resultats/nehedd_FV"
     out_iga   = "resultats/iga_riahi"
     out_ga_pr = "resultats/ga_pr"
+    out_tmig = "resultats/tmig"
     os.makedirs(out_neh,   exist_ok=True)
     os.makedirs(out_iga,   exist_ok=True)
     os.makedirs(out_ga_pr, exist_ok=True)
+    os.makedirs(out_tmig, exist_ok=True)
+
 
     # 3. Boucle sur les datasets
     for name, instances in datasets.items():
         if name in folder_map:
             label = folder_map[name]
 
-            # --- EXECUTION NEH ---
+            """# --- EXECUTION NEH ---
             print(f"\nLancement NEHedd sur {name}...")
-            res_neh = run_riahi_IGA(name, instances, nehedd_tbit1)
+            res_neh = run_on_instances(name, instances, nehedd_tbit1)
             save_results(res_neh, os.path.join(out_neh, f"{label}_results.csv"))
 
             # --- EXECUTION IGA ---
             print(f"\nLancement IGA Riahi sur {name}...")
-            res_iga = run_riahi_IGA(name, instances, iga_riahi_final)
+            res_iga = run_on_instances(name, instances, iga_riahi_final)
             save_results(res_iga, os.path.join(out_iga, f"{label}_results.csv"))
 
             # --- EXECUTION GA-PR ---
             print(f"\nLancement GA-PR sur {name}...")
-            res_ga_pr = run_riahi_IGA(name, instances, ga_pr_wrapper)
-            save_results(res_ga_pr, os.path.join(out_ga_pr, f"{label}_results.csv"))
+            res_ga_pr = run_on_instances(name, instances, ga_pr_wrapper)
+            save_results(res_ga_pr, os.path.join(out_ga_pr, f"{label}_results.csv"))"""
+
+            print(f"\nLancement TM-IG sur {name}...")
+            res_tmig = run_on_instances(name, instances, tmig_wrapper)
+            save_results(res_tmig, os.path.join(out_tmig, f"{label}_results.csv"))
 
     print("\n[OK] Tous les calculs sont terminés.") 
 
