@@ -161,7 +161,7 @@ def save_results(results, filepath):
 
 # ─── Pipeline principal ──────────────────────────────────────────────────────────
 
-def run_dataset(name, instances):
+def run_nehedd_FV(name, instances):
     results = []
     print(f"\n  Dataset : {name} ({len(instances)} instances)")
 
@@ -189,30 +189,3 @@ def run_dataset(name, instances):
 
     return results
 
-
-def main(data_dir="data/taillard", output_dir="resultats"):
-    print("=" * 55)
-    print("  NEHedd — Tie-Breaking IT1 (Fernandez-Viagas 2015)")
-    print("  Objectif : minimisation TT")
-    print("=" * 55)
-
-    datasets = load_all(data_dir)
-
-    folder_map = {
-        "tai20j_5m":  "20j_5m",
-        "tai50j_10m": "50j_10m",
-    }
-
-    for name, instances in datasets.items():
-        results  = run_dataset(name, instances)
-        label    = folder_map.get(name, name)
-        filepath = os.path.join(output_dir, f"{label}_results.csv")
-        save_results(results, filepath)
-
-    print("\nTerminé.")
-
-
-
-
-if __name__ == "__main__":
-    main()

@@ -1,7 +1,8 @@
 import os
 import sys
 import numpy as np
-from src.NEHedd_FV import run_dataset, save_results
+from src.riahi_IGA import iga_riahi_final, run_riahi_IGA
+from src.NEHedd_FV import nehedd_tbit1, run_nehedd_FV, save_results
 from src.initial_solution import nehEdd, nehedd, taillard_sequences
 from src.plots import plot_gantt, run_plots
 from src.dd_generator import generate_due_dates_brah, generate_weights
@@ -32,20 +33,38 @@ if __name__ == "__main__":
     print("  NEHedd — Tie-Breaking IT1 (Fernandez-Viagas 2015)")
     print("  Objectif : minimisation TT")
     print("=" * 55)
-    output_dir="resultats/nehedd_FV"
-    # 2. Définir les alias pour les noms de fichiers
+  # ─────────────────────────────────────────────────────────
+    # EXECUTION 1 : NEH_EDD (Fernandez-Viagas & Framinan)
+    # ─────────────────────────────────────────────────────────
+    print("\n" + "=" * 55)
+    print("  RUNNING: NEHedd — Tie-Breaking IT1")
+    print("=" * 55)
+    
+    out_neh = "resultats/nehedd_FV"
+    out_iga = "resultats/iga_riahi"
+    os.makedirs(out_neh, exist_ok=True)
+    os.makedirs(out_iga, exist_ok=True)
 
-
-    # 3. Boucler sur les dossiers trouvés
+    # 3. Boucle sur les datasets
     for name, instances in datasets.items():
-        # Lancer le calcul (défini dans heuristics.py)
-        results = run_dataset(name, instances)
-        # Déterminer le nom du fichier CSV
-        label    = folder_map.get(name, name)
-        filepath = os.path.join(output_dir, f"{label}_results.csv")
-        # Sauvegarder
-        save_results(results, filepath)
-    print("\n[OK] Tous les calculs sont terminés.")
+        if name in folder_map:
+            label = folder_map[name]
+            
+            # --- EXECUTION NEH ---
+            print(f"\nLancement NEHedd sur {name}...")
+            # On passe 'nehedd_tbit1' comme algo_func
+            res_neh = run_riahi_IGA(name, instances, nehedd_tbit1) 
+            save_results(res_neh, os.path.join(out_neh, f"{label}_results.csv"))
+
+            # --- EXECUTION IGA ---
+            print(f"\nLancement IGA Riahi sur {name}...")
+            # On passe 'iga_riahi_final' comme algo_func
+            res_iga = run_riahi_IGA(name, instances, iga_riahi_final) 
+            save_results(res_iga, os.path.join(out_iga, f"{label}_results.csv"))
+
+    print("\n[OK] Tous les calculs sont terminés.") 
+
+
 
     # Sauvegarder en CSV
     #display_dataset(datasets)
