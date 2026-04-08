@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 
-from src.IG_TS_approche import ig
+from src.IG_TS_approche import ig, ig_ts
 from src.dd_generator import generate_due_dates_brah, generate_weights
 from src.initial_solution import nehedd
 from src.scheduler import compute_completion_times, compute_objectives
@@ -134,7 +134,6 @@ def plot_gantt(sequence, processing_times, due_dates, weights=None, title="Gantt
 def compute_all_results(datasets):
     """
     Calcule les résultats pour toutes les méthodes et instances.
-    Retourne un dict structuré.
     """
     results = {}
 
@@ -142,7 +141,8 @@ def compute_all_results(datasets):
         results[name] = {
             'taillard': {'TT': [], 'TWT': [], 'T_max': [], 'NT': []},
             'nehedd':   {'TT': [], 'TWT': [], 'T_max': [], 'NT': []},
-            'ig':       {'TT': [], 'TWT': [], 'T_max': [], 'NT': []}
+            'ig':       {'TT': [], 'TWT': [], 'T_max': [], 'NT': []},
+            'ig_ts':    {'TT': [], 'TWT': [], 'T_max': [], 'NT': []}  # ← nouveau
         }
 
         for idx, inst in enumerate(instances):
@@ -178,18 +178,33 @@ def compute_all_results(datasets):
                 obj_ig = compute_objectives(seq_ig, pt, due_dates, weights)
                 results[name]['ig'][obj].append(obj_ig[obj])
 
+            # ── IG-TS ─────────────────────────────────────── ← nouveau
+            for obj in ['TT', 'TWT', 'T_max', 'NT']:
+                seq_igts, _, _ = ig_ts(
+                    processing_times = pt,
+                    due_dates        = due_dates,
+                    weights          = weights,
+                    objective        = obj,
+                    k                = 4,
+                    max_iter         = 100,
+                    tabu_tenure      = 7,
+                    max_iter_ts      = 50,
+                    stagnation_limit = 10
+                )
+                obj_igts = compute_objectives(seq_igts, pt, due_dates, weights)
+                results[name]['ig_ts'][obj].append(obj_igts[obj])
+
     return results
 
 
 def plot_comparison(results):
     """
-    Affiche et sauvegarde les courbes de comparaison
-    pour chaque dataset et chaque objectif.
+    Affiche et sauvegarde les courbes de comparaison.
     """
     os.makedirs("resultats/plots", exist_ok=True)
 
-    objectives  = ['TT', 'TWT', 'T_max', 'NT']
-    obj_labels  = {
+    objectives = ['TT', 'TWT', 'T_max', 'NT']
+    obj_labels = {
         'TT':    'Total Tardiness',
         'TWT':   'Total Weighted Tardiness',
         'T_max': 'Maximum Tardiness',
@@ -199,7 +214,8 @@ def plot_comparison(results):
     methods = {
         'taillard': {'label': 'Taillard (identity)', 'color': '#607D8B', 'marker': 'o'},
         'nehedd':   {'label': 'NEHedd',               'color': '#2196F3', 'marker': 's'},
-        'ig':       {'label': 'IG',                   'color': '#4CAF50', 'marker': '^'}
+        'ig':       {'label': 'IG',                   'color': '#4CAF50', 'marker': '^'},
+        'ig_ts':    {'label': 'IG-TS',                'color': '#E91E63', 'marker': 'D'}  # ← nouveau
     }
 
     for name, data in results.items():
@@ -207,7 +223,11 @@ def plot_comparison(results):
         x           = list(range(1, n_instances + 1))
 
         fig, axes = plt.subplots(2, 2, figsize=(14, 10))
-        fig.suptitle(f"Comparaison des méthodes — {name}", fontsize=14, fontweight='bold')
+        fig.suptitle(
+            f"Comparaison des méthodes — {name}",
+            fontsize   = 14,
+            fontweight = 'bold'
+        )
 
         axes_flat = axes.flatten()
 
@@ -216,11 +236,11 @@ def plot_comparison(results):
                 ax.plot(
                     x,
                     data[method][obj],
-                    label     = style['label'],
-                    color     = style['color'],
-                    marker    = style['marker'],
-                    linewidth = 2,
-                    markersize= 6
+                    label      = style['label'],
+                    color      = style['color'],
+                    marker     = style['marker'],
+                    linewidth  = 2,
+                    markersize = 6
                 )
 
             ax.set_title(obj_labels[obj], fontsize=11)

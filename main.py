@@ -1,3 +1,4 @@
+import sys
 import numpy as np
 from src.initial_solution import nehEdd, nehedd, taillard_sequences
 from src.plots import plot_gantt, run_plots
@@ -5,7 +6,8 @@ from src.dd_generator import generate_due_dates_brah, generate_weights
 from src.scheduler import compute_objectives
 from src.data_loader import load_all, display_dataset, save_instances
 from to_csv import save_to_csv
-from src.IG_TS_approche import runIG, destruction, reconstruction, runIG
+from src.IG_TS_approche import runIG, destruction, reconstruction, runIG, runIG_TS
+from src.math_model import solve_milp_tt
 
 
 
@@ -16,7 +18,7 @@ if __name__ == "__main__":
 
     # Sauvegarder en CSV
     #display_dataset(datasets)
-    print(f"\n{'='*50}")
+    """print(f"\n{'='*50}")
     print("Sauvegarde des fichiers CSV...")
     save_to_csv(datasets, output_dir="data")
     save_instances(datasets)
@@ -30,8 +32,47 @@ if __name__ == "__main__":
 
     runIG(datasets)
 
-    run_plots(datasets)
+# Ou toutes les instances
+    runIG_TS(datasets)
 
+    run_plots(datasets)"""
+
+        # Récupérer les arguments
+    instance_id  = int(sys.argv[1])   # 0 à 9
+    dataset_name = sys.argv[2]         # tai20j_5m ou tai50j_10m
+
+    print(f"{'='*50}")
+    print(f"Dataset  : {dataset_name}")
+    print(f"Instance : {instance_id + 1}")
+    print(f"{'='*50}")
+
+    # Charger les données
+    datasets  = load_all("data/taillard")
+    inst      = datasets[dataset_name][instance_id]
+    pt        = inst['processing_times']
+    due_dates = generate_due_dates_brah(inst, tau=2)
+
+    # Dossier résultats
+    folder_map = {
+        "tai20j_5m":  "20j_5m",
+        "tai50j_10m": "50j_10m"
+    }
+    folder   = folder_map.get(dataset_name, dataset_name)
+    filepath = f"resultats/milp/{folder}/instance_{instance_id+1}.csv"
+
+    # Résoudre avec MILP
+    result = solve_milp_tt(
+        processing_times = pt,
+        due_dates        = due_dates,
+        time_limit       = 3600,   # 1 heure
+        filepath         = filepath
+    )
+
+    if result:
+        print(f"\nRésultat final :")
+        print(f"  Status   : {result['status']}")
+        print(f"  TT       : {result['TT']}")
+        print(f"  Séquence : {[j+1 for j in result['sequence']]}")
     print("Done !")   
 
     
