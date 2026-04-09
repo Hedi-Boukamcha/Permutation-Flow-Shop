@@ -1,6 +1,8 @@
+import csv
 import os
 import sys
 import numpy as np
+from src.position_model import solve_milp_cmax
 from src.TM_IG import tmig_wrapper
 from src.GA_PathR import ga_pr_wrapper
 from src.riahi_IGA import iga_riahi_final, run_on_instances
@@ -53,11 +55,11 @@ if __name__ == "__main__":
 
 
     # 3. Boucle sur les datasets
-    for name, instances in datasets.items():
+    """for name, instances in datasets.items():
         if name in folder_map:
             label = folder_map[name]
 
-            """# --- EXECUTION NEH ---
+            # --- EXECUTION NEH ---
             print(f"\nLancement NEHedd sur {name}...")
             res_neh = run_on_instances(name, instances, nehedd_tbit1)
             save_results(res_neh, os.path.join(out_neh, f"{label}_results.csv"))
@@ -70,13 +72,61 @@ if __name__ == "__main__":
             # --- EXECUTION GA-PR ---
             print(f"\nLancement GA-PR sur {name}...")
             res_ga_pr = run_on_instances(name, instances, ga_pr_wrapper)
-            save_results(res_ga_pr, os.path.join(out_ga_pr, f"{label}_results.csv"))"""
+            save_results(res_ga_pr, os.path.join(out_ga_pr, f"{label}_results.csv"))
 
             print(f"\nLancement TM-IG sur {name}...")
             res_tmig = run_on_instances(name, instances, tmig_wrapper)
             save_results(res_tmig, os.path.join(out_tmig, f"{label}_results.csv"))
 
-    print("\n[OK] Tous les calculs sont terminés.") 
+    print("\n[OK] Tous les calculs sont terminés.")""" 
+
+    instances = datasets["tai20j_5m"]
+    rows      = []
+
+    for idx, inst in enumerate(instances):
+        pt        = inst['processing_times']
+        due_dates = generate_due_dates_brah(inst, tau=2)
+
+        print(f"\n{'='*50}")
+        print(f"Instance {idx+1} — tai20j_5m")
+
+        result = solve_milp_cmax(
+            processing_times = pt,
+            #due_dates        = due_dates,
+            #filepath         = None,  # ← pas de fichier par instance
+            time_limit       = 600
+        )
+
+        if result:
+            rows.append({
+                'instance': idx + 1,
+                #'TT':       result['TT'],
+                'status':   result['status'],
+                'gap(%)':   result.get('gap', 'N/A'),
+                'cpu(s)':   result.get('cpu', 'N/A')
+            })
+        else:
+            rows.append({
+                'instance': idx + 1,
+                'TT':       'N/A',
+                'status':   'NO SOLUTION',
+                'gap(%)':   'N/A',
+                'cpu(s)':   'N/A'
+            })
+
+    # ── Un seul fichier pour toutes les instances ─────────
+    os.makedirs("resultats/milp_new", exist_ok=True)
+    filepath = "resultats/milp_new/20j_5m_testcmax.csv"
+
+    with open(filepath, mode='w', newline='') as f:
+        writer = csv.DictWriter(
+            f,
+            fieldnames = ['instance', 'TT', 'status', 'gap(%)', 'cpu(s)']
+        )
+        writer.writeheader()
+        writer.writerows(rows)
+
+    print(f"\n Tableau sauvegardé : {filepath}")
 
 
 
