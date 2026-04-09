@@ -84,11 +84,14 @@ if __name__ == "__main__":
     rows      = []
 
     for idx, inst in enumerate(instances):
-        pt        = inst['processing_times']
+        #pt        = inst['processing_times']
         due_dates = generate_due_dates_brah(inst, tau=2)
 
         print(f"\n{'='*50}")
         print(f"Instance {idx+1} — tai20j_5m")
+       
+        inst      = datasets["tai20j_5m"][0]
+        pt        = inst['processing_times']
 
         result = solve_milp_cmax(
             processing_times = pt,
@@ -115,8 +118,8 @@ if __name__ == "__main__":
             })"""
 
     # ── Un seul fichier pour toutes les instances ─────────
-    os.makedirs("resultats/milp_new", exist_ok=True)
-    filepath = "resultats/milp_new/20j_5m_testcmax.csv"
+    os.makedirs("resultats/milp_TT", exist_ok=True)
+    filepath = "resultats/milp_TT/20j_5m_testcmax.csv"
 
     with open(filepath, mode='w', newline='') as f:
         writer = csv.DictWriter(

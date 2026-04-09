@@ -242,12 +242,19 @@ def solve_milp_cmax(processing_times, due_dates, time_limit=None):
     for k in range(N):
         model.AddExactlyOne(x[j, k] for j in range(N))
 
+
+    job_at_k = {}
+    for k in range(N):
+        job_at_k[k] = model.NewIntVar(0, N-1, f'job_{k}')
+        for j in range(N):
+            model.Add(job_at_k[k] == j).OnlyEnforceIf(x[j, k])
     # C3 : C[k,m] = S[k,m] + Σ_j x[j,k] * p[j][m]
     for k in range(N):
         for m in range(M):
-            model.Add(
-                C[k, m] == S[k, m] + sum(x[j, k] * p[j][m] for j in range(N))
-            )
+            p_values = [p[j][m] for j in range(N)]
+            p_km     = model.NewIntVar(0, max(p_values), f'p_{k}_{m}')
+            model.AddElement(job_at_k[k], p_values, p_km)
+            model.Add(C[k, m] == S[k, m] + p_km)
 
     # C4 : précédence machines
     for k in range(N):
@@ -261,8 +268,10 @@ def solve_milp_cmax(processing_times, due_dates, time_limit=None):
     
     # ← NOUVEAU C6 : T[k] >= C[k,M-1] - Σ_j x[j,k] * d[j]
     for k in range(N):
-        d_k = sum(x[j, k] * d[j] for j in range(N))
-        model.Add(T[k] >= C[k, M - 1] - d_k)
+        d_values = d
+        d_k      = model.NewIntVar(0, max(d_values), f'd_{k}')
+        model.AddElement(job_at_k[k], d_values, d_k)
+        model.Add(T[k] >= C[k, M-1] - d_k)
         model.Add(T[k] >= 0)
 
     # ── OBJECTIF : MIN Cmax = C[N-1, M-1] ───────────────
