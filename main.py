@@ -92,7 +92,7 @@ if __name__ == "__main__":
 
         result = solve_milp_cmax(
             processing_times = pt,
-            #due_dates        = due_dates,
+            due_dates        = due_dates,
             #filepath         = None,  # ← pas de fichier par instance
             time_limit       = 600
         )
@@ -100,19 +100,19 @@ if __name__ == "__main__":
         if result:
             rows.append({
                 'instance': idx + 1,
-                #'TT':       result['TT'],
+                'TT':       result['TT'],
                 'status':   result['status'],
                 'gap(%)':   result.get('gap', 'N/A'),
                 'cpu(s)':   result.get('cpu', 'N/A')
             })
-        else:
+        """else:
             rows.append({
                 'instance': idx + 1,
                 'TT':       'N/A',
                 'status':   'NO SOLUTION',
                 'gap(%)':   'N/A',
                 'cpu(s)':   'N/A'
-            })
+            })"""
 
     # ── Un seul fichier pour toutes les instances ─────────
     os.makedirs("resultats/milp_new", exist_ok=True)

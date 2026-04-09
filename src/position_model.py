@@ -266,7 +266,10 @@ def solve_milp_cmax(processing_times, due_dates, time_limit=None):
         model.Add(T[k] >= 0)
 
     # ── OBJECTIF : MIN Cmax = C[N-1, M-1] ───────────────
-    model.Minimize(C[N - 1, M - 1])
+    #model.Minimize(C[N - 1, M - 1])
+
+    # ── OBJECTIF : MIN Σ T[k] ────────────────────────────
+    model.Minimize(sum(T[k] for k in range(N)))
 
     # ── RÉSOLUTION ───────────────────────────────────────
     if time_limit:
@@ -288,18 +291,22 @@ def solve_milp_cmax(processing_times, due_dates, time_limit=None):
                     sequence.append(j)
                     break
 
-        cmax_val   = solver.Value(C[N-1, M-1])
+        #cmax_val   = solver.Value(C[N-1, M-1])
+        TT         = sum(solver.Value(T[k]) for k in range(N))
         obj_bound  = solver.BestObjectiveBound()
-        gap        = round(abs(cmax_val - obj_bound) / cmax_val * 100, 2) if cmax_val > 0 else 0.0
+        #gap        = round(abs(cmax_val - obj_bound) / cmax_val * 100, 2) if cmax_val > 0 else 0.0
+        gap        = round(abs(TT - obj_bound) / TT * 100, 2) if TT > 0 else 0.0
         status_str = "OPTIMAL" if status_code == cp_model.OPTIMAL else "FEASIBLE"
 
-        print(f"  Status : {status_str} | Gap : {gap}% | Cmax : {cmax_val} | CPU : {round(solve_time,3)}s")
+        #print(f"  Status : {status_str} | Gap : {gap}% | Cmax : {cmax_val} | CPU : {round(solve_time,3)}s")
+        print(f"  Status : {status_str} | Gap : {gap}% | TT : {TT} | CPU : {round(solve_time,3)}s")
         print(f"  Séquence : {[j+1 for j in sequence]}")
 
         return {
             'status':   status_str,
             'sequence': sequence,
-            'Cmax':     cmax_val,
+            #'Cmax':     cmax_val,
+            'TT':       TT,
             'gap':      gap,
             'cpu':      round(solve_time, 3)
         }
