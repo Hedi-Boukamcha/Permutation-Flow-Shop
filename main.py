@@ -2,6 +2,7 @@ import csv
 import os
 import sys
 import numpy as np
+from src.NEHedd_TB1 import results_nehedd_it1
 from src.position_model import solve_milp_cmax
 from src.TM_IG import tmig_wrapper
 from src.GA_PathR import ga_pr_wrapper
@@ -44,14 +45,29 @@ if __name__ == "__main__":
     print("  RUNNING: NEHedd — Tie-Breaking IT1")
     print("=" * 55)
     
-    out_neh   = "resultats/nehedd_FV"
+    """    out_neh   = "resultats/nehedd_FV"
     out_iga   = "resultats/iga_riahi"
     out_ga_pr = "resultats/ga_pr"
     out_tmig = "resultats/tmig"
     os.makedirs(out_neh,   exist_ok=True)
     os.makedirs(out_iga,   exist_ok=True)
     os.makedirs(out_ga_pr, exist_ok=True)
-    os.makedirs(out_tmig, exist_ok=True)
+    os.makedirs(out_tmig, exist_ok=True)"""
+
+    instances_dirs = [
+        "data/instances/20j_5m",
+        "data/instances/50j_10m"
+    ]    
+    print("Exécution de l'heuristique NEHedd_IT1")
+    print(f"Instances chargées : {list(datasets.keys())}")
+    for name, instances in datasets.items():
+        print(f"\nDataset : {name}")
+        print(f"Première instance : {instances[0]}")
+
+    print("Exécution de l'heuristique NEHedd_IT1")
+    results_dir = './results/nehedd_it1'
+    results_nehedd_it1(datasets, output_dir=results_dir)
+    print(f"Résultats enregistrés dans {os.path.abspath(results_dir)}")
 
 
     # 3. Boucle sur les datasets
@@ -80,7 +96,7 @@ if __name__ == "__main__":
 
     print("\n[OK] Tous les calculs sont terminés.")""" 
 
-    instances = datasets["tai20j_5m"]
+    """instances = datasets["tai20j_5m"]
     rows      = []
 
     for idx, inst in enumerate(instances):
@@ -108,14 +124,7 @@ if __name__ == "__main__":
                 'gap(%)':   result.get('gap', 'N/A'),
                 'cpu(s)':   result.get('cpu', 'N/A')
             })
-        """else:
-            rows.append({
-                'instance': idx + 1,
-                'TT':       'N/A',
-                'status':   'NO SOLUTION',
-                'gap(%)':   'N/A',
-                'cpu(s)':   'N/A'
-            })"""
+
 
     # ── Un seul fichier pour toutes les instances ─────────
     os.makedirs("resultats/milp_TT", exist_ok=True)
@@ -129,7 +138,10 @@ if __name__ == "__main__":
         writer.writeheader()
         writer.writerows(rows)
 
-    print(f"\n Tableau sauvegardé : {filepath}")
+    print(f"\n Tableau sauvegardé : {filepath}")"""
+
+    
+
 
 
 
