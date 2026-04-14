@@ -47,29 +47,29 @@ def parse_taillard(filepath):
 def load_instance(filepath):
     with open(filepath, 'r') as f:
         reader = csv.reader(f)
-        next(reader)  # Skip header
+        header = next(reader)
+
         data = list(reader)
-        
-        n_jobs = len(data)
-        n_machines = len(data[0]) - 2
-        
-        dt = np.dtype([
-            ('processing_times', np.int32, (n_machines,)),
-            ('due_date', np.int32),
-            ('n_jobs', np.int32),
-            ('n_machines', np.int32)
-        ])
-        
-        instance = np.zeros(n_jobs, dtype=dt)
-        
-        for i, row in enumerate(data):
-            instance[i]['due_date'] = int(row[1])
-            instance[i]['processing_times'] = [int(x) for x in row[2:]]
-        
-        instance['n_jobs'] = n_jobs
-        instance['n_machines'] = n_machines
-        
-        return instance
+
+    n_jobs = len(data)
+    n_machines = len(header) - 2
+
+    pt = np.zeros((n_machines, n_jobs), dtype=int)
+    due_dates = np.zeros(n_jobs, dtype=int)
+
+    for j, row in enumerate(data):
+        due_dates[j] = int(row[1])
+
+        for i in range(n_machines):
+            pt[i][j] = int(row[2 + i])
+
+    return {
+        'processing_times': pt,
+        'due_dates': due_dates,
+        'n_jobs': n_jobs,
+        'n_machines': n_machines
+    }
+
 
 def load_all(instances_dir):
     instances = {}

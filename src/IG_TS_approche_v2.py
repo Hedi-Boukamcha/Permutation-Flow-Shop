@@ -1,8 +1,11 @@
+import csv
+import os
+import time
 import numpy as np
 
-from src.scheduler import compute_completion_times
+#from src.scheduler import compute_completion_times
 
-"""# ─────────────────────────────────────────────
+# ─────────────────────────────────────────────
 # COMPLETION TIMES
 # ─────────────────────────────────────────────
 def compute_completion_times(sequence, pt):
@@ -23,7 +26,7 @@ def compute_completion_times(sequence, pt):
             else:
                 C[i][j] = max(C[i-1][j], C[i][j-1]) + pt[i][job]
 
-    return C"""
+    return C
 
 
 # ─────────────────────────────────────────────
@@ -161,23 +164,72 @@ def local_search(sequence, pt, due_dates, weights, objective):
 
     return sequence
 
+def save_detailed_results(sequence, pt, due_dates, weights, filepath):
+    os.makedirs(os.path.dirname(filepath), exist_ok=True)
 
-# ─────────────────────────────────────────────
-# ITERATED GREEDY (FINAL)
-# ─────────────────────────────────────────────
-def ig_1F(pt, due_dates, weights=None, objective='TT',
-          k=4, max_iter=100):
+    C = compute_completion_times(sequence, pt)
+    completion = C[-1]
 
-    # initialisation
+    if weights is None:
+        weights = np.ones(len(due_dates))
+
+    with open(filepath, 'w', newline='') as f:
+        writer = csv.writer(f)
+
+        # Header
+        writer.writerow(["Job", "Due date", "Weight", "Start M1", "Completion Cj", "Tardiness", "Tardy"])
+
+        for j_idx, job in enumerate(sequence):
+
+            start = 0 if j_idx == 0 else C[0][j_idx-1]
+            cj = completion[j_idx]
+            tardiness = max(cj - due_dates[job], 0)
+            tardy = 1 if tardiness > 0 else 0
+
+            writer.writerow([
+                f"J{job+1}",
+                due_dates[job],
+                weights[job],
+                start,
+                cj,
+                tardiness,
+                tardy
+            ])
+
+        # Résumé
+        TT = sum(max(completion[i] - due_dates[sequence[i]], 0) for i in range(len(sequence)))
+        TWT = sum(weights[sequence[i]] * max(completion[i] - due_dates[sequence[i]], 0) for i in range(len(sequence)))
+        Tmax = max(max(completion[i] - due_dates[sequence[i]], 0) for i in range(len(sequence)))
+        NT = sum(1 for i in range(len(sequence)) if completion[i] > due_dates[sequence[i]])
+
+        writer.writerow([])
+        writer.writerow(["TT", "TWT", "T_max", "NT"])
+        writer.writerow([TT, TWT, Tmax, NT])
+
+
+def IG_1F(instance, due_dates, weights=None, objective='TT',
+          k=4, max_iter=10, filepath=None, verbose=True):
+
+    start = time.time()
+
+    pt = instance['processing_times']
+
+    # ─────────────────────────────
+    # INITIALISATION (NEH)
+    # ─────────────────────────────
     sequence = nehedd(pt, due_dates, weights, objective)
 
     best_seq = sequence[:]
     best_val = compute_objectives(sequence, pt, due_dates, weights)[objective]
-
+    obj = compute_objectives(best_seq, pt, due_dates, weights)
     history = [best_val]
 
-    print(f"IG start — {objective} initial = {best_val}")
+    if verbose:
+        print(f"IG start — {objective} initial = {best_val}")
 
+    # ─────────────────────────────
+    # BOUCLE PRINCIPALE
+    # ─────────────────────────────
     for it in range(max_iter):
 
         # destruction
@@ -195,40 +247,42 @@ def ig_1F(pt, due_dates, weights=None, objective='TT',
         if new_val <= best_val:
             sequence = new_seq[:]
 
+        # mise à jour best
         if new_val < best_val:
             best_seq = new_seq[:]
             best_val = new_val
 
         history.append(best_val)
 
-        if (it+1) % 10 == 0:
-            print(f"Iter {it+1} — {objective} = {best_val}")
+        if verbose and (it+1) % 10 == 0:
+            print(f"  Iter {it+1} — {objective} = {best_val}")
 
-    print(f"IG end — best {objective} = {best_val}")
+    elapsed = time.time() - start
 
-    return best_seq, best_val, history
+    if verbose:
+        print(f"IG end — best {objective} = {best_val}")
 
-
-# ─────────────────────────────────────────────
-# EXEMPLE TEST
-# ─────────────────────────────────────────────
-if __name__ == "__main__":
-
-    np.random.seed(0)
-
-    n_jobs = 20
-    n_machines = 5
-
-    pt = np.random.randint(1, 20, size=(n_machines, n_jobs))
-    due_dates = np.random.randint(50, 200, size=n_jobs)
-
-    best_seq, best_val, history = ig_1F(
-        pt,
-        due_dates,
-        objective='TT',
-        k=4,
-        max_iter=50
+    # ─────────────────────────────
+    # SAUVEGARDE
+    # ─────────────────────────────
+    if filepath:
+        save_detailed_results(
+        sequence=best_seq,
+        pt=pt,
+        due_dates=due_dates,
+        weights=weights,
+        filepath=filepath
     )
 
-    print("\nBest sequence:", best_seq)
-    print("Best TT:", best_val)
+    # ─────────────────────────────
+    # FORMAT STANDARD (comme MILP)
+    # ─────────────────────────────
+    return {
+        'sequence': best_seq,
+        'TT': obj['TT'],
+        'TWT': obj['TWT'],
+        'T_max': obj['T_max'],
+        'NT': obj['NT'],
+        'time': elapsed,
+        'history': history
+    }

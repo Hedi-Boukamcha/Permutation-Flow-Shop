@@ -2,6 +2,7 @@ import csv
 import os
 import sys
 import numpy as np
+from src.IG_TS_approche_v2 import IG_1F
 from src.NEHedd_TB1 import results_nehedd_it1
 from src.position_model import solve_milp_cmax
 from src.TM_IG import tmig_wrapper
@@ -17,7 +18,11 @@ from to_csv import save_to_csv
 from src.IG_TS_approche import runIG, destruction, reconstruction, runIG, runIG_TS
 from src.math_model import solve_milp_tt
 
-
+# Commande CC
+# Consulter les erruers: cat id_job_err.txt
+# modifier un fichier : nano nom_fichier
+# Lancer les jobs: sbatch job.sh
+# Consulter les jobs: squeue -u nom_user
 
 
 
@@ -199,36 +204,109 @@ if __name__ == "__main__":
     run_plots(datasets)"""
 
     instances_dir = "data/instances"
+    ordered_subdirs = ['20j_5m', '50j_10m']
     results_dir_nehedd = 'results/nehedd_it1'
     results_dir_milp = 'results/milp_tt'
-    
-    subdir = '20j_5m'
-    instance_file = 'instance_1.csv'
-    
-    instance_path = os.path.join(instances_dir, subdir, instance_file)
-    instance = load_instance(instance_path)
-    
-    pt = instance['processing_times']
-    due_dates = instance['due_date']
-    
-    """print(f"\nExécution de NEHedd_IT1 pour l'instance {subdir}_{instance_file}")
-    sequence, total_ties, elapsed = NEHedd_IT1(instance, due_dates)
-    print(f"  Séquence : {[j+1 for j in sequence]}")
-    print(f"  Total ties : {total_ties}")
-    print(f"  Temps d'exécution : {elapsed:.2f}s")"""
-    
-    print(f"\nExécution de MILP (OR-Tools) pour l'instance {subdir}_{instance_file}")
-    time_limit = 60  # Temps limite en secondes
-    result_file = os.path.join(results_dir_milp, subdir, instance_file)
-    result = solve_milp_tt(pt.T, due_dates, time_limit = 3600, filepath=result_file)
-    
-    if result:
-        print(f"  Séquence : {[j+1 for j in result['sequence']]}")
-        print(f"  Tardiness : {result['TT']}")
-    else:
-        print("  Pas de solution trouvée")
+    results_dir_ig = 'resultats/ig_ts_v2'
+
+    # ─────────────────────────────────────────────────────────
+    # Data: toutes les instances
+    # ─────────────────────────────────────────────────────────
+    for subdir in ordered_subdirs:
+
+        subdir_path = os.path.join(instances_dir, subdir)
+
+        if not os.path.isdir(subdir_path):
+            continue
+
+        print(f"\n{'='*50}")
+        print(f"Dataset : {subdir}")
+
+        # Parcours des fichiers instances
+        for instance_file in sorted(os.listdir(subdir_path)):
+
+            if not instance_file.endswith(".csv"):
+                continue
+
+            print(f"\nInstance : {instance_file}")
+
+            instance_path = os.path.join(subdir_path, instance_file)
+            instance = load_instance(instance_path)
+
+            pt = instance['processing_times']
+            due_dates = instance['due_date']
+
+            # ─────────────────────────────────────────────────────────
+            # EXECUTION 1 : Modele Math
+            # ─────────────────────────────────────────────────────────
+
+            """print(f"\nExécution de MILP (OR-Tools) pour l'instance {subdir}_{instance_file}")
+            #time_limit = 60  # Temps limite en secondes
+            result_file = os.path.join(results_dir_milp, subdir, instance_file)
+            result = solve_milp_tt(pt.T, due_dates, time_limit = 3600, filepath=result_file)
+            
+            if result:
+                print(f"  Séquence : {[j+1 for j in result['sequence']]}")
+                print(f"  Tardiness : {result['TT']}")
+            else:
+                print("  Pas de solution trouvée")"""
+
+            # ─────────────────────────────────────────────────────────
+            # EXECUTION 2 : IG_TS_V2: 
+            # A tabu memory based iterated greedy algorithm 
+            # for the distributed heterogeneous permutation flowshop scheduling problem 
+            # with the total tardiness criterion
+            # ─────────────────────────────────────────────────────────
+
+            print("Shape pt:", pt.shape)
+
+            objectives = ['TT', 'TWT', 'T_max', 'NT']
+            instance_name = instance_file.replace(".csv", "")
+
+            for obj in objectives:
+
+                print(f"\nExécution de IG ({obj}) pour l'instance {subdir}_{instance_file}")
+
+                result_file_ig = os.path.join(
+                    results_dir_ig,
+                    subdir,
+                    f"{instance_name}_{obj}.csv"
+                )
+
+                result_ig = IG_1F(
+                    instance,
+                    due_dates,
+                    objective=obj,
+                    k=4,
+                    max_iter=10,
+                    filepath=result_file_ig
+                )
+
+                print(f"  Séquence : {[j+1 for j in result_ig['sequence']]}")
+                print(f"  TT   = {result_ig['TT']}")
+                print(f"  TWT  = {result_ig['TWT']}")
+                print(f"  T_max= {result_ig['T_max']}")
+                print(f"  NT   = {result_ig['NT']}")
+                print(f"  Temps = {result_ig['time']:.2f}s")
+
+            # ─────────────────────────────────────────────────────────
+            # EXECUTION 3 : NEHedd_IT1 
+            # ─────────────────────────────────────────────────────────
+            
+            """print(f"\nExécution de NEHedd_IT1 pour l'instance {subdir}_{instance_file}")
+            sequence, total_ties, elapsed = NEHedd_IT1(instance, due_dates)
+            print(f"  Séquence : {[j+1 for j in sequence]}")
+            print(f"  Total ties : {total_ties}")
+            print(f"  Temps d'exécution : {elapsed:.2f}s")"""
 
     
+
+
+
+
+
+
+
 """ 
 
     # ── Charger une instance ────────────────────────────────
