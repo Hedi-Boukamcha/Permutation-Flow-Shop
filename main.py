@@ -7,12 +7,12 @@ from src.position_model import solve_milp_cmax
 from src.TM_IG import tmig_wrapper
 from src.GA_PathR import ga_pr_wrapper
 from src.riahi_IGA import iga_riahi_final, run_on_instances
-from src.NEHedd_FV import nehedd_tbit1, run_nehedd_FV, save_results
+from src.NEHedd_FV import nehedd_tbit1, run_nehedd_FV
 from src.initial_solution import nehEdd, nehedd, taillard_sequences
 from src.plots import plot_gantt, run_plots
 from src.dd_generator import generate_due_dates_brah, generate_weights
 from src.scheduler import compute_objectives
-from src.data_loader import load_all, display_dataset, save_instances
+from src.data_loader import load_all, display_dataset, load_instance, save_instances
 from to_csv import save_to_csv
 from src.IG_TS_approche import runIG, destruction, reconstruction, runIG, runIG_TS
 from src.math_model import solve_milp_tt
@@ -22,7 +22,7 @@ from src.math_model import solve_milp_tt
 
 
 if __name__ == "__main__":
-    datasets = load_all("data/taillard")
+    #datasets = load_all("data/taillard")
     
     folder_map = {
         "tai20j_5m":  "20j_5m",
@@ -54,20 +54,52 @@ if __name__ == "__main__":
     os.makedirs(out_ga_pr, exist_ok=True)
     os.makedirs(out_tmig, exist_ok=True)"""
 
-    instances_dirs = [
+    """    instances_dirs = [
         "data/instances/20j_5m",
         "data/instances/50j_10m"
     ]    
-    print("Exécution de l'heuristique NEHedd_IT1")
-    print(f"Instances chargées : {list(datasets.keys())}")
-    for name, instances in datasets.items():
-        print(f"\nDataset : {name}")
-        print(f"Première instance : {instances[0]}")
 
     print("Exécution de l'heuristique NEHedd_IT1")
-    results_dir = './results/nehedd_it1'
-    results_nehedd_it1(datasets, output_dir=results_dir)
-    print(f"Résultats enregistrés dans {os.path.abspath(results_dir)}")
+    instances_dir = "data/instances"
+    results_dir = './resultats/nehedd_it1'
+    results_nehedd_it1(instances_dir, output_dir=results_dir)
+    print(f"Résultats enregistrés dans {os.path.abspath(results_dir)}")"""
+
+    """base_path   = "data/instances"
+    results_dir = "./resultats"
+    os.makedirs(results_dir, exist_ok=True)
+
+    # ─────────────────────────────
+    # 🔹 MÉTHODE 1 : run_nehedd_FV
+    # ─────────────────────────────
+    print("\n--- Méthode 1 : run_nehedd_FV ---")
+
+    datasets = ["20j_5m", "50j_10m"]
+
+    for dataset in datasets:
+
+        path = os.path.join(base_path, dataset)
+
+        # charger les instances
+        instances = load_all(path)
+
+        # exécuter
+        results = run_nehedd_FV(dataset, instances)
+
+        # sauvegarder
+        output_file = os.path.join(results_dir, f"{dataset}_FV.csv")
+        save_results(results, output_file)
+
+
+    # ─────────────────────────────
+    # 🔹 MÉTHODE 2 : results_nehedd_it1
+    # ─────────────────────────────
+    print("\n--- Méthode 2 : results_nehedd_it1 ---")
+
+    results_nehedd_it1(base_path, output_dir=os.path.join(results_dir, "nehedd_it1"))
+
+
+    print(f"\nRésultats enregistrés dans {os.path.abspath(results_dir)}")"""
 
 
     # 3. Boucle sur les datasets
@@ -166,43 +198,35 @@ if __name__ == "__main__":
 
     run_plots(datasets)"""
 
-"""        # Récupérer les arguments
-    instance_id  = int(sys.argv[1])   # 0 à 9
-    dataset_name = sys.argv[2]         # tai20j_5m ou tai50j_10m
-
-    print(f"{'='*50}")
-    print(f"Dataset  : {dataset_name}")
-    print(f"Instance : {instance_id + 1}")
-    print(f"{'='*50}")
-
-    # Charger les données
-    datasets  = load_all("data/taillard")
-    inst      = datasets[dataset_name][instance_id]
-    pt        = inst['processing_times']
-    due_dates = generate_due_dates_brah(inst, tau=2)
-
-    # Dossier résultats
-    folder_map = {
-        "tai20j_5m":  "20j_5m",
-        "tai50j_10m": "50j_10m"
-    }
-    folder   = folder_map.get(dataset_name, dataset_name)
-    filepath = f"resultats/milp/{folder}/instance_{instance_id+1}.csv"
-
-    # Résoudre avec MILP
-    result = solve_milp_tt(
-        processing_times = pt,
-        due_dates        = due_dates,
-        time_limit       = 3600,   # 1 heure
-        filepath         = filepath
-    )
-
+    instances_dir = "data/instances"
+    results_dir_nehedd = 'results/nehedd_it1'
+    results_dir_milp = 'results/milp_tt'
+    
+    subdir = '20j_5m'
+    instance_file = 'instance_1.csv'
+    
+    instance_path = os.path.join(instances_dir, subdir, instance_file)
+    instance = load_instance(instance_path)
+    
+    pt = instance['processing_times']
+    due_dates = instance['due_date']
+    
+    """print(f"\nExécution de NEHedd_IT1 pour l'instance {subdir}_{instance_file}")
+    sequence, total_ties, elapsed = NEHedd_IT1(instance, due_dates)
+    print(f"  Séquence : {[j+1 for j in sequence]}")
+    print(f"  Total ties : {total_ties}")
+    print(f"  Temps d'exécution : {elapsed:.2f}s")"""
+    
+    print(f"\nExécution de MILP (OR-Tools) pour l'instance {subdir}_{instance_file}")
+    time_limit = 60  # Temps limite en secondes
+    result_file = os.path.join(results_dir_milp, subdir, instance_file)
+    result = solve_milp_tt(pt.T, due_dates, time_limit = 3600, filepath=result_file)
+    
     if result:
-        print(f"\nRésultat final :")
-        print(f"  Status   : {result['status']}")
-        print(f"  TT       : {result['TT']}")
         print(f"  Séquence : {[j+1 for j in result['sequence']]}")
-    print("Done !")  """ 
+        print(f"  Tardiness : {result['TT']}")
+    else:
+        print("  Pas de solution trouvée")
 
     
 """ 

@@ -1,47 +1,44 @@
+import os
 import sys
 import numpy as np
-from src.data_loader import load_all
+from src.data_loader import load_all, load_instance
 from src.dd_generator import generate_due_dates_brah
 from src.math_model import solve_milp_tt
 
 if __name__ == "__main__":
-
     # Récupérer les arguments
-    instance_id  = int(sys.argv[1])   # 0 à 9
-    dataset_name = sys.argv[2]         # tai20j_5m ou tai50j_10m
+    subdir        = sys.argv[1]  # '20j_5m' ou '50j_10m'
+    instance_file = sys.argv[2]  # 'instance_1.csv', 'instance_2.csv', etc.
 
     print(f"{'='*50}")
-    print(f"Dataset  : {dataset_name}")
-    print(f"Instance : {instance_id + 1}")
+    print(f"Dataset  : {subdir}")
+    print(f"Instance : {instance_file}")
     print(f"{'='*50}")
 
-    # Charger les données
-    datasets  = load_all("data/taillard")
-    inst      = datasets[dataset_name][instance_id]
-    pt        = inst['processing_times']
-    due_dates = generate_due_dates_brah(inst, tau=2)
-
+    # Charger l'instance
+    instance_path = os.path.join("data/instances", subdir, instance_file)
+    instance = load_instance(instance_path)
+    
+    pt = instance['processing_times']
+    due_dates = instance['due_date']
+    
     # Dossier résultats
-    folder_map = {
-        "tai20j_5m":  "20j_5m",
-        "tai50j_10m": "50j_10m"
-    }
-    folder   = folder_map.get(dataset_name, dataset_name)
-    filepath = f"resultats/milp/{folder}/instance_{instance_id+1}.csv"
-
+    results_dir_milp = 'results/milp_tt'
+    os.makedirs(os.path.join(results_dir_milp, subdir), exist_ok=True)
+    result_file = os.path.join(results_dir_milp, subdir, instance_file)
+    
     # Résoudre avec MILP
     print(f"\nRésolution MILP...")
-    result = solve_milp_tt(
-        processing_times = pt,
-        due_dates        = due_dates,
-        time_limit       = 3600,
-        filepath         = filepath
-    )
-
+    result = solve_milp_tt(pt.T, due_dates, time_limit=4*24*3600, filepath=result_file)
+    
     if result:
         print(f"\n{'='*50}")
         print(f"Résultat final :")
-        print(f"  Status   : {result['status']}")
-        print(f"  TT       : {result['TT']}")
-        print(f"  Séquence : {[j+1 for j in result['sequence']]}")
-        print(f"  Fichier  : {filepath}")
+        print(f"  Status      : {result['status']}")
+        print(f"  TT          : {result['TT']}")
+        print(f"  Temps (s)   : {result['time']:.2f}")
+        print(f"  Gap (%)     : {result['gap']:.2f}")
+        print(f"  Séquence    : {[j+1 for j in result['sequence']]}")
+        print(f"  Fichier CSV : {result_file}")
+    else:
+        print("  Pas de solution trouvée")

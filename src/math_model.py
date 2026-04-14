@@ -4,7 +4,7 @@ import csv
 import os
 
 
-def solve_milp_tt(processing_times, due_dates, time_limit=300,
+def solve_milp_tt(processing_times, due_dates, time_limit,
                   filepath=None):
     """
     Résout le PFSP avec OR-Tools (CP-SAT).
@@ -77,14 +77,10 @@ def solve_milp_tt(processing_times, due_dates, time_limit=300,
                         S[k, i] >= S[j, i] + pji - L * (1 - x[j, k])
                     )
 
-    # (4) C_j = S_jm + p_jm
-    for j in range(n_jobs):
-        pjm = int(processing_times[n_machines-1][j])
-        model.Add(C[j] == S[j, n_machines-1] + pjm)
 
     # (5) T_j ≥ C_j - d_j
     for j in range(n_jobs):
-        model.Add(T[j] >= C[j] - int(due_dates[j]))
+        model.Add(T[j] >= sum(S[j, i] for i in range(n_machines)) - int(due_dates[j]))
 
     # (6) T_j ≥ 0
     for j in range(n_jobs):
@@ -101,7 +97,7 @@ def solve_milp_tt(processing_times, due_dates, time_limit=300,
     # ─────────────────────────────────────────────────────
 
     solver.parameters.max_time_in_seconds = time_limit
-    solver.parameters.log_search_progress = False
+    solver.parameters.log_search_progress = True
 
     status = solver.Solve(model)
 
@@ -115,6 +111,11 @@ def solve_milp_tt(processing_times, due_dates, time_limit=300,
         sequence   = [j for j, _ in sorted(job_starts, key=lambda x: x[1])]
         TT         = sum(solver.Value(T[j]) for j in range(n_jobs))
         status_str = "OPTIMAL" if status == cp_model.OPTIMAL else "FEASIBLE"
+        elapsed_time = solver.WallTime()
+        objective_value = solver.ObjectiveValue()
+        best_bound = solver.BestObjectiveBound()
+        gap = (objective_value - best_bound) / best_bound * 100 if best_bound != 0 else float('inf')
+
 
         # Détails par job
         job_details = []
@@ -175,7 +176,9 @@ def solve_milp_tt(processing_times, due_dates, time_limit=300,
         return {
             'status':   status_str,
             'sequence': sequence,
-            'TT':       TT
+            'TT':       TT,
+            'time':     elapsed_time,
+            'gap':      gap
         }
 
     else:

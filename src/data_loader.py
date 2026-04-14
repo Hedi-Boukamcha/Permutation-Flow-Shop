@@ -44,15 +44,53 @@ def parse_taillard(filepath):
     return instances
 
 
-def load_all(data_dir="data/raw"):
-    datasets = {}
-    for filename in sorted(os.listdir(data_dir)):
-        if filename.endswith(".txt"):
-            name = filename.replace(".txt", "")
-            filepath = os.path.join(data_dir, filename)
-            datasets[name] = parse_taillard(filepath)
-            print(f"Chargé : {name} — {len(datasets[name])} instances")
-    return datasets
+def load_instance(filepath):
+    with open(filepath, 'r') as f:
+        reader = csv.reader(f)
+        next(reader)  # Skip header
+        data = list(reader)
+        
+        n_jobs = len(data)
+        n_machines = len(data[0]) - 2
+        
+        dt = np.dtype([
+            ('processing_times', np.int32, (n_machines,)),
+            ('due_date', np.int32),
+            ('n_jobs', np.int32),
+            ('n_machines', np.int32)
+        ])
+        
+        instance = np.zeros(n_jobs, dtype=dt)
+        
+        for i, row in enumerate(data):
+            instance[i]['due_date'] = int(row[1])
+            instance[i]['processing_times'] = [int(x) for x in row[2:]]
+        
+        instance['n_jobs'] = n_jobs
+        instance['n_machines'] = n_machines
+        
+        return instance
+
+def load_all(instances_dir):
+    instances = {}
+    
+    for subdir in ['20j_5m', '50j_10m']:
+        instance_dir = os.path.join(instances_dir, subdir)
+        instances[subdir] = []
+        
+        for filename in sorted(os.listdir(instance_dir)):
+            if filename.endswith('.csv'):
+                instance_path = os.path.join(instance_dir, filename)
+                pt, due_dates = load_instance(instance_path)
+                
+                instance_num = int(filename.split('_')[1].split('.')[0])
+                instances[subdir].append({
+                    'instance_num': instance_num,
+                    'processing_times': pt,
+                    'due_dates': due_dates
+                })
+    
+    return instances
 
 
 def display_dataset(datasets):
@@ -108,6 +146,9 @@ def save_instances(datasets, output_dir="data/instances"):
 
                 # Due dates avec tau=2
                 due_dates = generate_due_dates_brah(instance, tau=2)
+                                
+                # Ajouter les dates dues à l'instance
+                instance['due_dates'] = due_dates
 
                 # En-tête
                 machine_cols = [f"p_machine{i+1}" for i in range(n_machines)]

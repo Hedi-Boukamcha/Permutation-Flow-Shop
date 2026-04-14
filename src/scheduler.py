@@ -12,21 +12,20 @@ def compute_completion_times(sequence, processing_times):
     Returns:
         C : matrice (n_machines x n_jobs) des completion times
     """
-    n_machines = processing_times.shape[0]
-    n_jobs     = len(sequence)
+    n_machines, _ = processing_times.shape
 
-    C = np.zeros((n_machines, n_jobs), dtype=int)
+    C = np.zeros((n_machines, len(sequence)), dtype=int)
 
-    for j, job in enumerate(sequence):
+    for j, job_idx in enumerate(sequence):
         for i in range(n_machines):
             if i == 0 and j == 0:
-                C[i][j] = processing_times[i][job]
+                C[i][j] = processing_times[i][job_idx]
             elif i == 0:
-                C[i][j] = C[i][j-1] + processing_times[i][job]
+                C[i][j] = C[i][j-1] + processing_times[i][job_idx]
             elif j == 0:
-                C[i][j] = C[i-1][j] + processing_times[i][job]
+                C[i][j] = C[i-1][j] + processing_times[i][job_idx]
             else:
-                C[i][j] = max(C[i-1][j], C[i][j-1]) + processing_times[i][job]
+                C[i][j] = max(C[i-1][j], C[i][j-1]) + processing_times[i][job_idx]
 
     return C
 
