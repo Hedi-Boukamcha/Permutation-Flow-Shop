@@ -61,28 +61,77 @@ def save_summary_result(summary_csv, dataset_name, instance_file, result):
 def save_summary_result_heuristic(summary_csv, subdir, instance_file,  objective,result):
 
     os.makedirs(os.path.dirname(summary_csv), exist_ok=True)
-    file_exists = os.path.isfile(summary_csv)
 
-    with open(summary_csv, mode='a', newline='') as f:
+    existing_rows = []
+    if os.path.isfile(summary_csv):
+        with open(summary_csv, mode='r', newline='') as f:
+            reader = csv.reader(f)
+            existing_rows = list(reader)
+
+    header = ["subdir", "instance", "TT", "TWT", "T_max", "NT", "time"]
+
+    # garder header + lignes différentes de l'instance actuelle
+    filtered_rows = [header]
+    if existing_rows:
+        start_idx = 1 if existing_rows[0] == header else 0
+        for row in existing_rows[start_idx:]:
+            if len(row) >= 2 and not (row[0] == subdir and row[1] == instance_file):
+                filtered_rows.append(row)
+
+    # ajouter la ligne courante
+    filtered_rows.append([
+        subdir,
+        instance_file,
+        result.get("TT", ""),
+        result.get("TWT", ""),
+        result.get("T_max", ""),
+        result.get("NT", ""),
+        round(result.get("time", 0), 4)
+    ])
+
+    with open(summary_csv, mode='w', newline='') as f:
         writer = csv.writer(f)
+        writer.writerows(filtered_rows)
 
-        if not file_exists:
-            writer.writerow([
-                "subdir", "instance",  "objective", "TT", "TWT", "T_max", "NT", "time"
-            ])
+def save_summary_result_by_objective(summary_csv, subdir, instance_file, result):
+    import csv
+    import os
 
-        writer.writerow([
-            subdir,
-            instance_file,
-            objective,
-            result.get("TT", ""),
-            result.get("TWT", ""),
-            result.get("T_max", ""),
-            result.get("NT", ""),
-            result.get("time", "")
-        ])
+    os.makedirs(os.path.dirname(summary_csv), exist_ok=True)
 
+    header = ["subdir", "instance", "TT", "TWT", "T_max", "NT", "time"]
+    rows = []
 
+    # lire l'existant
+    if os.path.isfile(summary_csv):
+        with open(summary_csv, mode='r', newline='') as f:
+            reader = csv.reader(f)
+            rows = list(reader)
+
+    # garder seulement les lignes qui ne correspondent pas à cette instance
+    filtered_rows = [header]
+
+    if rows:
+        start_idx = 1 if rows[0] == header else 0
+        for row in rows[start_idx:]:
+            if len(row) >= 2 and not (row[0] == subdir and row[1] == instance_file):
+                filtered_rows.append(row)
+
+    # ajouter la nouvelle ligne
+    filtered_rows.append([
+        subdir,
+        instance_file,
+        result.get("TT", ""),
+        result.get("TWT", ""),
+        result.get("T_max", ""),
+        result.get("NT", ""),
+        round(result.get("time", 0), 4)
+    ])
+
+    # réécrire tout le fichier
+    with open(summary_csv, mode='w', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerows(filtered_rows)
 
 if __name__ == "__main__":
     #datasets = load_all("data/taillard")
@@ -344,6 +393,7 @@ if __name__ == "__main__":
             weights = load_weights(weights_path)
             due_date = instance['due_date']
             heur_results = {}
+            nehedd_results = {}
             for obj in objectives:
                             # ─────────────────────────────────────────────────────────
                             # EXECUTION ++++++++++++++++++ : Mon Heuristique
@@ -386,39 +436,47 @@ if __name__ == "__main__":
                             # ─────────────────────────────────────────────────────────
                             # EXECUTION ++++++++++++++++++ : NEH EDD
                             # ─────────────────────────────────────────────────────────
-            print(f"[RUN] NEHedd ({obj}) pour {subdir}_{instance_file}", flush=True)
+                print(f"[RUN] NEHedd ({obj}) pour {subdir}_{instance_file}", flush=True)
 
-            nehedd_file = os.path.join(
-                results_dir_nehedd,
-                subdir,
-                f"{instance_name}_{obj}.csv"
-            )
+                
+                nehedd_file = os.path.join(
+                    results_dir_nehedd,
+                    subdir,
+                    f"{instance_name}_{obj}.csv"
+                )
 
-            nehedd_result = run_nehedd(
-                instance=instance,
-                due_dates=due_date,
-                weights=weights,
-                objective=obj,
-                filepath=nehedd_file
-            )
+                nehedd_result = run_nehedd(
+                    instance=instance,
+                    due_dates=due_date,
+                    weights=weights,
+                    objective=obj,
+                    filepath=nehedd_file
+                )
 
-            save_summary_result_heuristic(
-                summary_csv=summary_csv_nehedd,
-                subdir=subdir,
-                instance_file=instance_file,
-                objective=obj,
-                result=nehedd_result
-            )
+                summary_csv_nehedd = os.path.join(
+                    results_dir_nehedd,
+                    subdir,
+                    f"summary_{obj}.csv"
+                )
 
-            print(
-                f"  {obj} -> TT={nehedd_result['TT']}, "
-                f"TWT={nehedd_result['TWT']}, "
-                f"T_max={nehedd_result['T_max']}, "
-                f"NT={nehedd_result['NT']}, "
-                f"Time={nehedd_result['time']:.2f}s",
-                flush=True
-            )
-            print("\n=== FIN INSTANCE ===", flush=True)
+                print(f"[DEBUG] summary_csv_nehedd = {summary_csv_nehedd}", flush=True)
+
+                save_summary_result_by_objective(
+                    summary_csv_nehedd,
+                    subdir,
+                    instance_file,
+                    nehedd_result
+                )
+
+                print(
+                    f"  {obj} -> TT={nehedd_result['TT']}, "
+                    f"TWT={nehedd_result['TWT']}, "
+                    f"T_max={nehedd_result['T_max']}, "
+                    f"NT={nehedd_result['NT']}, "
+                    f"Time={nehedd_result['time']:.2f}s",
+                    flush=True
+                )
+        print("\n=== FIN INSTANCE ===", flush=True)
 
 #########################################
 
@@ -429,48 +487,48 @@ if __name__ == "__main__":
             # with the total tardiness criterion
             # ─────────────────────────────────────────────────────────
 
-            """print("Shape pt:", pt.shape)
+"""print("Shape pt:", pt.shape)
 
-            objectives = ['TT', 'TWT', 'T_max', 'NT']
-            instance_name = instance_file.replace(".csv", "")
+objectives = ['TT', 'TWT', 'T_max', 'NT']
+instance_name = instance_file.replace(".csv", "")
 
-            for obj in objectives:
+for obj in objectives:
 
-                print(f"\nExécution de IG ({obj}) pour l'instance {subdir}_{instance_file}")
+    print(f"\nExécution de IG ({obj}) pour l'instance {subdir}_{instance_file}")
 
-                result_file_ig = os.path.join(
-                    results_dir_ig,
-                    subdir,
-                    f"{instance_name}_{obj}.csv"
-                )
+    result_file_ig = os.path.join(
+        results_dir_ig,
+        subdir,
+        f"{instance_name}_{obj}.csv"
+    )
 
-                result_ig = IG_1F(
-                    instance,
-                    due_dates,
-                    objective=obj,
-                    k=4,
-                    max_iter=10,
-                    filepath=result_file_ig
-                )
+    result_ig = IG_1F(
+        instance,
+        due_dates,
+        objective=obj,
+        k=4,
+        max_iter=10,
+        filepath=result_file_ig
+    )
 
-                print(f"  Séquence : {[j+1 for j in result_ig['sequence']]}")
-                print(f"  TT   = {result_ig['TT']}")
-                print(f"  TWT  = {result_ig['TWT']}")
-                print(f"  T_max= {result_ig['T_max']}")
-                print(f"  NT   = {result_ig['NT']}")
-                print(f"  Temps = {result_ig['time']:.2f}s")"""
+    print(f"  Séquence : {[j+1 for j in result_ig['sequence']]}")
+    print(f"  TT   = {result_ig['TT']}")
+    print(f"  TWT  = {result_ig['TWT']}")
+    print(f"  T_max= {result_ig['T_max']}")
+    print(f"  NT   = {result_ig['NT']}")
+    print(f"  Temps = {result_ig['time']:.2f}s")"""
 
-            # ─────────────────────────────────────────────────────────
-            # EXECUTION 3 : NEHedd_IT1 
-            # ─────────────────────────────────────────────────────────
-            
-            """print(f"\nExécution de NEHedd_IT1 pour l'instance {subdir}_{instance_file}")
-            sequence, total_ties, elapsed = NEHedd_IT1(instance, due_dates)
-            print(f"  Séquence : {[j+1 for j in sequence]}")
-            print(f"  Total ties : {total_ties}")
-            print(f"  Temps d'exécution : {elapsed:.2f}s")"""
+# ─────────────────────────────────────────────────────────
+# EXECUTION 3 : NEHedd_IT1 
+# ─────────────────────────────────────────────────────────
 
-    
+"""print(f"\nExécution de NEHedd_IT1 pour l'instance {subdir}_{instance_file}")
+sequence, total_ties, elapsed = NEHedd_IT1(instance, due_dates)
+print(f"  Séquence : {[j+1 for j in sequence]}")
+print(f"  Total ties : {total_ties}")
+print(f"  Temps d'exécution : {elapsed:.2f}s")"""
+
+
 
 
 
@@ -480,71 +538,71 @@ if __name__ == "__main__":
 
 """ 
 
-    # ── Charger une instance ────────────────────────────────
-    inst      = datasets["tai20j_5m"][0]
-    pt        = inst['processing_times']
-    due_dates = generate_due_dates_brah(inst, tau=2)
-    weights   = generate_weights(inst)
-    n_jobs    = inst['n_jobs']
+# ── Charger une instance ────────────────────────────────
+inst      = datasets["tai20j_5m"][0]
+pt        = inst['processing_times']
+due_dates = generate_due_dates_brah(inst, tau=2)
+weights   = generate_weights(inst)
+n_jobs    = inst['n_jobs']
 
-    sequence = nehedd(pt, due_dates, weights, objective='TT')
-    print(f"Séquence initiale : {[j+1 for j in sequence]}")
+sequence = nehedd(pt, due_dates, weights, objective='TT')
+print(f"Séquence initiale : {[j+1 for j in sequence]}")
 
-    # ── Test destruction ────────────────────────────────────
-    partial_seq, removed = destruction(
-        sequence         = sequence,
-        processing_times = pt,
-        due_dates        = due_dates,
-        weights          = weights,
-        k                = 4,
-        objective        = 'TT'
-    )
-    print(f"Séquence partielle : {[j+1 for j in partial_seq]}")
-    print(f"Jobs retirés       : {[j+1 for j in removed]}")
+# ── Test destruction ────────────────────────────────────
+partial_seq, removed = destruction(
+sequence         = sequence,
+processing_times = pt,
+due_dates        = due_dates,
+weights          = weights,
+k                = 4,
+objective        = 'TT'
+)
+print(f"Séquence partielle : {[j+1 for j in partial_seq]}")
+print(f"Jobs retirés       : {[j+1 for j in removed]}")
 
-    # ── Test reconstruction ─────────────────────────────────
-    new_seq = reconstruction(
-        partial_sequence = partial_seq,
-        removed_jobs     = removed,
-        processing_times = pt,
-        due_dates        = due_dates,
-        weights          = weights,
-        objective        = 'TT'
-    )
-    print(f"Séquence reconstruite : {[j+1 for j in new_seq]}")
+# ── Test reconstruction ─────────────────────────────────
+new_seq = reconstruction(
+partial_sequence = partial_seq,
+removed_jobs     = removed,
+processing_times = pt,
+due_dates        = due_dates,
+weights          = weights,
+objective        = 'TT'
+)
+print(f"Séquence reconstruite : {[j+1 for j in new_seq]}")
 
-    # ── Comparer avant/après ────────────────────────────────
-    obj_avant = compute_objectives(sequence, pt, due_dates, weights)
-    obj_apres = compute_objectives(new_seq,  pt, due_dates, weights)
+# ── Comparer avant/après ────────────────────────────────
+obj_avant = compute_objectives(sequence, pt, due_dates, weights)
+obj_apres = compute_objectives(new_seq,  pt, due_dates, weights)
 
-    print(f"\n{'='*40}")
-    print(f"{'':15} {'Avant':>10} {'Après':>10}")
-    print(f"{'='*40}")
-    print(f"{'TT':15} {obj_avant['TT']:>10} {obj_apres['TT']:>10}")
-    print(f"{'TWT':15} {obj_avant['TWT']:>10} {obj_apres['TWT']:>10}")
-    print(f"{'T_max':15} {obj_avant['T_max']:>10} {obj_apres['T_max']:>10}")
-    print(f"{'NT':15} {obj_avant['NT']:>10} {obj_apres['NT']:>10}")
-    print(f"{'='*40}")
+print(f"\n{'='*40}")
+print(f"{'':15} {'Avant':>10} {'Après':>10}")
+print(f"{'='*40}")
+print(f"{'TT':15} {obj_avant['TT']:>10} {obj_apres['TT']:>10}")
+print(f"{'TWT':15} {obj_avant['TWT']:>10} {obj_apres['TWT']:>10}")
+print(f"{'T_max':15} {obj_avant['T_max']:>10} {obj_apres['T_max']:>10}")
+print(f"{'NT':15} {obj_avant['NT']:>10} {obj_apres['NT']:>10}")
+print(f"{'='*40}")
 
-    for objective in ['TT', 'TWT', 'T_max', 'NT']:
-        print(f"\n{'='*40}")
-        print(f"Objectif : {objective}")
+for objective in ['TT', 'TWT', 'T_max', 'NT']:
+print(f"\n{'='*40}")
+print(f"Objectif : {objective}")
 
-        best_seq, best_val, history = IG(
-            processing_times = pt,
-            due_dates        = due_dates,
-            weights          = weights,
-            objective        = objective,
-            k                = 4,
-            max_iter         = 100,
-            filepath         = f"resultats/ig/20j_5m/instance_1_{objective}.csv"
-        )
+best_seq, best_val, history = IG(
+processing_times = pt,
+due_dates        = due_dates,
+weights          = weights,
+objective        = objective,
+k                = 4,
+max_iter         = 100,
+filepath         = f"resultats/ig/20j_5m/instance_1_{objective}.csv"
+)
 
-        obj = compute_objectives(best_seq, pt, due_dates, weights)
-        print(f"  Séquence : {[j+1 for j in best_seq]}")
-        print(f"  TT       : {obj['TT']}")
-        print(f"  TWT      : {obj['TWT']}")
-        print(f"  T_max    : {obj['T_max']}")
-        print(f"  NT       : {obj['NT']}")"""
+obj = compute_objectives(best_seq, pt, due_dates, weights)
+print(f"  Séquence : {[j+1 for j in best_seq]}")
+print(f"  TT       : {obj['TT']}")
+print(f"  TWT      : {obj['TWT']}")
+print(f"  T_max    : {obj['T_max']}")
+print(f"  NT       : {obj['NT']}")"""
  
 
