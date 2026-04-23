@@ -2,8 +2,8 @@
 #SBATCH --job-name=pfsp_milp
 #SBATCH --account=def-adhaj    # ← remplacer par le compte du prof
 #SBATCH --time=4-00:00:00          # 4 jours par instance
-#SBATCH --mem=200G                  # 64 Go de mémoire RAM par tâche
-#SBATCH --cpus-per-task=4
+#SBATCH --mem=64G                  # 64 Go de mémoire RAM par tâche
+#SBATCH --cpus-per-task=8
 #SBATCH --array=1-20               # 20 instances en parallèle (10 par taille)
 #SBATCH --output=logs/%A_%a_out.txt
 #SBATCH --error=logs/%A_%a_err.txt

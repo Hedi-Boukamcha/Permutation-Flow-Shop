@@ -25,6 +25,38 @@ from src.math_model import solve_milp_tt
 # Consulter les jobs: squeue -u nom_user
 
 
+def save_summary_result(summary_csv, dataset_name, instance_file, result):
+    output_dir = os.path.dirname(summary_csv)
+    if output_dir:
+        os.makedirs(output_dir, exist_ok=True)
+
+    file_exists = os.path.isfile(summary_csv)
+
+    with open(summary_csv, mode='a', newline='') as f:
+        writer = csv.writer(f)
+
+        if not file_exists:
+            writer.writerow([
+                "Dataset", "Instance", "Status", "TT", "Temps (s)",
+                "Gap (%)", "BestBound", "Objective", "Sequence"
+            ])
+
+        writer.writerow([
+            dataset_name,
+            instance_file,
+            result["status"],
+            result["TT"],
+            f"{result['time']:.4f}" if result["time"] != "" else "",
+            f"{result['gap']:.2f}" if result["gap"] != "" else "",
+            result["best_bound"],
+            result["objective_value"],
+            " ".join(str(j + 1) for j in result["sequence"]) if result["sequence"] else ""
+        ])
+
+        f.flush()
+        os.fsync(f.fileno())
+
+
 
 if __name__ == "__main__":
     #datasets = load_all("data/taillard")
@@ -209,6 +241,8 @@ if __name__ == "__main__":
     results_dir_milp = 'results/milp_tt'
     results_dir_ig = 'resultats/ig_ts_v2'
 
+    print("\n=== DEBUT DU JOB GLOBAL ===", flush=True)
+
     # ─────────────────────────────────────────────────────────
     # Data: toutes les instances
     # ─────────────────────────────────────────────────────────
@@ -217,40 +251,56 @@ if __name__ == "__main__":
         subdir_path = os.path.join(instances_dir, subdir)
 
         if not os.path.isdir(subdir_path):
+            print(f"[SKIP] Dossier introuvable : {subdir_path}", flush=True)
             continue
 
-        print(f"\n{'='*50}")
-        print(f"Dataset : {subdir}")
+        print(f"\n{'='*60}", flush=True)
+        print(f"[DATASET] {subdir}", flush=True)
+        print(f"{'='*60}", flush=True)
 
-        # Parcours des fichiers instances
-        for instance_file in sorted(os.listdir(subdir_path)):
+        summary_csv = os.path.join(results_dir_milp, subdir, "summary_results.csv")
 
-            if not instance_file.endswith(".csv"):
-                continue
+        instance_files = sorted([f for f in os.listdir(subdir_path) if f.endswith(".csv")])
 
-            print(f"\nInstance : {instance_file}")
+        for idx, instance_file in enumerate(instance_files, start=1):
 
-            instance_path = os.path.join(subdir_path, instance_file)
+            print(f"\n[INSTANCE {idx}/{len(instance_files)}] {instance_file}", flush=True)
+
+            instance_path = os.path.join(subdir_path, instance_file) 
             instance = load_instance(instance_path)
 
             pt = instance['processing_times']
-            due_dates = instance['due_date']
+            due_date = instance['due_date']
 
             # ─────────────────────────────────────────────────────────
             # EXECUTION 1 : Modele Math
             # ─────────────────────────────────────────────────────────
+            print(f"[RUN] MILP (OR-Tools) pour {subdir}_{instance_file}", flush=True)
 
-            """print(f"\nExécution de MILP (OR-Tools) pour l'instance {subdir}_{instance_file}")
-            #time_limit = 60  # Temps limite en secondes
             result_file = os.path.join(results_dir_milp, subdir, instance_file)
-            result = solve_milp_tt(pt.T, due_dates, time_limit = 3600, filepath=result_file)
-            
-            if result:
-                print(f"  Séquence : {[j+1 for j in result['sequence']]}")
-                print(f"  Tardiness : {result['TT']}")
-            else:
-                print("  Pas de solution trouvée")"""
 
+            result = solve_milp_tt(
+                pt,
+                due_date,
+                time_limit=3600,
+                filepath=result_file,
+                instance_name=f"{subdir}/{instance_file}",
+                use_heuristic=True
+            )
+
+            # sauvegarde immédiate dans le résumé global
+            save_summary_result(summary_csv, subdir, instance_file, result)
+            print(f"[SAVE] Résumé global mis à jour : {summary_csv}", flush=True)
+
+            if result and result["sequence"]:
+                print(f"  Séquence : {[j+1 for j in result['sequence']]}", flush=True)
+                print(f"  Tardiness : {result['TT']}", flush=True)
+                if result["gap"] != "":
+                    print(f"  Gap : {result['gap']:.2f}%", flush=True)
+            else:
+                print("  Pas de solution trouvée", flush=True)
+
+            print("\n=== FIN DU JOB GLOBAL ===", flush=True)
             # ─────────────────────────────────────────────────────────
             # EXECUTION 2 : IG_TS_V2: 
             # A tabu memory based iterated greedy algorithm 
@@ -258,7 +308,7 @@ if __name__ == "__main__":
             # with the total tardiness criterion
             # ─────────────────────────────────────────────────────────
 
-            print("Shape pt:", pt.shape)
+            """print("Shape pt:", pt.shape)
 
             objectives = ['TT', 'TWT', 'T_max', 'NT']
             instance_name = instance_file.replace(".csv", "")
@@ -287,7 +337,7 @@ if __name__ == "__main__":
                 print(f"  TWT  = {result_ig['TWT']}")
                 print(f"  T_max= {result_ig['T_max']}")
                 print(f"  NT   = {result_ig['NT']}")
-                print(f"  Temps = {result_ig['time']:.2f}s")
+                print(f"  Temps = {result_ig['time']:.2f}s")"""
 
             # ─────────────────────────────────────────────────────────
             # EXECUTION 3 : NEHedd_IT1 

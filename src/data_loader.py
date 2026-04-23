@@ -65,7 +65,7 @@ def load_instance(filepath):
 
     return {
         'processing_times': pt,
-        'due_dates': due_dates,
+        'due_date': due_dates,
         'n_jobs': n_jobs,
         'n_machines': n_machines
     }

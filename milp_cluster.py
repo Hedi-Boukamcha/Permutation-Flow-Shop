@@ -28,7 +28,7 @@ if __name__ == "__main__":
     
     # Résoudre avec MILP
     print(f"\nRésolution MILP...")
-    result = solve_milp_tt(pt.T, due_dates, time_limit=4*24*3600, filepath=result_file)
+    result = solve_milp_tt(pt, due_dates, time_limit=4*24*3600, filepath=result_file)
     
     if result:
         print(f"\n{'='*50}")
