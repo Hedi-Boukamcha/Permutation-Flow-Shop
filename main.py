@@ -5,7 +5,7 @@ import time
 import numpy as np
 from src.my_heur import heuristic_due_date_pfsp
 from src.IG_TS_approche_v2 import IG_1F
-from src.NEHedd_TB1 import results_nehedd_it1
+from src.NEHedd_TB1 import results_nehedd_it1, run_nehedd_it1
 from src.position_model import solve_milp_cmax
 from src.TM_IG import tmig_wrapper
 from src.GA_PathR import ga_pr_wrapper
@@ -314,6 +314,7 @@ if __name__ == "__main__":
     objectives = ['TT', 'TWT', 'T_max', 'NT']
     ordered_subdirs = ['20j_5m', '50j_10m']
     results_dir_nehedd = 'resultats/nehedd'
+    results_dir_nehedd_it1 = 'results/nehedd_it1'
     results_dir_milp = 'results/milp_tt'
     results_dir_ig = 'resultats/ig_ts_v2'
     results_dir_heur = 'resultats/my_heuristic'
@@ -383,6 +384,7 @@ if __name__ == "__main__":
 
             summary_csv_heur = os.path.join(results_dir_heur, "summary_heuristic.csv")
             summary_csv_nehedd = os.path.join(results_dir_nehedd, "summary_nehedd.csv")
+            summary_csv_nehedd_it1 = os.path.join(results_dir_nehedd_it1, "summary_nehedd_it1.csv")
             
 
             print(f"[RUN] Heuristic pour {subdir}_{instance_file}", flush=True)
@@ -394,11 +396,12 @@ if __name__ == "__main__":
             due_date = instance['due_date']
             heur_results = {}
             nehedd_results = {}
+            nehedd_it1_results = {}
             for obj in objectives:
                             # ─────────────────────────────────────────────────────────
                             # EXECUTION ++++++++++++++++++ : Mon Heuristique
                             # ─────────────────────────────────────────────────────────
-                print(f"[RUN] Heuristic ({obj}) pour {subdir}_{instance_file}", flush=True)
+                """print(f"[RUN] Heuristic ({obj}) pour {subdir}_{instance_file}", flush=True)
 
                 heur_file = os.path.join(
                     results_dir_heur,
@@ -499,8 +502,53 @@ if __name__ == "__main__":
                     f"NT={nehedd_result['NT']}, "
                     f"Time={nehedd_result['time']:.2f}s",
                     flush=True
+                )"""
+
+                            # ─────────────────────────────────────────────────────────
+                            # EXECUTION ++++++++++++++++++ : NEH EDD IT1
+                            # ─────────────────────────────────────────────────────────
+
+
+                print(f"[RUN] NEHedd_IT1 ({obj}) pour {subdir}_{instance_file}", flush=True)
+
+                nehedd_it1_file = os.path.join(
+                    results_dir_nehedd_it1,
+                    subdir,
+                    f"{instance_name}_NEHedd_IT1_{obj}.csv"
                 )
-        print("\n=== FIN INSTANCE ===", flush=True)
+
+                result_it1 = run_nehedd_it1(
+                    instance=instance,
+                    weights=weights,
+                    objective=obj,
+                    filepath=nehedd_it1_file
+                )
+
+                nehedd_it1_results[obj] = result_it1
+
+                summary_csv_it1 = os.path.join(
+                    results_dir_nehedd_it1,
+                    subdir,
+                    f"summary_NEHedd_IT1_{obj}.csv"
+                )
+
+                save_summary_result_by_objective(
+                    summary_csv_it1,
+                    subdir,
+                    instance_file,
+                    result_it1
+                )
+
+                print(
+                    f"  {obj} -> TT={result_it1['TT']}, "
+                    f"TWT={result_it1['TWT']}, "
+                    f"T_max={result_it1['T_max']}, "
+                    f"NT={result_it1['NT']}, "
+                    f"Time={result_it1['time']:.2f}s, "
+                    f"Ties={result_it1['total_ties']}",
+                    flush=True
+                )                
+                print("\n=== FIN INSTANCE ===", flush=True)             
 
 #########################################
 

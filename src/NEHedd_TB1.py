@@ -3,8 +3,9 @@ import csv
 import time
 import numpy as np
 
+from src.results import save_results
 from src.dd_generator import generate_due_dates_brah
-from src.scheduler import compute_completion_times
+from src.scheduler import compute_completion_times, compute_objectives
 from src.data_loader import load_instance
 
 
@@ -47,9 +48,9 @@ def compute_idle_time(sequence, pt):
 # ─────────────────────────────────────────────
 # 📌 Insertion
 # ─────────────────────────────────────────────
-def evaluate_insertion(partial_seq, job, pt, due_dates):
+def evaluate_insertion(partial_seq, job, pt, due_dates, weights=None, objective='TT'):
 
-    best_tt    = None
+    best_value = None
     best_it1   = None
     best_pos   = 0
     ties_count = 0
@@ -58,15 +59,20 @@ def evaluate_insertion(partial_seq, job, pt, due_dates):
 
         candidate = partial_seq[:pos] + [job] + partial_seq[pos:]
 
-        tt = compute_tardiness(candidate, pt, due_dates)
+        value = compute_objectives(
+            candidate,
+            pt,
+            due_dates,
+            weights=weights,
+        )[objective]
 
-        if best_tt is None or tt < best_tt:
-            best_tt    = tt
+        if best_value is None or value < best_value:
+            best_value = value
             best_it1   = compute_idle_time(candidate, pt)
             best_pos   = pos
             ties_count = 1
 
-        elif tt == best_tt:
+        elif value == best_value:
             ties_count += 1
             it1 = compute_idle_time(candidate, pt)
 
@@ -80,7 +86,7 @@ def evaluate_insertion(partial_seq, job, pt, due_dates):
 # ─────────────────────────────────────────────
 # 📌 NEHedd + IT1
 # ─────────────────────────────────────────────
-def NEHedd_IT1(pt, due_dates):
+"""def NEHedd_IT1(pt, due_dates):
 
     pt = ensure_pt_format(pt)
     n_jobs = pt.shape[1]
@@ -102,13 +108,47 @@ def NEHedd_IT1(pt, due_dates):
 
     elapsed = time.perf_counter() - t_start
 
+    return sequence, total_ties, elapsed"""
+
+def NEHedd_IT1(pt, due_dates, weights=None, objective='TT'):
+    pt = ensure_pt_format(pt)
+    n_jobs = pt.shape[1]
+
+    if weights is None:
+        weights = np.ones(n_jobs, dtype=int)
+
+    t_start = time.perf_counter()
+
+    # base EDD
+    edd_order = np.argsort(due_dates, kind='stable')
+
+    sequence   = [edd_order[0]]
+    total_ties = 0
+
+    for k in range(1, n_jobs):
+        job = edd_order[k]
+
+        best_pos, ties = evaluate_insertion(
+            sequence,
+            job,
+            pt,
+            due_dates,
+            weights=weights,
+            objective=objective
+        )
+
+        total_ties += max(0, ties - 1)
+        sequence.insert(best_pos, job)
+
+    elapsed = time.perf_counter() - t_start
+
     return sequence, total_ties, elapsed
 
 
 # ─────────────────────────────────────────────
 # 📌 Pipeline
 # ─────────────────────────────────────────────
-def results_nehedd_it1(instances_dir, output_dir='./resultats'):
+def results_nehedd_it1(instances_dir, output_dir='./results'):
 
     print(f"Exécution de NEHedd_IT1")
 
@@ -154,3 +194,41 @@ def results_nehedd_it1(instances_dir, output_dir='./resultats'):
 
             writer.writeheader()
             writer.writerows(results)
+
+def run_nehedd_it1(instance, weights=None, objective='TT', filepath=None):
+    pt = instance['processing_times']
+    due_dates = instance['due_date']
+
+    if weights is None:
+        weights = np.ones(pt.shape[1], dtype=int)
+
+    start = time.time()
+
+    sequence, total_ties, elapsed = NEHedd_IT1(
+        pt,
+        due_dates,
+        weights=weights,
+        objective=objective
+    )
+
+    obj = compute_objectives(sequence, pt, due_dates, weights)
+    total_time = time.time() - start
+
+    if filepath:
+        save_results(
+            sequence=sequence,
+            processing_times=pt,
+            due_dates=due_dates,
+            weights=weights,
+            filepath=filepath
+        )
+
+    return {
+        "sequence": sequence,
+        "TT": obj["TT"],
+        "TWT": obj["TWT"],
+        "T_max": obj["T_max"],
+        "NT": obj["NT"],
+        "time": total_time,
+        "total_ties": total_ties
+    }

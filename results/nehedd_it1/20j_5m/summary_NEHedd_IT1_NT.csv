@@ -1,0 +1,11 @@
+subdir,instance,TT,TWT,T_max,NT,time
+20j_5m,instance_1.csv,5159,29786,840,11,0.0507
+20j_5m,instance_10.csv,5799,31689,783,11,0.0509
+20j_5m,instance_2.csv,6764,44409,984,13,0.0597
+20j_5m,instance_3.csv,6711,44648,1006,12,0.0563
+20j_5m,instance_4.csv,6856,38651,932,12,0.0537
+20j_5m,instance_5.csv,6324,30126,890,11,0.0505
+20j_5m,instance_6.csv,6144,41254,890,11,0.0525
+20j_5m,instance_7.csv,6351,34283,871,11,0.0508
+20j_5m,instance_8.csv,5443,27866,846,10,0.0496
+20j_5m,instance_9.csv,6498,38375,930,13,0.0529

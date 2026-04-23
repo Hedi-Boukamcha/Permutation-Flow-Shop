@@ -5,7 +5,6 @@ import traceback
 from src.data_loader import load_instance
 from src.math_model import solve_milp_tt
 
-
 def save_fail_result(result_file, subdir, instance_file, status_msg):
     os.makedirs(os.path.dirname(result_file), exist_ok=True)
 
@@ -21,7 +20,6 @@ def save_fail_result(result_file, subdir, instance_file, status_msg):
         writer.writerows(rows)
         f.flush()
         os.fsync(f.fileno())
-
 
 def append_summary(summary_file, subdir, instance_file, result):
     os.makedirs(os.path.dirname(summary_file), exist_ok=True)
@@ -51,21 +49,20 @@ def append_summary(summary_file, subdir, instance_file, result):
         f.flush()
         os.fsync(f.fileno())
 
-
-if __name__ == "__main__":
-    subdir = sys.argv[1]        # '20j_5m' ou '50j_10m'
-    instance_file = sys.argv[2] # 'instance_1.csv', etc.
+def run_instance(instance_id, subdir):
+    subdir = "20j_5m"
+    instance_file = f"instance_{instance_id}.csv"
 
     print(f"{'='*60}", flush=True)
     print(f"Dataset  : {subdir}", flush=True)
     print(f"Instance : {instance_file}", flush=True)
     print(f"{'='*60}", flush=True)
 
-    results_dir_milp = "results/milp_tt"
+    results_dir_milp = "resultats/milp_new"
     os.makedirs(os.path.join(results_dir_milp, subdir), exist_ok=True)
 
     instance_path = os.path.join("data/instances", subdir, instance_file)
-    result_file = os.path.join(results_dir_milp, subdir, instance_file)
+    result_file = os.path.join(results_dir_milp, subdir, f"result_{instance_id}.csv")
     summary_file = os.path.join(results_dir_milp, subdir, "summary_results.csv")
 
     try:
@@ -127,3 +124,8 @@ if __name__ == "__main__":
         append_summary(summary_file, subdir, instance_file, fail_result)
 
         sys.exit(1)
+
+if __name__ == "__main__":
+    instance_id = int(sys.argv[1])
+    subdir = sys.argv[2]
+    run_instance(instance_id, subdir)
