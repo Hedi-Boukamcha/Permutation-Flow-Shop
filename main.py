@@ -398,7 +398,7 @@ if __name__ == "__main__":
                             # ─────────────────────────────────────────────────────────
                             # EXECUTION ++++++++++++++++++ : Mon Heuristique
                             # ─────────────────────────────────────────────────────────
-                """print(f"[RUN] Heuristic ({obj}) pour {subdir}_{instance_file}", flush=True)
+                print(f"[RUN] Heuristic ({obj}) pour {subdir}_{instance_file}", flush=True)
 
                 heur_file = os.path.join(
                     results_dir_heur,
@@ -418,19 +418,43 @@ if __name__ == "__main__":
 
                 heur_results[obj] = heur_result
 
+                summary_csv_heur = os.path.join(
+                    results_dir_heur,
+                    subdir,
+                    f"summary_{obj}.csv"
+                )
+
+                save_summary_result_by_objective(
+                    summary_csv_heur,
+                    subdir,
+                    instance_file,
+                    heur_result
+                )
+                print(f"[DEBUG] summary_csv_nehedd = {summary_csv_heur}", flush=True)
+
+                print(
+                    f"  {obj} -> TT={heur_result['TT']}, "
+                    f"TWT={heur_result['TWT']}, "
+                    f"T_max={heur_result['T_max']}, "
+                    f"NT={heur_result['NT']}, "
+                    f"Time={heur_result['time']:.2f}s",
+                    flush=True
+                )
+
                 print(f"  {obj} -> TT={heur_result['TT']}, TWT={heur_result['TWT']}, "
                 f"T_max={heur_result['T_max']}, NT={heur_result['NT']}, "
                 f"Time={heur_result['time']:.2f}s", flush=True)
 
             # si tu veux un résumé séparé pour l’heuristique
-            save_summary_result_heuristic(summary_csv_heur, subdir, instance_file, heur_result)
-            print(f"[SAVE] Résumé heuristique mis à jour : {summary_csv_heur}", flush=True)
+            #save_summary_result_heuristic(summary_csv_heur, subdir, instance_file, heur_result)
+            
+            #print(f"[SAVE] Résumé heuristique mis à jour : {summary_csv_heur}", flush=True)
 
             if heur_result and heur_result["sequence"]:
                 print(f"  Séquence heuristique : {[j+1 for j in heur_result['sequence']]}", flush=True)
                 print(f"  TT heuristique : {heur_result['TT']}", flush=True)
                 print(f"  Temps heuristique : {heur_result['time']:.2f}s", flush=True)
-            else:"""
+            else:
 
 
                             # ─────────────────────────────────────────────────────────
