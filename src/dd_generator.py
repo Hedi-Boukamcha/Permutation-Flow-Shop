@@ -2,8 +2,6 @@ import csv
 import os
 import numpy as np
 
-from src.data_loader import load_instance
-
 
 def generate_due_dates(instance, T, R, seed=None):
     """
@@ -81,48 +79,27 @@ def generate_weights(instance, seed=42):
     weights = np.random.randint(1, 11, size=n_jobs)
     return weights
 
-def save_weights_per_size(instances_dir, output_dir="data/weights", seed=42):
 
-    for subdir in os.listdir(instances_dir):
-
-        subdir_path = os.path.join(instances_dir, subdir)
-        if not os.path.isdir(subdir_path):
-            continue
-
-        # 👉 récupérer UNE instance pour connaître n_jobs
-        instance_file = sorted([
-            f for f in os.listdir(subdir_path) if f.endswith(".csv")
-        ])[0]
-
-        instance_path = os.path.join(subdir_path, instance_file)
-        instance = load_instance(instance_path)
-
-        n_jobs = instance['n_jobs']
-
-        weights = generate_weights(n_jobs, seed=seed)
-
-        # 👉 fichier unique par taille
-        output_path = os.path.join(output_dir, f"{subdir}_weights.csv")
-        os.makedirs(os.path.dirname(output_path), exist_ok=True)
-
-        with open(output_path, 'w', newline='') as f:
-            writer = csv.writer(f)
-            writer.writerow(["job", "weight"])
-
-            for j, w in enumerate(weights):
-                writer.writerow([j+1, int(w)])
-
-        print(f"Weights sauvegardés : {output_path}")
+def generate_weights(n_jobs, seed=42):
+    np.random.seed(seed)
+    return np.random.randint(1, 11, size=n_jobs)
 
 
-def load_weights_per_size(subdir, weights_dir="data/weights"):
-    filepath = os.path.join(weights_dir, f"{subdir}_weights.csv")
+def save_weights(weights, filepath):
+    os.makedirs(os.path.dirname(filepath), exist_ok=True)
 
+    with open(filepath, 'w', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerow(["job", "weight"])
+        for j, w in enumerate(weights):
+            writer.writerow([j+1, int(w)])
+
+
+def load_weights(filepath):
     weights = []
     with open(filepath, 'r') as f:
         reader = csv.reader(f)
         next(reader)
         for row in reader:
             weights.append(int(row[1]))
-
     return np.array(weights)

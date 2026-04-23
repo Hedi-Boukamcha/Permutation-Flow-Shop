@@ -58,7 +58,7 @@ def compute_objectives(sequence, processing_times, due_dates, weights=None):
 
     # Due dates et poids dans l'ordre de la séquence
     dj = due_dates[list(sequence)]
-    wj = 1 #weights[list(sequence)]
+    wj = weights[list(sequence)]
 
     # Tardiness : T_j = max{0, C_j - d_j}
     Tj = np.maximum(0, Cj - dj)

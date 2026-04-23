@@ -1,3 +1,4 @@
+import time
 import numpy as np
 
 from src.results import save_results
@@ -107,6 +108,46 @@ def nehedd(processing_times, due_dates, weights=None, objective='TT'):
     return sequence
 
 
+def run_nehedd(instance, due_dates, weights, objective='TT', filepath=None):
+    start = time.time()
+
+    pt = instance['processing_times']
+
+    sequence = nehedd(
+        processing_times=pt,
+        due_dates=due_dates,
+        weights=weights,
+        objective=objective
+    )
+
+    obj = compute_objectives(
+        sequence=sequence,
+        processing_times=pt,
+        due_dates=due_dates,
+        weights=weights
+    )
+
+    elapsed = time.time() - start
+
+    if filepath:
+        save_results(
+            sequence=sequence,
+            processing_times=pt,
+            due_dates=due_dates,
+            weights=weights,
+            filepath=filepath
+        )
+
+    return {
+        "sequence": sequence,
+        "TT": obj["TT"],
+        "TWT": obj["TWT"],
+        "T_max": obj["T_max"],
+        "NT": obj["NT"],
+        "time": elapsed
+    }
+
+
 def nehEdd(datasets):
     """
     Résout toutes les instances avec NEHedd pour chaque objectif
@@ -129,9 +170,9 @@ def nehEdd(datasets):
                 sequence = nehedd(pt, due_dates, weights, objective=objective)
                 obj      = compute_objectives(sequence, pt, due_dates, weights)
 
-                """print(f"    [{objective}] Séquence : {[j+1 for j in sequence]}")
+                print(f"    [{objective}] Séquence : {[j+1 for j in sequence]}")
                 print(f"           TT={obj['TT']}, TWT={obj['TWT']}, "
-                      f"T_max={obj['T_max']}, NT={obj['NT']}")"""
+                      f"T_max={obj['T_max']}, NT={obj['NT']}")
                 
                 save_results(
                     sequence         = sequence,

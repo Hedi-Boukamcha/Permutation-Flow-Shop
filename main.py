@@ -1,7 +1,9 @@
 import csv
 import os
 import sys
+import time
 import numpy as np
+from src.my_heur import heuristic_due_date_pfsp
 from src.IG_TS_approche_v2 import IG_1F
 from src.NEHedd_TB1 import results_nehedd_it1
 from src.position_model import solve_milp_cmax
@@ -9,9 +11,9 @@ from src.TM_IG import tmig_wrapper
 from src.GA_PathR import ga_pr_wrapper
 from src.riahi_IGA import iga_riahi_final, run_on_instances
 from src.NEHedd_FV import nehedd_tbit1, run_nehedd_FV
-from src.initial_solution import nehEdd, nehedd, taillard_sequences
+from src.initial_solution import nehEdd, nehedd, run_nehedd, taillard_sequences
 from src.plots import plot_gantt, run_plots
-from src.dd_generator import generate_due_dates_brah, generate_weights
+from src.dd_generator import generate_due_dates_brah, generate_weights, load_weights
 from src.scheduler import compute_objectives
 from src.data_loader import load_all, display_dataset, load_instance, save_instances
 from to_csv import save_to_csv
@@ -55,6 +57,30 @@ def save_summary_result(summary_csv, dataset_name, instance_file, result):
 
         f.flush()
         os.fsync(f.fileno())
+
+def save_summary_result_heuristic(summary_csv, subdir, instance_file,  objective,result):
+
+    os.makedirs(os.path.dirname(summary_csv), exist_ok=True)
+    file_exists = os.path.isfile(summary_csv)
+
+    with open(summary_csv, mode='a', newline='') as f:
+        writer = csv.writer(f)
+
+        if not file_exists:
+            writer.writerow([
+                "subdir", "instance",  "objective", "TT", "TWT", "T_max", "NT", "time"
+            ])
+
+        writer.writerow([
+            subdir,
+            instance_file,
+            objective,
+            result.get("TT", ""),
+            result.get("TWT", ""),
+            result.get("T_max", ""),
+            result.get("NT", ""),
+            result.get("time", "")
+        ])
 
 
 
@@ -236,10 +262,12 @@ if __name__ == "__main__":
     run_plots(datasets)"""
 
     instances_dir = "data/instances"
+    objectives = ['TT', 'TWT', 'T_max', 'NT']
     ordered_subdirs = ['20j_5m', '50j_10m']
-    results_dir_nehedd = 'results/nehedd_it1'
+    results_dir_nehedd = 'resultats/nehedd'
     results_dir_milp = 'results/milp_tt'
     results_dir_ig = 'resultats/ig_ts_v2'
+    results_dir_heur = 'resultats/my_heuristic'
 
     print("\n=== DEBUT DU JOB GLOBAL ===", flush=True)
 
@@ -268,8 +296,9 @@ if __name__ == "__main__":
 
             instance_path = os.path.join(subdir_path, instance_file) 
             instance = load_instance(instance_path)
+###########################################################
 
-            pt = instance['processing_times']
+            """pt = instance['processing_times']
             due_date = instance['due_date']
 
             # ─────────────────────────────────────────────────────────
@@ -300,7 +329,99 @@ if __name__ == "__main__":
             else:
                 print("  Pas de solution trouvée", flush=True)
 
-            print("\n=== FIN DU JOB GLOBAL ===", flush=True)
+            print("\n=== FIN DU JOB GLOBAL ===", flush=True)"""
+
+
+            summary_csv_heur = os.path.join(results_dir_heur, "summary_heuristic.csv")
+            summary_csv_nehedd = os.path.join(results_dir_nehedd, "summary_nehedd.csv")
+            
+
+            print(f"[RUN] Heuristic pour {subdir}_{instance_file}", flush=True)
+
+            instance_name = instance_file.replace(".csv", "")
+            heur_file = os.path.join(results_dir_heur, subdir, f"{instance_name}_TT.csv")
+            weights_path = os.path.join("data/weights", f"{subdir}_weights.csv")
+            weights = load_weights(weights_path)
+            due_date = instance['due_date']
+            heur_results = {}
+            for obj in objectives:
+                            # ─────────────────────────────────────────────────────────
+                            # EXECUTION ++++++++++++++++++ : Mon Heuristique
+                            # ─────────────────────────────────────────────────────────
+                """print(f"[RUN] Heuristic ({obj}) pour {subdir}_{instance_file}", flush=True)
+
+                heur_file = os.path.join(
+                    results_dir_heur,
+                    subdir,
+                    f"{instance_name}_{obj}.csv"
+                )
+
+                heur_result = heuristic_due_date_pfsp(
+                    instance=instance,
+                    weights=weights,
+                    objective=obj,
+                    k=4,
+                    max_iter=5,
+                    filepath=heur_file,
+                    verbose=False
+                )
+
+                heur_results[obj] = heur_result
+
+                print(f"  {obj} -> TT={heur_result['TT']}, TWT={heur_result['TWT']}, "
+                f"T_max={heur_result['T_max']}, NT={heur_result['NT']}, "
+                f"Time={heur_result['time']:.2f}s", flush=True)
+
+            # si tu veux un résumé séparé pour l’heuristique
+            save_summary_result_heuristic(summary_csv_heur, subdir, instance_file, heur_result)
+            print(f"[SAVE] Résumé heuristique mis à jour : {summary_csv_heur}", flush=True)
+
+            if heur_result and heur_result["sequence"]:
+                print(f"  Séquence heuristique : {[j+1 for j in heur_result['sequence']]}", flush=True)
+                print(f"  TT heuristique : {heur_result['TT']}", flush=True)
+                print(f"  Temps heuristique : {heur_result['time']:.2f}s", flush=True)
+            else:"""
+
+
+                            # ─────────────────────────────────────────────────────────
+                            # EXECUTION ++++++++++++++++++ : NEH EDD
+                            # ─────────────────────────────────────────────────────────
+            print(f"[RUN] NEHedd ({obj}) pour {subdir}_{instance_file}", flush=True)
+
+            nehedd_file = os.path.join(
+                results_dir_nehedd,
+                subdir,
+                f"{instance_name}_{obj}.csv"
+            )
+
+            nehedd_result = run_nehedd(
+                instance=instance,
+                due_dates=due_date,
+                weights=weights,
+                objective=obj,
+                filepath=nehedd_file
+            )
+
+            save_summary_result_heuristic(
+                summary_csv=summary_csv_nehedd,
+                subdir=subdir,
+                instance_file=instance_file,
+                objective=obj,
+                result=nehedd_result
+            )
+
+            print(
+                f"  {obj} -> TT={nehedd_result['TT']}, "
+                f"TWT={nehedd_result['TWT']}, "
+                f"T_max={nehedd_result['T_max']}, "
+                f"NT={nehedd_result['NT']}, "
+                f"Time={nehedd_result['time']:.2f}s",
+                flush=True
+            )
+            print("\n=== FIN INSTANCE ===", flush=True)
+
+#########################################
+
             # ─────────────────────────────────────────────────────────
             # EXECUTION 2 : IG_TS_V2: 
             # A tabu memory based iterated greedy algorithm 
