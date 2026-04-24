@@ -2,21 +2,8 @@ import os
 import sys
 import csv
 import traceback
-
-import numpy as np
-#from src.dd_generator import load_weights
 from src.data_loader import load_instance
 from src.math_model import solve_milp_tt
-
-def load_weights(filepath):
-    weights = []
-    with open(filepath, 'r') as f:
-        reader = csv.reader(f)
-        next(reader)
-        for row in reader:
-            weights.append(int(row[1]))
-    return np.array(weights)
-
 
 def save_fail_result(result_file, subdir, instance_file, status_msg):
     os.makedirs(os.path.dirname(result_file), exist_ok=True)
@@ -24,8 +11,8 @@ def save_fail_result(result_file, subdir, instance_file, status_msg):
     rows = [
         ["Job", "Due date", "Start M1", "Completion Cj", "Tardiness", "Tardy"],
         ["", "", "", "", "", ""],
-        ["Status", "TT", "TWT", "T_max", "NT", "Temps (s)", "Gap (%)", "BestBound", "Objective"],
-        [status_msg, "", "", "", "", "", "", "", ""]
+        ["Status", "TT", "Temps (s)", "Gap (%)", "BestBound", "Objective"],
+        [status_msg, "", "", "", "", ""]
     ]
 
     with open(result_file, mode="w", newline="") as f:
@@ -43,7 +30,7 @@ def append_summary(summary_file, subdir, instance_file, result):
 
         if not file_exists:
             writer.writerow([
-                "Dataset", "Instance", "Status", "TT", "TWT", "T_max", "NT", "Temps (s)",
+                "Dataset", "Instance", "Status", "TT", "Temps (s)",
                 "Gap (%)", "BestBound", "Objective", "Sequence"
             ])
 
@@ -52,9 +39,6 @@ def append_summary(summary_file, subdir, instance_file, result):
             instance_file,
             result.get("status", ""),
             result.get("TT", ""),
-            result.get("TWT", ""),
-            result.get("T_max", ""),
-            result.get("NT", ""),
             result.get("time", ""),
             result.get("gap", ""),
             result.get("best_bound", ""),
@@ -75,14 +59,12 @@ def run_instance(subdir, instance_file):
     os.makedirs(os.path.join(results_dir_milp, subdir), exist_ok=True)
 
     instance_path = os.path.join("data/instances", subdir, instance_file)
-    weights_path = os.path.join("data/weights", f"{subdir}", instance_file)
     result_file = os.path.join(results_dir_milp, subdir, instance_file)
     summary_file = os.path.join(results_dir_milp, subdir, "summary_results.csv")
 
     try:
         print(f"[LOAD] Chargement de {instance_path}", flush=True)
         instance = load_instance(instance_path)
-        weights = load_weights(weights_path)
 
         pt = instance["processing_times"]
         due_dates = instance["due_date"]
@@ -91,8 +73,7 @@ def run_instance(subdir, instance_file):
         result = solve_milp_tt(
             pt,
             due_dates,
-            weights,
-            time_limit=24 * 3600,
+            time_limit= 24 * 3600,
             filepath=result_file,
             instance_name=f"{subdir}/{instance_file}"
         )
@@ -101,9 +82,6 @@ def run_instance(subdir, instance_file):
             result = {
                 "status": "NO_SOLUTION",
                 "TT": "",
-                "TWT": "",
-                "T_max": "",
-                "NT": "",
                 "time": "",
                 "gap": "",
                 "best_bound": "",
@@ -118,9 +96,6 @@ def run_instance(subdir, instance_file):
         print("Résultat final :", flush=True)
         print(f"  Status      : {result['status']}", flush=True)
         print(f"  TT          : {result['TT']}", flush=True)
-        print(f"  TWT         : {result['TWT']}", flush=True)
-        print(f"  T_max       : {result['T_max']}", flush=True)
-        print(f"  NT          : {result['NT']}", flush=True)
         print(f"  Temps (s)   : {result['time']}", flush=True)
         print(f"  Gap (%)     : {result['gap']}", flush=True)
         print(f"  Séquence    : {[j+1 for j in result['sequence']] if result['sequence'] else []}", flush=True)
@@ -137,9 +112,6 @@ def run_instance(subdir, instance_file):
         fail_result = {
             "status": err_msg,
             "TT": "",
-            "TWT": "",
-            "T_max": "",
-            "NT": "",
             "time": "",
             "gap": "",
             "best_bound": "",

@@ -7,7 +7,7 @@ import os
 from src.scheduler import compute_objectives
 from src.initial_solution import nehedd
 
-def solve_milp_tt(processing_times, due_dates, weights, time_limit,
+def solve_milp_tt(processing_times, due_dates, time_limit,
                   filepath=None, instance_name=None, use_heuristic=True):
     """
     Résout le PFSP avec OR-Tools (CP-SAT).
@@ -24,6 +24,7 @@ def solve_milp_tt(processing_times, due_dates, weights, time_limit,
     """
     n_machines = processing_times.shape[0]
     n_jobs     = processing_times.shape[1]
+
 
     if instance_name is None:
         instance_name = os.path.basename(filepath) if filepath else "unknown_instance"
@@ -86,15 +87,6 @@ def solve_milp_tt(processing_times, due_dates, weights, time_limit,
         T[j] = model.NewIntVar(0, horizon, f"T_{j}")
 
     model.AddMinEquality(min_start_m1, [S[j, 0] for j in range(n_jobs)])
-
-    # Total Weighted Tardiness
-    TWT = model.NewIntVar(0, horizon, "TWT")
-
-    # Maximum Tardiness
-    T_max = model.NewIntVar(0, horizon, "T_max")
-
-    # Number of Tardy Jobs
-    NT = model.NewIntVar(0, n_jobs, "NT")
 
     # ─────────────────────────────────────────────────────
     # CONTRAINTESdds
@@ -174,28 +166,10 @@ def solve_milp_tt(processing_times, due_dates, weights, time_limit,
             else:
                 print("[WARNING] heuristic_seq est vide ou None, pas de warm start.", flush=True)
 
-    # Contraintes pour TWT
-    model.Add(TWT == sum(weights[j] * T[j] for j in range(n_jobs)))
-
-    # Contraintes pour T_max
-    for j in range(n_jobs):
-        model.Add(T_max >= T[j])
-
-    # Contraintes pour NT
-    tardy_jobs = [model.NewBoolVar(f"tardy_{j}") for j in range(n_jobs)]
-    for j in range(n_jobs):
-        model.Add(tardy_jobs[j] == 1).OnlyEnforceIf(T[j] > 0)
-        model.Add(tardy_jobs[j] == 0).OnlyEnforceIf(T[j] == 0)
-    model.Add(NT == sum(tardy_jobs))
-
     # ─────────────────────────────────────────────────────
     # OBJECTIF
     # ─────────────────────────────────────────────────────
-    model.Minimize(
-        0.25 * sum(T[j] for j in range(n_jobs))+
-        0.25 * TWT +
-        0.25 * T_max +
-        0.25 * NT)
+    model.Minimize(sum(T[j] for j in range(n_jobs)))
 
     # ─────────────────────────────────────────────────────
     # PARAMÈTRES SOLVEUR
@@ -225,9 +199,6 @@ def solve_milp_tt(processing_times, due_dates, weights, time_limit,
         sequence = [j for j, _, _ in sorted(job_starts, key=lambda x: (x[1], x[2], x[0]))]
 
         TT = sum(solver.Value(T[j]) for j in range(n_jobs))
-        TWT_value = solver.Value(TWT)
-        T_max_value = solver.Value(T_max)
-        NT_value = solver.Value(NT)
         status_str = "OPTIMAL" if status == cp_model.OPTIMAL else "FEASIBLE"
         elapsed_time = solver.WallTime()
         objective_value = solver.ObjectiveValue()
@@ -292,9 +263,6 @@ def solve_milp_tt(processing_times, due_dates, weights, time_limit,
             'status': status_str,
             'sequence': sequence,
             'TT': TT,
-            'TWT': TWT_value,
-            'T_max': T_max_value,
-            'NT': NT_value,
             'time': elapsed_time,
             'gap': gap,
             'best_bound': best_bound,
