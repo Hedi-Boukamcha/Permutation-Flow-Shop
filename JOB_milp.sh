@@ -3,9 +3,9 @@
 #SBATCH --time=24:00:00
 #SBATCH --mem=100G
 #SBATCH --cpus-per-task=16
-#SBATCH --array=1-10%5               # ← 10 jobs en parallèle pour chaque ensemble, 5 à la fois
-#SBATCH --output=logs/%A_%a_%j_out.txt
-#SBATCH --error=logs/%A_%a_%j_err.txt
+#SBATCH --array=1-20               # 20 instances en parallèle (10 par taille)
+#SBATCH --output=logs/%A_%a_out.txt
+#SBATCH --error=logs/%A_%a_err.txt
 
 module load python/3.11
 source ~/env_pfsp/bin/activate
@@ -16,18 +16,26 @@ cd ~/projet
 mkdir -p logs
 mkdir -p results/milpF/20j_5m
 mkdir -p results/milpF/50j_10m
-mkdir -p data/instances/20j_5m
-mkdir -p data/instances/50j_10m
 
-# Soumettre les jobs pour les instances 20j_5m
-job_id_20j_5m=$(sbatch --parsable --export=subdir="20j_5m" job_instance.sh)
-echo "Job soumis pour 20j_5m : $job_id_20j_5m"
 
-# Soumettre les jobs pour les instances 50j_10m
-job_id_50j_10m=$(sbatch --parsable --export=subdir="50j_10m" job_instance.sh)
-echo "Job soumis pour 50j_10m : $job_id_50j_10m
+# Mapper index → dataset + instance
+if [ $SLURM_ARRAY_TASK_ID -le 10 ]; then
+    SUBDIR=20j_5m
+    INSTANCE_ID=$SLURM_ARRAY_TASK_ID
+else
+    SUBDIR=50j_10m
+    INSTANCE_ID=$((SLURM_ARRAY_TASK_ID - 10))
+fi
 
-#!/bin/bash
+INSTANCE_FILE=instance_${INSTANCE_ID}.csv
 
-# Arguments : instance_id
-python TT_cluster.py $SLURM_ARRAY_TASK_ID $subdir
+if [ -z "$SUBDIR" ] || [ -z "$INSTANCE_FILE" ]; then
+    echo "Erreur: SUBDIR ou INSTANCE_FILE vide"
+    exit 1
+fi
+
+echo "SLURM_ARRAY_TASK_ID=$SLURM_ARRAY_TASK_ID"
+echo "SUBDIR=$SUBDIR"
+echo "INSTANCE_FILE=$INSTANCE_FILE"
+
+python -u CLUSTER.py "$SUBDIR" "$INSTANCE_FILE"

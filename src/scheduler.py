@@ -48,7 +48,7 @@ def compute_objectives(sequence, processing_times, due_dates, weights=None):
 
     # Poids par défaut = 1
     if weights is None:
-        weights = np.ones(n_jobs, dtype=int)
+        wj = np.ones(n_jobs, dtype=int)
 
     # Calcul des completion times
     C = compute_completion_times(sequence, processing_times)
@@ -57,8 +57,8 @@ def compute_objectives(sequence, processing_times, due_dates, weights=None):
     Cj = C[-1]  # shape: (n_jobs,)
 
     # Due dates et poids dans l'ordre de la séquence
-    dj = due_dates[list(sequence)]
-    wj = weights[list(sequence)]
+    dj = due_dates[sequence]
+    wj = weights[sequence]
 
     # Tardiness : T_j = max{0, C_j - d_j}
     Tj = np.maximum(0, Cj - dj)

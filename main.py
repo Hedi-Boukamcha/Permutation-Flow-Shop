@@ -317,7 +317,7 @@ if __name__ == "__main__":
     results_dir_nehedd_it1 = 'results/nehedd_it1'
     results_dir_milp = 'results/milp_tt'
     results_dir_ig = 'resultats/ig_ts_v2'
-    results_dir_heur = 'resultats/my_heuristic'
+    results_dir_heur = 'results/my_heuristic'
 
     print("\n=== DEBUT DU JOB GLOBAL ===", flush=True)
 
@@ -401,7 +401,7 @@ if __name__ == "__main__":
                             # ─────────────────────────────────────────────────────────
                             # EXECUTION ++++++++++++++++++ : Mon Heuristique
                             # ─────────────────────────────────────────────────────────
-                """print(f"[RUN] Heuristic ({obj}) pour {subdir}_{instance_file}", flush=True)
+                print(f"[RUN] Heuristic ({obj}) pour {subdir}_{instance_file}", flush=True)
 
                 heur_file = os.path.join(
                     results_dir_heur,
@@ -414,17 +414,19 @@ if __name__ == "__main__":
                     weights=weights,
                     objective=obj,
                     k=4,
-                    max_iter=5,
+                    max_iter=10,
                     filepath=heur_file,
                     verbose=False
                 )
 
                 heur_results[obj] = heur_result
 
+                print(f"[DEBUG] summary_csv_nehedd = {summary_csv_heur}", flush=True)
+
                 summary_csv_heur = os.path.join(
                     results_dir_heur,
                     subdir,
-                    f"summary_{obj}.csv"
+                    f"summary_heuristic_{obj}.csv"
                 )
 
                 save_summary_result_by_objective(
@@ -433,7 +435,6 @@ if __name__ == "__main__":
                     instance_file,
                     heur_result
                 )
-                print(f"[DEBUG] summary_csv_nehedd = {summary_csv_heur}", flush=True)
 
                 print(
                     f"  {obj} -> TT={heur_result['TT']}, "
@@ -457,13 +458,13 @@ if __name__ == "__main__":
                 print(f"  Séquence heuristique : {[j+1 for j in heur_result['sequence']]}", flush=True)
                 print(f"  TT heuristique : {heur_result['TT']}", flush=True)
                 print(f"  Temps heuristique : {heur_result['time']:.2f}s", flush=True)
-            else:
+            #else:
 
 
                             # ─────────────────────────────────────────────────────────
                             # EXECUTION ++++++++++++++++++ : NEH EDD
                             # ─────────────────────────────────────────────────────────
-                print(f"[RUN] NEHedd ({obj}) pour {subdir}_{instance_file}", flush=True)
+                """print(f"[RUN] NEHedd ({obj}) pour {subdir}_{instance_file}", flush=True)
 
                 
                 nehedd_file = os.path.join(
@@ -502,7 +503,7 @@ if __name__ == "__main__":
                     f"NT={nehedd_result['NT']}, "
                     f"Time={nehedd_result['time']:.2f}s",
                     flush=True
-                )"""
+                )
 
                             # ─────────────────────────────────────────────────────────
                             # EXECUTION ++++++++++++++++++ : NEH EDD IT1
@@ -549,7 +550,7 @@ if __name__ == "__main__":
                     flush=True
                 )                
                 print("\n=== FIN INSTANCE ===", flush=True)             
-
+"""
 #########################################
 
             # ─────────────────────────────────────────────────────────

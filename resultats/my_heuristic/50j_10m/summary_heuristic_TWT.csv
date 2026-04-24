@@ -1,0 +1,4 @@
+subdir,instance,TT,TWT,T_max,NT,time
+50j_10m,instance_1.csv,50334,197321,2565,43,8.4095
+50j_10m,instance_10.csv,49361,191238,2558,43,11.5619
+50j_10m,instance_2.csv,44031,174605,2320,41,11.4937
