@@ -286,3 +286,5 @@ def IG_1F(instance, due_dates, weights=None, objective='TT',
         'time': elapsed,
         'history': history
     }
+
+

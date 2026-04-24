@@ -21,7 +21,9 @@ import numpy as np
 import random
 import time
 
-from src.scheduler import compute_completion_times
+from src.initial_solution import nehedd
+from src.results import save_results
+from src.scheduler import compute_completion_times, compute_objectives
 from src.dd_generator import generate_due_dates_brah, generate_weights
 
 
@@ -40,7 +42,7 @@ def _compute_tt(sequence, pt, due_dates):
 # Initialisation : NEHedd (tri EDD + insertion greedy)
 # ---------------------------------------------------------------------------
 
-def _nehedd_init(pt, due_dates):
+def _nehedd_init(pt, due_dates, weights=None, objective="TT"):
     """NEHedd simple — tri EDD puis insertion meilleure position."""
     n_jobs    = pt.shape[1]
     edd_order = np.argsort(due_dates, kind='stable').tolist()
@@ -65,7 +67,7 @@ def _nehedd_init(pt, due_dates):
 # Recherche locale par insertion (best improvement)
 # ---------------------------------------------------------------------------
 
-def _local_search(sequence, pt, due_dates):
+def _local_search(sequence, pt, due_dates, weights=None, objective="TT"):
     """
     Local search par insertion (best improvement).
     Parcourt tous les jobs, retire chacun et le réinsère à la meilleure position.
@@ -85,7 +87,7 @@ def _local_search(sequence, pt, due_dates):
             local_best_pos = 0
             for pos in range(len(current) + 1):
                 candidate = current[:pos] + [job] + current[pos:]
-                tt = _compute_tt(candidate, pt, due_dates)
+                tt = compute_objectives(candidate, pt, due_dates, weights)[objective]
                 if tt < local_best_tt:
                     local_best_tt  = tt
                     local_best_pos = pos
@@ -116,7 +118,7 @@ def _destruction(sequence, d):
 # Construction (greedy réinsertion)
 # ---------------------------------------------------------------------------
 
-def _construction(remaining, removed, pt, due_dates):
+def _construction(remaining, removed, pt, due_dates, weights=None, objective="TT"):
     """Réinsère les jobs retirés un par un à la meilleure position."""
     seq = list(remaining)
     for job in removed:
@@ -136,8 +138,7 @@ def _construction(remaining, removed, pt, due_dates):
 # TM-IG principal
 # ---------------------------------------------------------------------------
 
-def tmig(instance, due_dates, max_time=5.0, d=4, T_factor=0.4,
-         tabu_size=None, seed=42):
+def tmig(instance, due_dates, weights=None, objective="TT", max_time=5.0, d=4, T_factor=0.4, tabu_size=None, seed=42):
     """
     Tabu Memory based Iterated Greedy (TM-IG).
 
@@ -161,6 +162,16 @@ def tmig(instance, due_dates, max_time=5.0, d=4, T_factor=0.4,
     n_jobs     = instance['n_jobs']
     n_machines = instance['n_machines']
 
+    if weights is None:
+        weights = np.ones(n_jobs, dtype=int)
+    else:
+        weights = np.array(weights, dtype=int)
+
+    if len(weights) != n_jobs:
+        raise ValueError(
+            f"Erreur weights: len(weights)={len(weights)} alors que n_jobs={n_jobs}"
+        )
+
     if tabu_size is None:
         tabu_size = max(1, n_jobs // 2)
 
@@ -168,7 +179,12 @@ def tmig(instance, due_dates, max_time=5.0, d=4, T_factor=0.4,
     temperature = T_factor * pt.sum() / (n_jobs * n_machines)
 
     # ── Initialisation : NEHedd ──────────────────────────
-    current_seq = _nehedd_init(pt, due_dates)
+    current_seq = nehedd(
+        processing_times=pt,
+        due_dates=due_dates,
+        weights=weights,
+        objective=objective
+    )
     current_seq, current_tt = _local_search(current_seq, pt, due_dates)
 
     best_seq = list(current_seq)
@@ -259,3 +275,49 @@ def tmig_wrapper(inst, due_dates):
     elapsed = time.perf_counter() - start
 
     return sequence, 0, elapsed
+
+
+def run_tmig(instance, weights=None, objective="TT", filepath=None):
+    start = time.time()
+
+    pt = instance["processing_times"]
+    due_dates = instance['due_date']
+
+    sequence, best_val = tmig(
+        instance=instance,
+        due_dates=due_dates,
+        weights=weights,
+        objective=objective,
+        max_time=instance["n_jobs"] * instance["n_machines"] * 0.4,
+        d=4,
+        T_factor=0.4,
+        tabu_size=instance["n_jobs"] // 2,
+        seed=42
+    )
+
+    elapsed = time.time() - start
+
+    obj = compute_objectives(
+        sequence=sequence,
+        processing_times=pt,
+        due_dates=due_dates,
+        weights=weights
+    )
+
+    if filepath:
+        save_results(
+            sequence=sequence,
+            processing_times=pt,
+            due_dates=due_dates,
+            weights=weights,
+            filepath=filepath
+        )
+
+    return {
+        "sequence": sequence,
+        "TT": obj["TT"],
+        "TWT": obj["TWT"],
+        "T_max": obj["T_max"],
+        "NT": obj["NT"],
+        "time": elapsed
+    }

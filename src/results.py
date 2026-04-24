@@ -4,9 +4,8 @@ import numpy as np
 from src.scheduler import compute_completion_times, compute_objectives
 
 
-def save_results(sequence, processing_times, due_dates, weights=None,
-                 filepath="resultats/results.csv"):
-    """
+def save_results(sequence, processing_times, due_dates, weights=None, filepath="resultats/results.csv"):
+    """"
     Sauvegarde les résultats détaillés par job dans un fichier CSV.
 
     Colonnes : Job, Due date, Weight, Start M1, Completion Cj, Tardiness, Tardy

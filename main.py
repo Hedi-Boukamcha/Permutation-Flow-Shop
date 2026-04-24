@@ -7,7 +7,7 @@ from src.my_heur import heuristic_due_date_pfsp
 from src.IG_TS_approche_v2 import IG_1F
 from src.NEHedd_TB1 import results_nehedd_it1, run_nehedd_it1
 from src.position_model import solve_milp_cmax
-from src.TM_IG import tmig_wrapper
+from src.TM_IG import run_tmig, tmig_wrapper
 from src.GA_PathR import ga_pr_wrapper
 from src.riahi_IGA import iga_riahi_final, run_on_instances
 from src.NEHedd_FV import nehedd_tbit1, run_nehedd_FV
@@ -317,6 +317,7 @@ if __name__ == "__main__":
     results_dir_nehedd_it1 = 'results/nehedd_it1'
     results_dir_milp = 'results/milp_tt'
     results_dir_ig = 'resultats/ig_ts_v2'
+    results_dir_tmig = 'results/tm_ig'
     results_dir_heur = 'results/my_heuristic'
 
     print("\n=== DEBUT DU JOB GLOBAL ===", flush=True)
@@ -397,11 +398,13 @@ if __name__ == "__main__":
             heur_results = {}
             nehedd_results = {}
             nehedd_it1_results = {}
+            tmig_results = {}
+
             for obj in objectives:
                             # ─────────────────────────────────────────────────────────
                             # EXECUTION ++++++++++++++++++ : Mon Heuristique
                             # ─────────────────────────────────────────────────────────
-                print(f"[RUN] Heuristic ({obj}) pour {subdir}_{instance_file}", flush=True)
+                """print(f"[RUN] Heuristic ({obj}) pour {subdir}_{instance_file}", flush=True)
 
                 heur_file = os.path.join(
                     results_dir_heur,
@@ -449,23 +452,23 @@ if __name__ == "__main__":
                 f"T_max={heur_result['T_max']}, NT={heur_result['NT']}, "
                 f"Time={heur_result['time']:.2f}s", flush=True)
 
-            # si tu veux un résumé séparé pour l’heuristique
-            #save_summary_result_heuristic(summary_csv_heur, subdir, instance_file, heur_result)
-            
-            #print(f"[SAVE] Résumé heuristique mis à jour : {summary_csv_heur}", flush=True)
+                # si tu veux un résumé séparé pour l’heuristique
+                #save_summary_result_heuristic(summary_csv_heur, subdir, instance_file, heur_result)
+                
+                #print(f"[SAVE] Résumé heuristique mis à jour : {summary_csv_heur}", flush=True)
 
-            if heur_result and heur_result["sequence"]:
-                print(f"  Séquence heuristique : {[j+1 for j in heur_result['sequence']]}", flush=True)
-                print(f"  TT heuristique : {heur_result['TT']}", flush=True)
-                print(f"  Temps heuristique : {heur_result['time']:.2f}s", flush=True)
-            #else:
-
+                if heur_result and heur_result["sequence"]:
+                    print(f"  Séquence heuristique : {[j+1 for j in heur_result['sequence']]}", flush=True)
+                    print(f"  TT heuristique : {heur_result['TT']}", flush=True)
+                    print(f"  Temps heuristique : {heur_result['time']:.2f}s", flush=True)
+                #else:
+                """
 
                             # ─────────────────────────────────────────────────────────
                             # EXECUTION ++++++++++++++++++ : NEH EDD
                             # ─────────────────────────────────────────────────────────
-                """print(f"[RUN] NEHedd ({obj}) pour {subdir}_{instance_file}", flush=True)
-
+                """
+                print(f"[RUN] NEHedd ({obj}) pour {subdir}_{instance_file}", flush=True)
                 
                 nehedd_file = os.path.join(
                     results_dir_nehedd,
@@ -551,6 +554,50 @@ if __name__ == "__main__":
                 )                
                 print("\n=== FIN INSTANCE ===", flush=True)             
 """
+
+                            # ─────────────────────────────────────────────────────────
+                            # EXECUTION ++++++++++++++++++ : TM_IG tabu mem + IG
+                            # ─────────────────────────────────────────────────────────
+
+                print(f"[RUN] TM-IG ({obj}) pour {subdir}_{instance_file}", flush=True)
+
+                tmig_file = os.path.join(
+                    results_dir_tmig,
+                    subdir,
+                    f"{instance_name}_{obj}.csv"
+                )
+
+                tmig_result = run_tmig(
+                    instance=instance,
+                    weights=weights,
+                    objective=obj,
+                    filepath=tmig_file
+                )
+
+                tmig_results[obj] = tmig_result
+
+                summary_csv_tmig = os.path.join(
+                    results_dir_tmig,
+                    subdir,
+                    f"summary_{obj}.csv"
+                )
+
+                save_summary_result_by_objective(
+                    summary_csv_tmig,
+                    subdir,
+                    instance_file,
+                    tmig_result
+                )
+
+                print(
+                    f"  {obj} -> TT={tmig_result['TT']}, "
+                    f"TWT={tmig_result['TWT']}, "
+                    f"T_max={tmig_result['T_max']}, "
+                    f"NT={tmig_result['NT']}, "
+                    f"Time={tmig_result['time']:.2f}s",
+                    flush=True
+                )
+
 #########################################
 
             # ─────────────────────────────────────────────────────────
@@ -591,91 +638,6 @@ for obj in objectives:
     print(f"  NT   = {result_ig['NT']}")
     print(f"  Temps = {result_ig['time']:.2f}s")"""
 
-# ─────────────────────────────────────────────────────────
-# EXECUTION 3 : NEHedd_IT1 
-# ─────────────────────────────────────────────────────────
 
-"""print(f"\nExécution de NEHedd_IT1 pour l'instance {subdir}_{instance_file}")
-sequence, total_ties, elapsed = NEHedd_IT1(instance, due_dates)
-print(f"  Séquence : {[j+1 for j in sequence]}")
-print(f"  Total ties : {total_ties}")
-print(f"  Temps d'exécution : {elapsed:.2f}s")"""
-
-
-
-
-
-
-
-
-
-""" 
-
-# ── Charger une instance ────────────────────────────────
-inst      = datasets["tai20j_5m"][0]
-pt        = inst['processing_times']
-due_dates = generate_due_dates_brah(inst, tau=2)
-weights   = generate_weights(inst)
-n_jobs    = inst['n_jobs']
-
-sequence = nehedd(pt, due_dates, weights, objective='TT')
-print(f"Séquence initiale : {[j+1 for j in sequence]}")
-
-# ── Test destruction ────────────────────────────────────
-partial_seq, removed = destruction(
-sequence         = sequence,
-processing_times = pt,
-due_dates        = due_dates,
-weights          = weights,
-k                = 4,
-objective        = 'TT'
-)
-print(f"Séquence partielle : {[j+1 for j in partial_seq]}")
-print(f"Jobs retirés       : {[j+1 for j in removed]}")
-
-# ── Test reconstruction ─────────────────────────────────
-new_seq = reconstruction(
-partial_sequence = partial_seq,
-removed_jobs     = removed,
-processing_times = pt,
-due_dates        = due_dates,
-weights          = weights,
-objective        = 'TT'
-)
-print(f"Séquence reconstruite : {[j+1 for j in new_seq]}")
-
-# ── Comparer avant/après ────────────────────────────────
-obj_avant = compute_objectives(sequence, pt, due_dates, weights)
-obj_apres = compute_objectives(new_seq,  pt, due_dates, weights)
-
-print(f"\n{'='*40}")
-print(f"{'':15} {'Avant':>10} {'Après':>10}")
-print(f"{'='*40}")
-print(f"{'TT':15} {obj_avant['TT']:>10} {obj_apres['TT']:>10}")
-print(f"{'TWT':15} {obj_avant['TWT']:>10} {obj_apres['TWT']:>10}")
-print(f"{'T_max':15} {obj_avant['T_max']:>10} {obj_apres['T_max']:>10}")
-print(f"{'NT':15} {obj_avant['NT']:>10} {obj_apres['NT']:>10}")
-print(f"{'='*40}")
-
-for objective in ['TT', 'TWT', 'T_max', 'NT']:
-print(f"\n{'='*40}")
-print(f"Objectif : {objective}")
-
-best_seq, best_val, history = IG(
-processing_times = pt,
-due_dates        = due_dates,
-weights          = weights,
-objective        = objective,
-k                = 4,
-max_iter         = 100,
-filepath         = f"resultats/ig/20j_5m/instance_1_{objective}.csv"
-)
-
-obj = compute_objectives(best_seq, pt, due_dates, weights)
-print(f"  Séquence : {[j+1 for j in best_seq]}")
-print(f"  TT       : {obj['TT']}")
-print(f"  TWT      : {obj['TWT']}")
-print(f"  T_max    : {obj['T_max']}")
-print(f"  NT       : {obj['NT']}")"""
  
 

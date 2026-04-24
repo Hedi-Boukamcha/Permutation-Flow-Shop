@@ -195,6 +195,7 @@ def results_nehedd_it1(instances_dir, output_dir='./results'):
             writer.writeheader()
             writer.writerows(results)
 
+
 def run_nehedd_it1(instance, weights=None, objective='TT', filepath=None):
     pt = instance['processing_times']
     due_dates = instance['due_date']

@@ -49,6 +49,8 @@ def compute_objectives(sequence, processing_times, due_dates, weights=None):
     # Poids par défaut = 1
     if weights is None:
         wj = np.ones(n_jobs, dtype=int)
+    else:
+        weights = np.array(weights, dtype=int)
 
     # Calcul des completion times
     C = compute_completion_times(sequence, processing_times)
