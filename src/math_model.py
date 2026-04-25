@@ -47,10 +47,10 @@ def solve_milp_tt(processing_times, due_dates, time_limit,
         for i in range(n_machines):
             S[j, i] = model.NewIntVar(0, horizon, f"S_{j}_{i}")
 
-    # Pré-calcul des due dates moins la somme des processing times pour chaque job
+    """# Pré-calcul des due dates moins la somme des processing times pour chaque job
     dds = {}
     for j in range(n_jobs):
-        dds[j] = due_dates[j] - sum(processing_times[i][j] for i in range(n_machines))
+        dds[j] = due_dates[j] - sum(processing_times[i][j] for i in range(n_machines))"""
     #
     """for j in range(n_jobs):
         for k in range(j + 1, n_jobs):
@@ -97,10 +97,7 @@ def solve_milp_tt(processing_times, due_dates, time_limit,
             if (j, k) in x:
                 model.Add(x[j, k] == 1).OnlyEnforceIf(x[j, k])
                 model.Add(x[j, k] == 0).OnlyEnforceIf(x[j, k].Not())"""
-    for j in range(n_jobs):
-        for k in range(j+1, n_jobs):
-            if dds[k] < dds[j]:
-                model.Add(x[j, k] == 0)
+
     # (2) S_ji ≥ S_j,i-1 + p_j,i-1
      # (2) S_ji ≥ S_j,i-1 + p_j,i-1
     for j in range(n_jobs):

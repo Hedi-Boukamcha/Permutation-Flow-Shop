@@ -361,7 +361,7 @@ if __name__ == "__main__":
             # ─────────────────────────────────────────────────────────
             # EXECUTION 1 : Modele Math
             # ─────────────────────────────────────────────────────────
-            """print(f"[RUN] MILP (OR-Tools) pour {subdir}_{instance_file}", flush=True)
+            print(f"[RUN] MILP (OR-Tools) pour {subdir}_{instance_file}", flush=True)
 
             result_file = os.path.join(results_dir_milp, subdir, instance_file)
 
@@ -388,7 +388,7 @@ if __name__ == "__main__":
 
             print("\n=== FIN DU JOB GLOBAL ===", flush=True)
 
-            """
+            
 
             summary_csv_heur = os.path.join(results_dir_heur, "summary_heuristic.csv")
             summary_csv_nehedd = os.path.join(results_dir_nehedd, "summary_nehedd.csv")
@@ -559,7 +559,7 @@ if __name__ == "__main__":
                             # ─────────────────────────────────────────────────────────
 
 
-                print(f"[RUN] NEHedd_IT1 ({obj}) pour {subdir}_{instance_file}", flush=True)
+                """print(f"[RUN] NEHedd_IT1 ({obj}) pour {subdir}_{instance_file}", flush=True)
 
                 nehedd_it1_file = os.path.join(
                     results_dir_nehedd_it1,
@@ -615,7 +615,7 @@ if __name__ == "__main__":
                     f"Time={result_it1['time']:.2f}s, "
                     f"Ties={result_it1['total_ties']}",
                     flush=True
-                )                
+                )"""                
                 print("\n=== FIN INSTANCE ===", flush=True)             
 
 
