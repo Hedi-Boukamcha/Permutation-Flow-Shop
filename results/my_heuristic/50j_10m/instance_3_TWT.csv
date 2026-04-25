@@ -55,7 +55,7 @@ TT,TWT,T_max,NT
 
 Metric,Value
 Objective optimized,TWT
-Runtime (s),8.20789909362793
+Runtime (s),8.40919280052185
 Iterations,10
 k,4
 Seed,42

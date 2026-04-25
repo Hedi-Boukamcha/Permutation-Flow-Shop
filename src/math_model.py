@@ -8,7 +8,7 @@ from src.scheduler import compute_objectives
 from src.initial_solution import nehedd
 
 def solve_milp_tt(processing_times, due_dates, time_limit,
-                  filepath=None, instance_name=None, use_heuristic=True):
+                  filepath=None, instance_name=None, use_heuristic=None):
     """
     Résout le PFSP avec OR-Tools (CP-SAT).
     Minimise le Total Tardiness (TT).
@@ -130,6 +130,18 @@ def solve_milp_tt(processing_times, due_dates, time_limit,
     for j in range(n_jobs):
         model.Add(C[j] >= sum(processing_times[i][j] for i in range(n_machines)))
     
+    intervals = {}
+    for j in range(n_jobs):
+        for i in range(n_machines):
+            intervals[j, i] = model.NewIntervalVar(
+                S[j, i],
+                int(processing_times[i][j]),
+                S[j, i] + int(processing_times[i][j]),
+                f"I_{j}_{i}"
+            )
+    for i in range(n_machines):
+        model.AddNoOverlap([intervals[j, i] for j in range(n_jobs)])
+    
     #
     sequence_vars = [x[j,k] for j in range(n_jobs) for k in range(j+1, n_jobs) if (j,k) in x]
     model.AddDecisionStrategy(sequence_vars, cp_model.CHOOSE_FIRST, cp_model.SELECT_MIN_VALUE)
@@ -178,7 +190,6 @@ def solve_milp_tt(processing_times, due_dates, time_limit,
     solver.parameters.num_search_workers = 16
     solver.parameters.log_search_progress = True
     solver.parameters.log_to_stdout = True
-    solver.parameters.relative_gap_limit = 0.01
 
     # ─────────────────────────────────────────────────────
     # RÉSOLUTION
@@ -229,7 +240,9 @@ def solve_milp_tt(processing_times, due_dates, time_limit,
         result_table = []
         result_table.append(["Job", "Due date", "Start M1", "Completion Cj", "Tardiness", "Tardy"])
 
-        for d in job_details:
+        details_by_job = {d["job"] - 1: d for d in job_details}
+        for j in sequence:
+            d = details_by_job[j]
             result_table.append([
                 d['job'],
                 d['due_date'],
@@ -237,7 +250,7 @@ def solve_milp_tt(processing_times, due_dates, time_limit,
                 d['cj'],
                 d['tj'],
                 d['tardy']
-            ])
+            ])  
 
         result_table.append(["", "", "", "", "", ""])
         result_table.append(["Status", "TT", "Temps (s)", "Gap (%)", "BestBound", "Objective"])

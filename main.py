@@ -1,8 +1,10 @@
 import csv
+import logging
 import os
 import sys
 import time
 import numpy as np
+from src.m import solve
 from src.my_heur import heuristic_due_date_pfsp
 from src.IG_TS_approche_v2 import IG_1F
 from src.NEHedd_TB1 import results_nehedd_it1, run_nehedd_it1
@@ -48,11 +50,14 @@ def save_summary_result(summary_csv, dataset_name, instance_file, result):
             instance_file,
             result["status"],
             result["TT"],
-            f"{result['time']:.4f}" if result["time"] != "" else "",
-            f"{result['gap']:.2f}" if result["gap"] != "" else "",
+            #f"{result['time']:.4f}" if result["time"] != "" else "",
+            f"{result['time']:.4f}" if result["time"] is not None else "",
+            #f"{result['gap']:.2f}" if result["gap"] != "" else "",
+            f"{result['gap']:.2f}" if result["gap"] is not None else "",
             result["best_bound"],
             result["objective_value"],
-            " ".join(str(j + 1) for j in result["sequence"]) if result["sequence"] else ""
+            #" ".join(str(j + 1) for j in result["sequence"]) if result["sequence"] else ""
+            " ".join(str(j + 1) for j in result["sequence"]) if result["sequence"] is not None else ""
         ])
 
         f.flush()
@@ -316,6 +321,7 @@ if __name__ == "__main__":
     results_dir_nehedd = 'resultats/nehedd'
     results_dir_nehedd_it1 = 'results/nehedd_it1'
     results_dir_milp = 'results/milp_tt'
+    results_dir_m = 'results/m_tt'
     results_dir_ig = 'resultats/ig_ts_v2'
     results_dir_tmig = 'results/tm_ig'
     results_dir_heur = 'results/my_heuristic'
@@ -349,23 +355,23 @@ if __name__ == "__main__":
             instance = load_instance(instance_path)
 ###########################################################
 
-            """pt = instance['processing_times']
+            pt = instance['processing_times']
             due_date = instance['due_date']
 
             # ─────────────────────────────────────────────────────────
             # EXECUTION 1 : Modele Math
             # ─────────────────────────────────────────────────────────
-            print(f"[RUN] MILP (OR-Tools) pour {subdir}_{instance_file}", flush=True)
+            """print(f"[RUN] MILP (OR-Tools) pour {subdir}_{instance_file}", flush=True)
 
             result_file = os.path.join(results_dir_milp, subdir, instance_file)
 
             result = solve_milp_tt(
                 pt,
                 due_date,
-                time_limit=3600,
+                time_limit=600,
                 filepath=result_file,
                 instance_name=f"{subdir}/{instance_file}",
-                use_heuristic=True
+                use_heuristic=None
             )
 
             # sauvegarde immédiate dans le résumé global
@@ -380,8 +386,9 @@ if __name__ == "__main__":
             else:
                 print("  Pas de solution trouvée", flush=True)
 
-            print("\n=== FIN DU JOB GLOBAL ===", flush=True)"""
+            print("\n=== FIN DU JOB GLOBAL ===", flush=True)
 
+            """
 
             summary_csv_heur = os.path.join(results_dir_heur, "summary_heuristic.csv")
             summary_csv_nehedd = os.path.join(results_dir_nehedd, "summary_nehedd.csv")
@@ -399,12 +406,13 @@ if __name__ == "__main__":
             nehedd_results = {}
             nehedd_it1_results = {}
             tmig_results = {}
+            
 
             for obj in objectives:
                             # ─────────────────────────────────────────────────────────
                             # EXECUTION ++++++++++++++++++ : Mon Heuristique
                             # ─────────────────────────────────────────────────────────
-                """print(f"[RUN] Heuristic ({obj}) pour {subdir}_{instance_file}", flush=True)
+                print(f"[RUN] Heuristic ({obj}) pour {subdir}_{instance_file}", flush=True)
 
                 heur_file = os.path.join(
                     results_dir_heur,
@@ -423,6 +431,24 @@ if __name__ == "__main__":
                 )
 
                 heur_results[obj] = heur_result
+
+                if obj == "TT" and heur_result and heur_result["sequence"]:
+                    gantt_file = os.path.join(
+                        results_dir_heur,
+                        subdir,
+                        "gantts",
+                        f"{instance_name}_TT_gantt.png"
+                    )
+
+                    plot_gantt(
+                        sequence=heur_result["sequence"],
+                        processing_times=instance["processing_times"],
+                        due_dates=due_date,
+                        weights=weights,
+                        objective="TT",
+                        title=f"Gantt - TT - {instance_name}",
+                        filename=gantt_file
+                    )
 
                 print(f"[DEBUG] summary_csv_nehedd = {summary_csv_heur}", flush=True)
 
@@ -462,13 +488,15 @@ if __name__ == "__main__":
                     print(f"  TT heuristique : {heur_result['TT']}", flush=True)
                     print(f"  Temps heuristique : {heur_result['time']:.2f}s", flush=True)
                 #else:
-                """
+
+
+                
 
                             # ─────────────────────────────────────────────────────────
                             # EXECUTION ++++++++++++++++++ : NEH EDD
                             # ─────────────────────────────────────────────────────────
-                """
-                print(f"[RUN] NEHedd ({obj}) pour {subdir}_{instance_file}", flush=True)
+            
+                """print(f"[RUN] NEHedd ({obj}) pour {subdir}_{instance_file}", flush=True)
                 
                 nehedd_file = os.path.join(
                     results_dir_nehedd,
@@ -483,6 +511,24 @@ if __name__ == "__main__":
                     objective=obj,
                     filepath=nehedd_file
                 )
+
+                if obj == "TT" and nehedd_result and nehedd_result["sequence"]:
+                    gantt_file = os.path.join(
+                        results_dir_nehedd_it1,
+                        subdir,
+                        "gantts",
+                        f"{instance_name}_TT_gantt.png"
+                    )
+
+                    plot_gantt(
+                        sequence=nehedd_result["sequence"],
+                        processing_times=instance["processing_times"],
+                        due_dates=due_date,
+                        weights=weights,
+                        objective="TT",
+                        title=f"Gantt - TT - {instance_name}",
+                        filename=gantt_file
+                    )
 
                 summary_csv_nehedd = os.path.join(
                     results_dir_nehedd,
@@ -506,14 +552,14 @@ if __name__ == "__main__":
                     f"NT={nehedd_result['NT']}, "
                     f"Time={nehedd_result['time']:.2f}s",
                     flush=True
-                )
+                )"""
 
                             # ─────────────────────────────────────────────────────────
                             # EXECUTION ++++++++++++++++++ : NEH EDD IT1
                             # ─────────────────────────────────────────────────────────
 
 
-                print(f"[RUN] NEHedd_IT1 ({obj}) pour {subdir}_{instance_file}", flush=True)
+                """print(f"[RUN] NEHedd_IT1 ({obj}) pour {subdir}_{instance_file}", flush=True)
 
                 nehedd_it1_file = os.path.join(
                     results_dir_nehedd_it1,
@@ -551,15 +597,15 @@ if __name__ == "__main__":
                     f"Time={result_it1['time']:.2f}s, "
                     f"Ties={result_it1['total_ties']}",
                     flush=True
-                )                
+                )                """
                 print("\n=== FIN INSTANCE ===", flush=True)             
-"""
+
 
                             # ─────────────────────────────────────────────────────────
                             # EXECUTION ++++++++++++++++++ : TM_IG tabu mem + IG
                             # ─────────────────────────────────────────────────────────
 
-                print(f"[RUN] TM-IG ({obj}) pour {subdir}_{instance_file}", flush=True)
+            """print(f"[RUN] TM-IG ({obj}) pour {subdir}_{instance_file}", flush=True)
 
                 tmig_file = os.path.join(
                     results_dir_tmig,
@@ -596,7 +642,7 @@ if __name__ == "__main__":
                     f"NT={tmig_result['NT']}, "
                     f"Time={tmig_result['time']:.2f}s",
                     flush=True
-                )
+                )"""
 
 #########################################
 

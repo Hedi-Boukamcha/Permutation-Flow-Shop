@@ -29,108 +29,164 @@ def generate_colors(n_jobs, seed=42):
     return colors
 
 
-def plot_gantt(sequence, processing_times, due_dates, weights=None, title="Gantt Chart", filename="gantt.png"):
+def plot_gantt(
+    sequence,
+    processing_times,
+    due_dates=None,
+    weights=None,
+    objective="TT",
+    title=None,
+    filename="gantt.png"
+):
+    """
+    Gantt générique pour toutes les heuristiques.
+    Affiche pour chaque opération :
+    - le job
+    - la date de début
+    - la date de fin Cij
+
+    sequence : liste des jobs indexés à partir de 0
+    processing_times : matrice (n_machines, n_jobs)
+    due_dates : dates dues des jobs
+    objective : TT, TWT, T_max, NT...
+    """
 
     n_machines = processing_times.shape[0]
-    n_jobs     = len(sequence)
+    n_jobs = len(sequence)
 
-    os.makedirs(os.path.dirname(filename), exist_ok=True)
+    output_dir = os.path.dirname(filename)
+    if output_dir:
+        os.makedirs(output_dir, exist_ok=True)
 
-    C      = compute_completion_times(sequence, processing_times)
-    #colors = plt.cm.tab20(np.linspace(0, 1, n_jobs))
+    C = compute_completion_times(sequence, processing_times)
+
+    starts = np.zeros((n_machines, n_jobs), dtype=int)
+
+    for pos in range(n_jobs):
+        for i in range(n_machines):
+            if pos == 0 and i == 0:
+                starts[i, pos] = 0
+            elif i == 0:
+                starts[i, pos] = C[i, pos - 1]
+            elif pos == 0:
+                starts[i, pos] = C[i - 1, pos]
+            else:
+                starts[i, pos] = max(C[i, pos - 1], C[i - 1, pos])
+
     colors = generate_colors(n_jobs, seed=42)
 
-    # Calcul des start times
-    starts = np.zeros((n_machines, n_jobs), dtype=int)
-    for j in range(n_jobs):
+    if title is None:
+        title = f"Gantt Chart - Objective {objective}"
+
+    fig, ax = plt.subplots(figsize=(18, n_machines * 1.6 + 3))
+
+    for pos, job in enumerate(sequence):
         for i in range(n_machines):
-            if j == 0 and i == 0:
-                starts[i][j] = 0
-            elif j == 0:
-                starts[i][j] = C[i-1][j]
-            elif i == 0:
-                starts[i][j] = C[i][j-1]
-            else:
-                starts[i][j] = max(C[i-1][j], C[i][j-1])
-
-    # Completion times de la dernière machine
-    completion_times = C[n_machines-1]  # shape: (n_jobs,)
-
-    fig, ax_gantt = plt.subplots(
-        figsize = (16, n_machines * 1.5 + 3)
-    )
-
-    # ─── Gantt ───────────────────────────────────────────────
-    for j, job in enumerate(sequence):
-        for i in range(n_machines):
-            start    = starts[i][j]
-            end      = C[i][j]
+            start = starts[i, pos]
+            end = C[i, pos]
             duration = end - start
 
-            ax_gantt.barh(
-                y         = i,
-                width     = duration,
-                left      = start,
-                color     = colors[j],
-                edgecolor = 'white',
-                linewidth = 0.8,
-                height    = 0.6
+            ax.barh(
+                y=i,
+                width=duration,
+                left=start,
+                height=0.6,
+                color=colors[pos],
+                edgecolor="white",
+                linewidth=0.8
             )
 
-            # Label job dans le bloc
-            if duration > 10:
-                ax_gantt.text(
-                    x          = start + duration / 2,
-                    y          = i,
-                    s          = f"J{job+1}",
-                    ha         = 'center',
-                    va         = 'center',
-                    fontsize   = 7,
-                    color      = 'white',
-                    fontweight = 'bold'
+            ax.text(
+                x=start + duration / 2,
+                y=i,
+                s=f"J{job + 1}",
+                ha="center",
+                va="center",
+                fontsize=7,
+                color="white",
+                fontweight="bold"
+            )
+
+    # Cj sur la dernière machine
+    last_machine = n_machines - 1
+    completion_times = C[last_machine]
+
+    for pos, job in enumerate(sequence):
+        cj = completion_times[pos]
+
+        ax.axvline(
+            x=cj,
+            color=colors[pos],
+            linestyle=":",
+            linewidth=1,
+            alpha=0.8
+        )
+
+        label = f"C{job + 1}={cj}"
+
+        ax.text(
+            x=cj,
+            y=n_machines + 0.5,
+            s=label,
+            fontsize=6,
+            color=colors[pos],
+            ha="center",
+            va="bottom",
+            rotation=90
+        )
+    # ─── Start times sur chaque machine ─────────────────────
+    for pos, job in enumerate(sequence):
+        for i in range(n_machines):
+
+            start = starts[i][pos]
+
+            ax.axvline(
+                x=start,
+                color=colors[pos],
+                linestyle=':',
+                linewidth=0.5,
+                alpha=0.3
+            )
+
+            # label uniquement pour éviter surcharge (option)
+            if i == 0:  # seulement M1 (sinon trop chargé)
+                ax.text(
+                    x=start,
+                    y=n_machines + 0.1,
+                    s=f"S{job+1}={start}",
+                    fontsize=6,
+                    color=colors[pos],
+                    ha='center',
+                    va='bottom',
+                    rotation=90
                 )
 
-    # Marquer la date de completion de chaque job sur l'axe x
-    for j, job in enumerate(sequence):
-        cj = completion_times[j]
+    ax.set_yticks(range(n_machines))
+    ax.set_yticklabels([f"Machine {i + 1}" for i in range(n_machines)])
+    ax.invert_yaxis()
 
-        # Ligne verticale à la completion time
-        ax_gantt.axvline(
-            x         = cj,
-            color     = colors[j],
-            linestyle = ':',
-            linewidth = 1,
-            alpha     = 0.8
-        )
-
-        # Label C_j sur l'axe x
-        ax_gantt.text(
-            x        = cj,
-            y        = n_machines + 0.1,
-            s        = f"C{job+1}={cj}",
-            fontsize = 6,
-            color    = colors[j],
-            ha       = 'center',
-            va       = 'bottom',
-            rotation = 90
-        )
-
-    # Axes
-    ax_gantt.set_yticks(range(n_machines))
-    ax_gantt.set_yticklabels([f"Machine {i+1}" for i in range(n_machines)])
-    ax_gantt.invert_yaxis()  # Machine 1 en haut
-    ax_gantt.set_xlabel("Time")
-    ax_gantt.set_title(title)
-    ax_gantt.grid(axis='x', linestyle='--', alpha=0.3)
-
-    # Supprimer les ticks x par défaut
-    ax_gantt.set_xticks([])
+    ax.set_xlabel("Temps")
+    ax.set_ylabel("Machines")
+    ax.set_title(title)
+    ax.grid(axis="x", linestyle="--", alpha=0.3)
+    ax.text(
+    x = start + duration / 2,
+    y = i,
+    s = label,
+    ha = 'center',
+    va = 'center',
+    fontsize = 7,
+    color = 'white',
+    fontweight = 'bold'
+    )
 
     plt.tight_layout()
-    plt.savefig(filename, dpi=150, bbox_inches='tight')
+    plt.savefig(filename, dpi=150, bbox_inches="tight")
     plt.close()
-    #print(f"Gantt sauvegardé : {output_path}")
 
+    print(f"Gantt sauvegardé : {filename}")
+
+    
 def compute_all_results(datasets):
     """
     Calcule les résultats pour toutes les méthodes et instances.
