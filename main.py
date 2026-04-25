@@ -412,7 +412,7 @@ if __name__ == "__main__":
                             # ─────────────────────────────────────────────────────────
                             # EXECUTION ++++++++++++++++++ : Mon Heuristique
                             # ─────────────────────────────────────────────────────────
-                print(f"[RUN] Heuristic ({obj}) pour {subdir}_{instance_file}", flush=True)
+                """print(f"[RUN] Heuristic ({obj}) pour {subdir}_{instance_file}", flush=True)
 
                 heur_file = os.path.join(
                     results_dir_heur,
@@ -487,7 +487,7 @@ if __name__ == "__main__":
                     print(f"  Séquence heuristique : {[j+1 for j in heur_result['sequence']]}", flush=True)
                     print(f"  TT heuristique : {heur_result['TT']}", flush=True)
                     print(f"  Temps heuristique : {heur_result['time']:.2f}s", flush=True)
-                #else:
+                #else:"""
 
 
                 
@@ -559,7 +559,7 @@ if __name__ == "__main__":
                             # ─────────────────────────────────────────────────────────
 
 
-                """print(f"[RUN] NEHedd_IT1 ({obj}) pour {subdir}_{instance_file}", flush=True)
+                print(f"[RUN] NEHedd_IT1 ({obj}) pour {subdir}_{instance_file}", flush=True)
 
                 nehedd_it1_file = os.path.join(
                     results_dir_nehedd_it1,
@@ -575,6 +575,24 @@ if __name__ == "__main__":
                 )
 
                 nehedd_it1_results[obj] = result_it1
+
+                if obj == "TT" and result_it1 and result_it1["sequence"]:
+                    gantt_file = os.path.join(
+                        results_dir_nehedd_it1,
+                        subdir,
+                        "gantts",
+                        f"{instance_name}_TT_gantt.png"
+                    )
+
+                    plot_gantt(
+                        sequence=result_it1["sequence"],
+                        processing_times=instance["processing_times"],
+                        due_dates=due_date,
+                        weights=weights,
+                        objective="TT",
+                        title=f"Gantt - TT - {instance_name}",
+                        filename=gantt_file
+                    )
 
                 summary_csv_it1 = os.path.join(
                     results_dir_nehedd_it1,
@@ -597,7 +615,7 @@ if __name__ == "__main__":
                     f"Time={result_it1['time']:.2f}s, "
                     f"Ties={result_it1['total_ties']}",
                     flush=True
-                )                """
+                )                
                 print("\n=== FIN INSTANCE ===", flush=True)             
 
 
