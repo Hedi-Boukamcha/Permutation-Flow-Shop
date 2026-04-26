@@ -361,7 +361,7 @@ if __name__ == "__main__":
             # ─────────────────────────────────────────────────────────
             # EXECUTION 1 : Modele Math
             # ─────────────────────────────────────────────────────────
-            print(f"[RUN] MILP (OR-Tools) pour {subdir}_{instance_file}", flush=True)
+            """print(f"[RUN] MILP (OR-Tools) pour {subdir}_{instance_file}", flush=True)
 
             result_file = os.path.join(results_dir_milp, subdir, instance_file)
 
@@ -386,7 +386,7 @@ if __name__ == "__main__":
             else:
                 print("  Pas de solution trouvée", flush=True)
 
-            print("\n=== FIN DU JOB GLOBAL ===", flush=True)
+            print("\n=== FIN DU JOB GLOBAL ===", flush=True)"""
 
             
 
@@ -623,7 +623,7 @@ if __name__ == "__main__":
                             # EXECUTION ++++++++++++++++++ : TM_IG tabu mem + IG
                             # ─────────────────────────────────────────────────────────
 
-            """print(f"[RUN] TM-IG ({obj}) pour {subdir}_{instance_file}", flush=True)
+                print(f"[RUN] TM-IG ({obj}) pour {subdir}_{instance_file}", flush=True)
 
                 tmig_file = os.path.join(
                     results_dir_tmig,
@@ -631,6 +631,8 @@ if __name__ == "__main__":
                     f"{instance_name}_{obj}.csv"
                 )
 
+                if weights is None:
+                    weights = np.ones(instance["n_jobs"], dtype=int)
                 tmig_result = run_tmig(
                     instance=instance,
                     weights=weights,
@@ -639,6 +641,24 @@ if __name__ == "__main__":
                 )
 
                 tmig_results[obj] = tmig_result
+
+                if obj == "TT" and tmig_result and tmig_result["sequence"]:
+                    gantt_file = os.path.join(
+                        results_dir_tmig,
+                        subdir,
+                        "gantts",
+                        f"{instance_name}_TT_gantt.png"
+                    )
+
+                    plot_gantt(
+                        sequence=tmig_result["sequence"],
+                        processing_times=instance["processing_times"],
+                        due_dates=due_date,
+                        weights=weights,
+                        objective="TT",
+                        title=f"Gantt - TT - {instance_name}",
+                        filename=gantt_file
+                    )
 
                 summary_csv_tmig = os.path.join(
                     results_dir_tmig,
@@ -660,7 +680,7 @@ if __name__ == "__main__":
                     f"NT={tmig_result['NT']}, "
                     f"Time={tmig_result['time']:.2f}s",
                     flush=True
-                )"""
+                )
 
 #########################################
 

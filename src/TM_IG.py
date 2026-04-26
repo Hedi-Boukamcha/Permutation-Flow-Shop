@@ -185,8 +185,7 @@ def tmig(instance, due_dates, weights=None, objective="TT", max_time=5.0, d=4, T
         weights=weights,
         objective=objective
     )
-    current_seq, current_tt = _local_search(current_seq, pt, due_dates)
-
+    current_seq, current_tt = _local_search(current_seq, pt, due_dates, weights, objective)
     best_seq = list(current_seq)
     best_tt  = current_tt
 
@@ -202,10 +201,11 @@ def tmig(instance, due_dates, weights=None, objective="TT", max_time=5.0, d=4, T
         remaining, removed = _destruction(current_seq, d)
 
         # 2. Construction
-        new_seq = _construction(remaining, removed, pt, due_dates)
-
+        new_seq = _construction(remaining, removed, pt, due_dates, weights, objective)
+        
+        new_seq, new_tt = _local_search(new_seq, pt, due_dates, weights, objective)
         # 3. Local search
-        new_seq, new_tt = _local_search(new_seq, pt, due_dates)
+        #new_seq, new_tt = _local_search(new_seq, pt, due_dates)
 
         # 4. Aspiration : accepté même si tabou si c'est le meilleur global
         if new_tt < best_tt:
@@ -281,17 +281,23 @@ def run_tmig(instance, weights=None, objective="TT", filepath=None):
     start = time.time()
 
     pt = instance["processing_times"]
-    due_dates = instance['due_date']
+    due_dates = instance["due_date"]
+    n_jobs = instance["n_jobs"]
+
+    if weights is None:
+        weights = np.ones(n_jobs, dtype=int)
+    else:
+        weights = np.array(weights, dtype=int)
 
     sequence, best_val = tmig(
         instance=instance,
         due_dates=due_dates,
         weights=weights,
         objective=objective,
-        max_time=instance["n_jobs"] * instance["n_machines"] * 0.4,
+        max_time=n_jobs * instance["n_machines"] * 0.4,
         d=4,
         T_factor=0.4,
-        tabu_size=instance["n_jobs"] // 2,
+        tabu_size=n_jobs // 2,
         seed=42
     )
 
