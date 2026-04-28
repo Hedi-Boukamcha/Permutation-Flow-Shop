@@ -138,7 +138,7 @@ def _construction(remaining, removed, pt, due_dates, weights=None, objective="TT
 # TM-IG principal
 # ---------------------------------------------------------------------------
 
-def tmig(instance, due_dates, weights=None, objective="TT", max_time=5.0, d=4, T_factor=0.4, tabu_size=None, seed=42):
+def tmig(instance, due_dates, weights=None, objective="TT", max_time=5.0, d=5, T_factor=0.4, tabu_size=None, seed=42):
     """
     Tabu Memory based Iterated Greedy (TM-IG).
 
@@ -266,7 +266,7 @@ def tmig_wrapper(inst, due_dates):
         instance  = inst,
         due_dates = due_dates,
         max_time  = max_time,
-        d         = 4,
+        d         = 5,
         T_factor  = 0.4,
         tabu_size = n_jobs // 2,
         seed      = 42,

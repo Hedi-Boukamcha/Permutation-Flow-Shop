@@ -420,11 +420,13 @@ if __name__ == "__main__":
                     f"{instance_name}_{obj}.csv"
                 )
 
+                n_jobs = instance['n_jobs']
+                d = n_jobs // 2
                 heur_result = heuristic_due_date_pfsp(
                     instance=instance,
                     weights=weights,
                     objective=obj,
-                    k=4,
+                    d=d,
                     max_iter=10,
                     filepath=heur_file,
                     verbose=False
@@ -486,8 +488,8 @@ if __name__ == "__main__":
                 if heur_result and heur_result["sequence"]:
                     print(f"  Séquence heuristique : {[j+1 for j in heur_result['sequence']]}", flush=True)
                     print(f"  TT heuristique : {heur_result['TT']}", flush=True)
-                    print(f"  Temps heuristique : {heur_result['time']:.2f}s", flush=True)
-                #else:"""
+                    print(f"  Temps heuristique : {heur_result['time']:.2f}s", flush=True)"""
+                #else:
 
 
                 
@@ -633,6 +635,7 @@ if __name__ == "__main__":
 
                 if weights is None:
                     weights = np.ones(instance["n_jobs"], dtype=int)
+                
                 tmig_result = run_tmig(
                     instance=instance,
                     weights=weights,

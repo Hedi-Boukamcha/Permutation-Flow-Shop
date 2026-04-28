@@ -34,7 +34,7 @@ def solve_milp_tt(processing_times, due_dates, time_limit,
         horizontab.append(total)
     horizon =  max(horizontab)
     L =1 * max(horizontab)"""
-    horizon = 2*int(np.sum(processing_times))
+    horizon = int(np.sum(processing_times))
     model  = cp_model.CpModel()
     solver = cp_model.CpSolver()
 
@@ -47,25 +47,6 @@ def solve_milp_tt(processing_times, due_dates, time_limit,
         for i in range(n_machines):
             S[j, i] = model.NewIntVar(0, horizon, f"S_{j}_{i}")
 
-    """# Pré-calcul des due dates moins la somme des processing times pour chaque job
-    dds = {}
-    for j in range(n_jobs):
-        dds[j] = due_dates[j] - sum(processing_times[i][j] for i in range(n_machines))"""
-    #
-    """for j in range(n_jobs):
-        for k in range(j + 1, n_jobs):
-            if due_dates[k] < due_dates[j] and dds[k] <= dds[j]:
-                model.Add(x[j, k] == 0)"""     
-
-    # Création des variables de séquence
-    """x = {}
-    for j in range(n_jobs):
-        for k in range(j+1, n_jobs):
-            if dds[k] < dds[j]:
-                # On ne crée pas x[j,k] car k ne peut pas être séquencé après j
-                continue
-            x[j, k] = model.NewBoolVar(f'x_{j}_{k}')"""
-    
     min_start_m1 = model.NewIntVar(0, horizon, "min_start_m1")
     model.Add(min_start_m1 == 0)
               
@@ -73,11 +54,7 @@ def solve_milp_tt(processing_times, due_dates, time_limit,
     for j in range(n_jobs):
         for k in range(j+1, n_jobs):
             x[j, k] = model.NewBoolVar(f"x_{j}_{k}")
-    #
-    """for j in range(n_jobs):
-        for k in range(j+1, n_jobs):
-            if dds[k] < dds[j]:
-                model.Add(x[j, k] == 0)"""
+
     C = {}
     for j in range(n_jobs):
         C[j] = model.NewIntVar(0, horizon, f"C_{j}")
@@ -92,11 +69,6 @@ def solve_milp_tt(processing_times, due_dates, time_limit,
     # CONTRAINTESdds
     # ─────────────────────────────────────────────────────
     # (1) x_jk = 1 ssi j précède k
-    """for j in range(n_jobs):
-        for k in range(j + 1, n_jobs):
-            if (j, k) in x:
-                model.Add(x[j, k] == 1).OnlyEnforceIf(x[j, k])
-                model.Add(x[j, k] == 0).OnlyEnforceIf(x[j, k].Not())"""
 
     # (2) S_ji ≥ S_j,i-1 + p_j,i-1
      # (2) S_ji ≥ S_j,i-1 + p_j,i-1
