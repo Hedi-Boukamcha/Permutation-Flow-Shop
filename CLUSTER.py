@@ -73,7 +73,7 @@ def run_instance(subdir, instance_file):
         result = solve_milp_tt(
             pt,
             due_dates,
-            time_limit= 24 * 3600,
+            time_limit= 48 * 3600,
             filepath=result_file,
             instance_name=f"{subdir}/{instance_file}"
         )

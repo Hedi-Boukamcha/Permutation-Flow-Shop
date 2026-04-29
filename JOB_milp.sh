@@ -1,8 +1,8 @@
 #!/bin/bash
 #SBATCH --account=def-adhaj
-#SBATCH --time=24:00:00
-#SBATCH --mem=100G
-#SBATCH --cpus-per-task=16
+#SBATCH --time=48:00:00
+#SBATCH --mem=120G
+#SBATCH --cpus-per-task=32
 #SBATCH --array=1-20               # 20 instances en parallèle (10 par taille)
 #SBATCH --output=logs/%A_%a_out.txt
 #SBATCH --error=logs/%A_%a_err.txt

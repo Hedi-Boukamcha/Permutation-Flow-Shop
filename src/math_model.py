@@ -156,7 +156,7 @@ def solve_milp_tt(processing_times, due_dates, time_limit,
     # PARAMÈTRES SOLVEUR
     # ─────────────────────────────────────────────────────
     solver.parameters.max_time_in_seconds = time_limit
-    solver.parameters.num_search_workers = 16
+    solver.parameters.num_search_workers = 32
     solver.parameters.log_search_progress = True
     solver.parameters.log_to_stdout = True
 
