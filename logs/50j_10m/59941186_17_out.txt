@@ -1,0 +1,885 @@
+SLURM_ARRAY_TASK_ID=17
+SUBDIR=50j_10m
+INSTANCE_FILE=instance_7.csv
+============================================================
+Dataset  : 50j_10m
+Instance : instance_7.csv
+============================================================
+[LOAD] Chargement de data/instances/50j_10m/instance_7.csv
+[RUN] Résolution MILP...
+
+Starting CP-SAT solver v9.14.6206
+Parameters: max_time_in_seconds: 86400 log_search_progress: true num_search_workers: 16 log_to_stdout: true
+
+Initial optimization model '': (model_fingerprint: 0xf9c69285c48eb93b)
+Search strategy: on 1225 variables, CHOOSE_FIRST, SELECT_MIN_VALUE
+#Variables: 1'826 (#ints: 50 in objective) (1'725 primary variables)
+  - 1'225 Booleans in [0,1]
+  - 601 in [0,50368]
+#kInterval: 500
+#kLinMax: 1 (#expressions: 50)
+#kLinear1: 101
+#kLinear2: 25'050 (#enforced: 24'500)
+#kNoOverlap: 10 (#intervals: 500)
+
+Starting presolve at 0.03s
+  4.12e-03s  0.00e+00d  [DetectDominanceRelations] 
+  2.80e-01s  0.00e+00d  [PresolveToFixPoint] #num_loops=12 #num_dual_strengthening=2 
+  2.58e-04s  0.00e+00d  [ExtractEncodingFromLinear] 
+  1.27e-03s  0.00e+00d  [DetectDuplicateColumns] 
+  8.78e-04s  0.00e+00d  [DetectDuplicateConstraints] 
+[Symmetry] Graph for symmetry has 29'162 nodes and 77'375 arcs.
+[Symmetry] Symmetry computation done. time: 0.0037738 dtime: 0.00404081
+  9.89e-04s  0.00e+00d  [DetectDuplicateConstraintsWithDifferentEnforcements] 
+  3.05e-01s  2.43e-02d  [Probe] #probed=2'450 
+  7.43e-05s  0.00e+00d  [MaxClique] 
+  3.59e-03s  0.00e+00d  [DetectDominanceRelations] 
+  4.54e-02s  0.00e+00d  [PresolveToFixPoint] #num_loops=1 #num_dual_strengthening=1 
+  6.09e-03s  0.00e+00d  [ProcessAtMostOneAndLinear] 
+  8.94e-04s  0.00e+00d  [DetectDuplicateConstraints] 
+  8.68e-04s  0.00e+00d  [DetectDuplicateConstraintsWithDifferentEnforcements] 
+  3.42e-04s  3.00e-06d  [DetectDominatedLinearConstraints] #relevant_constraints=500 
+  5.99e-03s  0.00e+00d  [DetectDifferentVariables] 
+  1.04e-04s  0.00e+00d  [ProcessSetPPC] 
+  1.16e-04s  0.00e+00d  [FindAlmostIdenticalLinearConstraints] 
+  6.39e-05s  0.00e+00d  [FindBigAtMostOneAndLinearOverlap] 
+  4.67e-03s  1.99e-03d  [FindBigVerticalLinearOverlap] 
+  8.33e-05s  0.00e+00d  [FindBigHorizontalLinearOverlap] 
+  6.95e-05s  0.00e+00d  [MergeClauses] 
+  3.57e-03s  0.00e+00d  [DetectDominanceRelations] 
+  4.52e-02s  0.00e+00d  [PresolveToFixPoint] #num_loops=1 #num_dual_strengthening=1 
+  3.54e-03s  0.00e+00d  [DetectDominanceRelations] 
+  4.48e-02s  0.00e+00d  [PresolveToFixPoint] #num_loops=1 #num_dual_strengthening=1 
+  9.01e-04s  0.00e+00d  [DetectDuplicateColumns] 
+  9.10e-04s  0.00e+00d  [DetectDuplicateConstraints] 
+[Symmetry] Graph for symmetry has 29'162 nodes and 77'375 arcs.
+[Symmetry] Symmetry computation done. time: 0.00285816 dtime: 0.00404081
+  9.88e-04s  0.00e+00d  [DetectDuplicateConstraintsWithDifferentEnforcements] 
+  3.01e-01s  2.43e-02d  [Probe] #probed=2'450 
+  5.85e-05s  0.00e+00d  [MaxClique] 
+  3.55e-03s  0.00e+00d  [DetectDominanceRelations] 
+  4.50e-02s  0.00e+00d  [PresolveToFixPoint] #num_loops=1 #num_dual_strengthening=1 
+  6.15e-03s  0.00e+00d  [ProcessAtMostOneAndLinear] 
+  8.80e-04s  0.00e+00d  [DetectDuplicateConstraints] 
+  8.69e-04s  0.00e+00d  [DetectDuplicateConstraintsWithDifferentEnforcements] 
+  1.91e-04s  3.00e-06d  [DetectDominatedLinearConstraints] #relevant_constraints=500 
+  6.07e-03s  0.00e+00d  [DetectDifferentVariables] 
+  9.53e-05s  0.00e+00d  [ProcessSetPPC] 
+  1.15e-04s  0.00e+00d  [FindAlmostIdenticalLinearConstraints] 
+  6.40e-05s  0.00e+00d  [FindBigAtMostOneAndLinearOverlap] 
+  4.46e-03s  1.99e-03d  [FindBigVerticalLinearOverlap] 
+  7.92e-05s  0.00e+00d  [FindBigHorizontalLinearOverlap] 
+  6.50e-05s  0.00e+00d  [MergeClauses] 
+  3.56e-03s  0.00e+00d  [DetectDominanceRelations] 
+  4.49e-02s  0.00e+00d  [PresolveToFixPoint] #num_loops=1 #num_dual_strengthening=1 
+  2.85e-04s  0.00e+00d  [ExpandObjective] 
+
+Presolve summary:
+  - 50 affine relations were detected.
+  - rule 'TODO dual: only one blocking constraint?' was applied 350 times.
+  - rule 'TODO dual: only one unspecified blocking constraint?' was applied 350 times.
+  - rule 'affine: new relation' was applied 50 times.
+  - rule 'deductions: 42225 stored' was applied 1 time.
+  - rule 'dual: reduced domain' was applied 50 times.
+  - rule 'linear1: x in domain' was applied 51 times.
+  - rule 'linear: always true' was applied 50 times.
+  - rule 'linear: reduced variable domains' was applied 2'750 times.
+  - rule 'linear: remapped using affine relations' was applied 50 times.
+  - rule 'presolve: 1 unused variables removed.' was applied 1 time.
+  - rule 'presolve: iteration' was applied 2 times.
+
+Presolved optimization model '': (model_fingerprint: 0xec9b85e3a8d8f96)
+Search strategy: on 1225 variables, CHOOSE_FIRST, SELECT_MIN_VALUE
+#Variables: 1'775 (#ints: 50 in objective) (1'725 primary variables)
+  - 1'225 Booleans in [0,1]
+  - 538 different domains in [0,50367] with a largest complexity of 1.
+#kInterval: 500
+#kLinMax: 1 (#expressions: 50)
+#kLinear2: 25'000 (#enforced: 24'500)
+#kNoOverlap: 10 (#intervals: 500)
+[Symmetry] Graph for symmetry has 29'111 nodes and 77'375 arcs.
+[Symmetry] Symmetry computation done. time: 0.00258021 dtime: 0.00403775
+
+Preloading model.
+#Bound   1.27s best:inf   next:[0,2468032] initial_domain
+#Model   1.28s var:1775/1775 constraints:25511/25511
+
+Starting search at 1.28s with 16 workers.
+11 full problem subsolvers: [core, default_lp, fixed, lb_tree_search, max_lp, no_lp, probing, pseudo_costs, quick_restart, quick_restart_no_lp, reduced_costs]
+5 first solution subsolvers: [fj(2), fs_random, fs_random_no_lp, fs_random_quick_restart_no_lp]
+15 interleaved subsolvers: [feasibility_pump, graph_arc_lns, graph_cst_lns, graph_dec_lns, graph_var_lns, lb_relax_lns, ls, ls_lin, rins/rens, rnd_cst_lns, rnd_var_lns, scheduling_intervals_lns, scheduling_precedences_lns, scheduling_resource_windows_lns, scheduling_time_window_lns]
+3 helper subsolvers: [neighborhood_helper, synchronization_agent, update_gap_integral]
+
+#1       1.97s best:63919 next:[0,63918]  fs_random_no_lp
+#2       2.17s best:63865 next:[0,63864]  graph_dec_lns (d=5.00e-01 s=50 t=0.10 p=0.00 stall=0 h=base)
+#3       2.67s best:63163 next:[0,63162]  no_lp
+#Bound   2.67s best:63163 next:[19147,63162] max_lp
+#Bound   2.79s best:63163 next:[26289,63162] max_lp
+#4       2.90s best:62497 next:[26289,62496] default_lp
+#Bound   3.02s best:62497 next:[27064,62496] max_lp
+#5       3.18s best:62485 next:[27064,62484] no_lp
+#Bound   3.30s best:62485 next:[28052,62484] max_lp
+#6       3.74s best:62433 next:[28052,62432] graph_cst_lns (d=7.07e-01 s=62 t=0.10 p=1.00 stall=1 h=base)
+#7       3.74s best:61590 next:[28052,61589] ls_restart_decay(batch:1 lin{mvs:18 evals:349} #w_updates:0 #perturb:0)
+#8       3.75s best:61585 next:[28052,61584] ls_lin_restart_perturb(batch:1 lin{mvs:18 evals:264} #w_updates:12 #perturb:0)
+#Bound   3.94s best:61585 next:[28250,61584] max_lp
+#9       4.17s best:61422 next:[28250,61421] no_lp
+#10      4.26s best:61407 next:[28250,61406] no_lp
+#11      4.42s best:61175 next:[28250,61174] no_lp
+#12      4.51s best:61108 next:[28250,61107] no_lp
+#13      4.61s best:61103 next:[28250,61102] no_lp
+#14      4.73s best:61010 next:[28250,61009] default_lp
+#15      4.83s best:61002 next:[28250,61001] default_lp
+#16      4.93s best:60994 next:[28250,60993] default_lp
+#17      4.95s best:60468 next:[28250,60467] graph_var_lns (d=8.14e-01 s=69 t=0.10 p=1.00 stall=2 h=base)
+#18      5.28s best:58321 next:[28250,58320] rnd_var_lns (d=8.76e-01 s=71 t=0.10 p=1.00 stall=3 h=base)
+#19      5.29s best:58014 next:[28250,58013] ls_restart_decay(batch:1 lin{mvs:7 evals:238} #w_updates:0 #perturb:0)
+#20      5.29s best:58012 next:[28250,58011] ls_lin_restart_compound_perturb(batch:1 lin{mvs:0 evals:290} gen{mvs:77 evals:67} comp{mvs:25 btracks:26} #w_updates:0 #perturb:0)
+#21      6.29s best:57997 next:[28250,57996] rnd_cst_lns (d=8.14e-01 s=74 t=0.10 p=1.00 stall=2 h=base)
+#22      6.29s best:57962 next:[28250,57961] ls_restart_perturb(batch:1 lin{mvs:6 evals:208} #w_updates:0 #perturb:0)
+#23      6.30s best:57961 next:[28250,57960] ls_lin_restart_decay(batch:1 lin{mvs:6 evals:64} #w_updates:4 #perturb:0)
+#Bound   6.88s best:57961 next:[28298,57960] lb_tree_search
+#24      6.94s best:57959 next:[28298,57958] ls_restart_compound(batch:1 lin{mvs:0 evals:156} gen{mvs:19 evals:12} comp{mvs:7 btracks:6} #w_updates:0 #perturb:0)
+#25      6.94s best:57921 next:[28298,57920] ls_lin_restart_decay_compound(batch:1 lin{mvs:0 evals:81} gen{mvs:4 evals:2} comp{mvs:4 btracks:0} #w_updates:0 #perturb:0)
+#26      6.94s best:57917 next:[28298,57916] ls_restart_decay_compound(batch:1 lin{mvs:0 evals:130} gen{mvs:11 evals:8} comp{mvs:11 btracks:0} #w_updates:0 #perturb:0)
+#27      6.95s best:57916 next:[28298,57915] ls_lin_restart_compound_perturb(batch:1 lin{mvs:0 evals:162} gen{mvs:36 evals:31} comp{mvs:6 btracks:15} #w_updates:0 #perturb:0)
+#28      6.97s best:57915 next:[28298,57914] ls_restart_decay_compound(batch:1 lin{mvs:0 evals:279} gen{mvs:85 evals:57} comp{mvs:7 btracks:39} #w_updates:0 #perturb:0)
+#29      6.97s best:57914 next:[28298,57913] ls_lin_restart_decay(batch:1 lin{mvs:14 evals:122} #w_updates:6 #perturb:0)
+#30      6.99s best:57913 next:[28298,57912] ls_restart(batch:1 lin{mvs:78 evals:449} #w_updates:74 #perturb:0)
+#31      6.99s best:57910 next:[28298,57909] ls_lin_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:184} gen{mvs:40 evals:23} comp{mvs:10 btracks:15} #w_updates:0 #perturb:0)
+#32      7.38s best:57609 next:[28298,57608] rnd_var_lns (d=9.14e-01 s=78 t=0.10 p=1.00 stall=0 h=base)
+#33      7.38s best:57564 next:[28298,57563] rnd_var_lns (d=9.14e-01 s=78 t=0.10 p=1.00 stall=0 h=base) [combined with: ls_lin_restart_decay...]
+#34      7.39s best:57480 next:[28298,57479] ls_restart(batch:1 lin{mvs:6 evals:205} #w_updates:0 #perturb:0)
+#35      7.39s best:57479 next:[28298,57478] ls_lin_restart_decay_compound(batch:1 lin{mvs:0 evals:181} gen{mvs:70 evals:61} comp{mvs:4 btracks:33} #w_updates:0 #perturb:0)
+#Bound   7.56s best:57479 next:[28380,57478] lb_tree_search
+#Bound   8.25s best:57479 next:[28437,57478] lb_tree_search
+#36      8.42s best:55627 next:[28437,55626] scheduling_resource_windows_lns (d=7.07e-01 s=94 t=0.10 p=1.00 stall=1 h=base)
+#Bound   9.11s best:55627 next:[28537,55626] lb_tree_search
+#Bound  10.02s best:55627 next:[28605,55626] lb_tree_search
+#37     10.38s best:55613 next:[28605,55612] graph_cst_lns (d=8.14e-01 s=107 t=0.10 p=1.00 stall=0 h=base)
+#38     10.38s best:55529 next:[28605,55528] ls_restart_perturb(batch:1 lin{mvs:7 evals:215} #w_updates:0 #perturb:0)
+#39     10.39s best:55528 next:[28605,55527] ls_lin_restart(batch:1 lin{mvs:747 evals:5'945} #w_updates:686 #perturb:0)
+#Bound  10.95s best:55528 next:[28655,55527] lb_tree_search
+#40     11.14s best:55514 next:[28655,55513] graph_var_lns (d=7.21e-01 s=115 t=0.10 p=0.67 stall=0 h=base)
+#41     11.15s best:55513 next:[28655,55512] ls_restart(batch:1 lin{mvs:137 evals:772} #w_updates:131 #perturb:0)
+#42     11.15s best:55512 next:[28655,55511] ls_lin_restart(batch:1 lin{mvs:12 evals:90} #w_updates:10 #perturb:0)
+#43     11.20s best:55511 next:[28655,55510] ls_lin_restart_perturb(batch:1 lin{mvs:836 evals:6'911} #w_updates:770 #perturb:0)
+#44     11.21s best:55427 next:[28655,55426] rnd_var_lns (d=9.39e-01 s=103 t=0.10 p=1.00 stall=0 h=base) [combined with: ls_lin_restart_pertu...]
+#45     11.24s best:55426 next:[28655,55425] ls_restart_perturb(batch:1 lin{mvs:172 evals:1'478} #w_updates:155 #perturb:0)
+#46     11.25s best:55425 next:[28655,55424] ls_lin_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:43} gen{mvs:10 evals:9} comp{mvs:10 btracks:0} #w_updates:0 #perturb:0)
+#47     11.25s best:55424 next:[28655,55423] ls_restart_perturb(batch:1 lin{mvs:193 evals:1'301} #w_updates:181 #perturb:0)
+#48     11.30s best:55423 next:[28655,55422] ls_restart_compound_perturb(batch:1 lin{mvs:0 evals:45} gen{mvs:11 evals:10} comp{mvs:11 btracks:0} #w_updates:0 #perturb:0)
+#49     11.57s best:55414 next:[28655,55413] rnd_cst_lns (d=8.76e-01 s=111 t=0.10 p=1.00 stall=0 h=base) [combined with: ls_restart_compound_...]
+#50     11.57s best:55413 next:[28655,55412] ls_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:43} gen{mvs:3 evals:2} comp{mvs:3 btracks:0} #w_updates:0 #perturb:0)
+#51     11.57s best:55411 next:[28655,55410] ls_lin_restart_decay_perturb(batch:1 lin{mvs:10 evals:119} #w_updates:7 #perturb:0)
+#52     11.58s best:55410 next:[28655,55409] ls_restart_decay_perturb(batch:1 lin{mvs:140 evals:650} #w_updates:70 #perturb:0)
+#53     11.67s best:55409 next:[28655,55408] ls_lin_restart_decay_compound(batch:1 lin{mvs:0 evals:44} gen{mvs:10 evals:9} comp{mvs:10 btracks:0} #w_updates:0 #perturb:0)
+#54     11.83s best:55408 next:[28655,55407] graph_var_lns (d=5.97e-01 s=143 t=0.10 p=0.50 stall=0 h=base)
+#Bound  11.95s best:55408 next:[28682,55407] lb_tree_search
+#55     12.03s best:55231 next:[28682,55230] scheduling_time_window_lns (d=8.14e-01 s=123 t=0.10 p=1.00 stall=2 h=base)
+#Bound  12.96s best:55231 next:[28749,55230] lb_tree_search
+#Bound  13.91s best:55231 next:[28842,55230] lb_tree_search
+#56     14.53s best:55211 next:[28842,55210] rnd_cst_lns (d=9.14e-01 s=156 t=0.10 p=1.00 stall=0 h=base)
+#57     14.54s best:55163 next:[28842,55162] ls_restart_perturb(batch:1 lin{mvs:8 evals:257} #w_updates:0 #perturb:0)
+#Bound  14.85s best:55163 next:[28867,55162] lb_tree_search
+#58     14.91s best:55162 next:[28867,55161] ls_restart(batch:1 lin{mvs:563 evals:5'660} #w_updates:501 #perturb:0)
+#59     15.06s best:55161 next:[28867,55160] ls_lin_restart(batch:1 lin{mvs:1'358 evals:11'889} #w_updates:1'165 #perturb:0)
+#60     15.21s best:55160 next:[28867,55159] ls_lin_restart_perturb(batch:1 lin{mvs:471 evals:4'430} #w_updates:422 #perturb:0)
+#61     15.46s best:55159 next:[28867,55158] scheduling_precedences_lns (d=5.38e-01 s=171 t=0.10 p=0.50 stall=0 h=base)
+#Bound  15.86s best:55159 next:[28907,55158] lb_tree_search
+#62     16.21s best:55067 next:[28907,55066] rnd_var_lns (d=9.16e-01 s=172 t=0.10 p=0.83 stall=0 h=base)
+#63     16.47s best:55066 next:[28907,55065] ls_lin_restart_compound_perturb(batch:1 lin{mvs:0 evals:1'739} gen{mvs:448 evals:358} comp{mvs:16 btracks:216} #w_updates:1 #perturb:0)
+#64     16.48s best:55065 next:[28907,55064] ls_restart_perturb(batch:1 lin{mvs:147 evals:928} #w_updates:138 #perturb:0)
+#65     16.67s best:54937 next:[28907,54936] graph_dec_lns (d=6.92e-01 s=203 t=0.10 p=0.67 stall=1 h=base)
+#66     16.67s best:54917 next:[28907,54916] ls_restart(batch:1 lin{mvs:2 evals:82} #w_updates:0 #perturb:0)
+#67     16.78s best:54915 next:[28907,54914] ls_restart_decay_perturb(batch:1 lin{mvs:289 evals:2'742} #w_updates:139 #perturb:0)
+#Bound  16.87s best:54915 next:[28952,54914] lb_tree_search
+#68     17.02s best:54910 next:[28952,54909] ls_lin_restart_decay_compound(batch:1 lin{mvs:0 evals:82} gen{mvs:3 evals:1} comp{mvs:3 btracks:0} #w_updates:0 #perturb:0)
+#69     17.45s best:54897 next:[28952,54896] scheduling_time_window_lns (d=9.39e-01 s=219 t=0.10 p=1.00 stall=0 h=base)
+#Bound  17.89s best:54897 next:[28986,54896] lb_tree_search
+#70     18.77s best:54866 next:[28986,54865] graph_var_lns (d=7.12e-01 s=236 t=0.10 p=0.56 stall=3 h=base)
+#Bound  18.90s best:54866 next:[29003,54865] lb_tree_search
+#71     19.17s best:54742 next:[29003,54741] ls_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:385} gen{mvs:61 evals:23} comp{mvs:7 btracks:27} #w_updates:0 #perturb:0)
+#72     19.18s best:54738 next:[29003,54737] ls_lin_restart_perturb(batch:1 lin{mvs:9 evals:186} #w_updates:4 #perturb:0)
+#73     19.18s best:54734 next:[29003,54733] ls_restart(batch:1 lin{mvs:25 evals:300} #w_updates:19 #perturb:0)
+#74     19.18s best:54712 next:[29003,54711] ls_lin_restart_decay_compound(batch:1 lin{mvs:0 evals:82} gen{mvs:3 evals:1} comp{mvs:3 btracks:0} #w_updates:0 #perturb:0)
+#75     19.51s best:54627 next:[29003,54626] rnd_var_lns (d=9.38e-01 s=232 t=0.10 p=0.86 stall=0 h=base)
+#76     19.63s best:54498 next:[29003,54497] graph_dec_lns (d=7.87e-01 s=223 t=0.10 p=0.75 stall=0 h=base)
+#77     19.64s best:54155 next:[29003,54154] ls_restart_compound_perturb(batch:1 lin{mvs:0 evals:495} gen{mvs:95 evals:68} comp{mvs:17 btracks:39} #w_updates:0 #perturb:0)
+#78     19.64s best:54153 next:[29003,54152] ls_lin_restart(batch:1 lin{mvs:131 evals:736} #w_updates:126 #perturb:0)
+#Bound  19.89s best:54153 next:[29026,54152] lb_tree_search
+#79     20.14s best:53476 next:[29026,53475] scheduling_resource_windows_lns (d=9.56e-01 s=258 t=0.10 p=1.00 stall=0 h=base)
+#Bound  20.85s best:53476 next:[29033,53475] lb_tree_search
+#Bound  21.86s best:53476 next:[29073,53475] lb_tree_search
+#80     22.24s best:53446 next:[29073,53445] graph_var_lns (d=7.15e-01 s=291 t=0.10 p=0.55 stall=0 h=base)
+#81     22.44s best:53340 next:[29073,53339] graph_var_lns (d=7.15e-01 s=292 t=0.10 p=0.55 stall=0 h=base)
+#82     22.44s best:53310 next:[29073,53309] graph_var_lns (d=7.15e-01 s=292 t=0.10 p=0.55 stall=0 h=base) [combined with: graph_var_lns (d=7.1...]
+#83     22.44s best:53196 next:[29073,53195] ls_lin_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:119} gen{mvs:4 evals:0} comp{mvs:4 btracks:0} #w_updates:0 #perturb:0)
+#84     22.45s best:53195 next:[29073,53194] ls_lin_restart_perturb(batch:1 lin{mvs:106 evals:801} #w_updates:98 #perturb:0)
+#85     22.45s best:53194 next:[29073,53193] ls_lin_restart(batch:1 lin{mvs:162 evals:988} #w_updates:153 #perturb:0)
+#86     22.46s best:53192 next:[29073,53191] ls_restart_decay_compound(batch:1 lin{mvs:0 evals:84} gen{mvs:4 evals:2} comp{mvs:4 btracks:0} #w_updates:0 #perturb:0)
+#87     22.46s best:53191 next:[29073,53190] ls_restart_decay(batch:1 lin{mvs:12 evals:281} #w_updates:5 #perturb:0)
+#88     22.74s best:53190 next:[29073,53189] ls_restart_perturb(batch:1 lin{mvs:354 evals:2'627} #w_updates:328 #perturb:0)
+#89     22.75s best:53189 next:[29073,53188] ls_lin_restart_compound(batch:1 lin{mvs:0 evals:44} gen{mvs:5 evals:4} comp{mvs:5 btracks:0} #w_updates:0 #perturb:0)
+#Bound  22.78s best:53189 next:[29090,53188] lb_tree_search
+#90     22.87s best:53188 next:[29090,53187] ls_restart_compound(batch:1 lin{mvs:0 evals:43} gen{mvs:5 evals:4} comp{mvs:5 btracks:0} #w_updates:0 #perturb:0)
+#91     22.87s best:53187 next:[29090,53186] ls_lin_restart_decay_perturb(batch:1 lin{mvs:50 evals:285} #w_updates:24 #perturb:0)
+#92     23.00s best:53148 next:[29090,53147] scheduling_resource_windows_lns (d=9.67e-01 s=293 t=0.10 p=1.00 stall=0 h=base) [combined with: ls_lin_restart_decay...]
+#93     23.07s best:53147 next:[29090,53146] ls_restart_decay_compound(batch:1 lin{mvs:0 evals:2'322} gen{mvs:965 evals:903} comp{mvs:35 btracks:465} #w_updates:5 #perturb:0)
+#Bound  23.73s best:53147 next:[29099,53146] lb_tree_search
+#94     23.80s best:53089 next:[29099,53088] graph_dec_lns (d=7.00e-01 s=331 t=0.10 p=0.60 stall=0 h=base)
+#95     23.91s best:53072 next:[29099,53071] ls_restart_perturb(batch:1 lin{mvs:4 evals:162} #w_updates:0 #perturb:0)
+#96     23.91s best:53071 next:[29099,53070] ls_lin_restart_perturb(batch:1 lin{mvs:6 evals:101} #w_updates:3 #perturb:0)
+#97     23.92s best:53064 next:[29099,53063] ls_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:330} gen{mvs:67 evals:38} comp{mvs:17 btracks:25} #w_updates:0 #perturb:0)
+#98     23.97s best:53063 next:[29099,53062] ls_restart_compound_perturb(batch:1 lin{mvs:0 evals:49} gen{mvs:14 evals:13} comp{mvs:14 btracks:0} #w_updates:0 #perturb:0)
+#99     23.97s best:53056 next:[29099,53055] ls_lin_restart_compound(batch:1 lin{mvs:0 evals:229} gen{mvs:16 evals:10} comp{mvs:16 btracks:0} #w_updates:0 #perturb:0)
+#Bound  24.55s best:53056 next:[29107,53055] lb_tree_search
+#100    24.59s best:53009 next:[29107,53008] rnd_var_lns (d=9.37e-01 s=319 t=0.10 p=0.78 stall=0 h=base) [combined with: ls_lin_restart_compo...]
+#101    24.60s best:52907 next:[29107,52906] scheduling_time_window_lns (d=9.81e-01 s=332 t=0.10 p=1.00 stall=0 h=base)
+#102    24.60s best:52860 next:[29107,52859] scheduling_time_window_lns (d=9.81e-01 s=332 t=0.10 p=1.00 stall=0 h=base) [combined with: rnd_var_lns (d=9.37e...]
+#103    25.19s best:52859 next:[29107,52858] ls_restart(batch:1 lin{mvs:132 evals:860} #w_updates:125 #perturb:0)
+#104    25.24s best:52847 next:[29107,52846] graph_var_lns (d=7.17e-01 s=346 t=0.10 p=0.54 stall=0 h=base) [combined with: ls_restart(batch:1 l...]
+#105    25.25s best:52843 next:[29107,52842] ls_restart_decay(batch:1 lin{mvs:4 evals:157} #w_updates:0 #perturb:0)
+#Bound  25.49s best:52843 next:[29111,52842] lb_tree_search
+#106    25.50s best:52827 next:[29111,52826] graph_var_lns (d=7.17e-01 s=347 t=0.10 p=0.54 stall=0 h=base) [combined with: ls_restart_decay(bat...]
+#Bound  26.36s best:52827 next:[29123,52826] lb_tree_search
+#107    27.17s best:52807 next:[29123,52806] scheduling_intervals_lns (d=5.54e-01 s=363 t=0.10 p=0.50 stall=0 h=base)
+#Bound  27.26s best:52807 next:[29127,52806] lb_tree_search
+#108    27.30s best:52680 next:[29127,52679] scheduling_precedences_lns (d=5.64e-01 s=368 t=0.10 p=0.50 stall=0 h=base)
+#109    27.44s best:52348 next:[29127,52347] graph_dec_lns (d=7.83e-01 s=345 t=0.10 p=0.67 stall=0 h=base)
+#110    28.05s best:52230 next:[29127,52229] ls_restart_decay(batch:1 lin{mvs:3 evals:123} #w_updates:0 #perturb:0)
+#111    28.14s best:52229 next:[29127,52228] ls_lin_restart(batch:1 lin{mvs:141 evals:771} #w_updates:136 #perturb:0)
+#112    28.14s best:52228 next:[29127,52227] ls_restart_decay_perturb(batch:1 lin{mvs:136 evals:1'087} #w_updates:69 #perturb:0)
+#113    28.14s best:52227 next:[29127,52226] ls_lin_restart_decay_perturb(batch:1 lin{mvs:86 evals:371} #w_updates:42 #perturb:0)
+#114    28.20s best:52166 next:[29127,52165] scheduling_time_window_lns (d=9.89e-01 s=395 t=0.10 p=1.00 stall=0 h=base)
+#Bound  28.22s best:52166 next:[29131,52165] lb_tree_search
+#Bound  29.16s best:52166 next:[29133,52165] lb_tree_search
+#Bound  29.99s best:52166 next:[29135,52165] lb_tree_search
+#115    30.56s best:52164 next:[29135,52163] graph_var_lns (d=7.24e-01 s=447 t=0.10 p=0.53 stall=0 h=base)
+#116    30.62s best:52126 next:[29135,52125] graph_var_lns (d=7.24e-01 s=446 t=0.10 p=0.53 stall=0 h=base)
+#117    30.67s best:52119 next:[29135,52118] ls_restart_decay_perturb(batch:1 lin{mvs:4 evals:164} #w_updates:0 #perturb:0)
+#118    30.76s best:52118 next:[29135,52117] ls_restart(batch:1 lin{mvs:158 evals:1'113} #w_updates:147 #perturb:0)
+#Bound  30.77s best:52118 next:[29137,52117] lb_tree_search
+#119    30.80s best:52117 next:[29137,52116] ls_lin_restart_perturb(batch:1 lin{mvs:48 evals:568} #w_updates:38 #perturb:0)
+#120    30.82s best:52116 next:[29137,52115] ls_lin_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:1'401} gen{mvs:585 evals:501} comp{mvs:33 btracks:276} #w_updates:3 #perturb:0)
+#121    30.84s best:52115 next:[29137,52114] ls_lin_restart_perturb(batch:1 lin{mvs:343 evals:2'511} #w_updates:323 #perturb:0)
+#122    31.03s best:52077 next:[29137,52076] rnd_var_lns (d=8.95e-01 s=470 t=0.10 p=0.64 stall=1 h=base)
+#123    31.68s best:51945 next:[29137,51944] scheduling_precedences_lns (d=5.55e-01 s=465 t=0.10 p=0.50 stall=1 h=base)
+#Bound  31.70s best:51945 next:[29138,51944] lb_tree_search
+#Bound  32.49s best:51945 next:[29140,51944] lb_tree_search
+#124    32.67s best:51753 next:[29140,51752] graph_cst_lns (d=9.55e-01 s=452 t=0.10 p=0.88 stall=0 h=base)
+#125    32.70s best:51683 next:[29140,51682] scheduling_intervals_lns (d=5.42e-01 s=469 t=0.10 p=0.50 stall=1 h=base)
+#Bound  33.39s best:51683 next:[29141,51682] lb_tree_search
+#126    34.37s best:51536 next:[29141,51535] rnd_var_lns (d=9.18e-01 s=479 t=0.10 p=0.67 stall=0 h=base)
+#127    34.38s best:51534 next:[29141,51533] ls_restart_decay(batch:1 lin{mvs:2 evals:82} #w_updates:0 #perturb:0)
+#128    34.38s best:51533 next:[29141,51532] ls_lin_restart_perturb(batch:1 lin{mvs:61 evals:384} #w_updates:57 #perturb:0)
+#129    35.35s best:51532 next:[29141,51531] ls_restart_perturb(batch:1 lin{mvs:120 evals:1'111} #w_updates:105 #perturb:0)
+#130    35.49s best:51531 next:[29141,51530] ls_lin_restart_decay(batch:1 lin{mvs:120 evals:618} #w_updates:63 #perturb:0)
+#131    35.76s best:51435 next:[29141,51434] graph_dec_lns (d=7.79e-01 s=496 t=0.10 p=0.62 stall=1 h=base)
+#132    36.26s best:51434 next:[29141,51433] ls_restart_decay_perturb(batch:1 lin{mvs:3 evals:127} #w_updates:0 #perturb:0)
+#133    36.26s best:51432 next:[29141,51431] ls_lin_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:266} gen{mvs:54 evals:44} comp{mvs:36 btracks:9} #w_updates:0 #perturb:0)
+#134    36.27s best:51430 next:[29141,51429] ls_restart_perturb(batch:1 lin{mvs:386 evals:2'919} #w_updates:359 #perturb:0)
+#135    36.28s best:51428 next:[29141,51427] ls_lin_restart_compound_perturb(batch:1 lin{mvs:0 evals:91} gen{mvs:14 evals:12} comp{mvs:14 btracks:0} #w_updates:0 #perturb:0)
+#136    36.32s best:51427 next:[29141,51426] ls_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:2'861} gen{mvs:866 evals:827} comp{mvs:84 btracks:391} #w_updates:5 #perturb:0)
+#137    36.33s best:51426 next:[29141,51425] ls_lin_restart_compound_perturb(batch:1 lin{mvs:0 evals:364} gen{mvs:128 evals:106} comp{mvs:14 btracks:57} #w_updates:0 #perturb:0)
+#138    36.38s best:51404 next:[29141,51403] graph_var_lns (d=7.75e-01 s=505 t=0.10 p=0.55 stall=1 h=base)
+#139    36.38s best:51395 next:[29141,51394] graph_var_lns (d=7.75e-01 s=505 t=0.10 p=0.55 stall=1 h=base) [combined with: ls_lin_restart_compo...]
+#140    37.04s best:51379 next:[29141,51378] scheduling_time_window_lns (d=9.96e-01 s=517 t=0.10 p=1.00 stall=0 h=base)
+#141    37.04s best:51348 next:[29141,51347] scheduling_time_window_lns (d=9.96e-01 s=517 t=0.10 p=1.00 stall=0 h=base) [combined with: graph_var_lns (d=7.7...]
+#142    37.05s best:51337 next:[29141,51336] ls_restart(batch:1 lin{mvs:4 evals:167} #w_updates:0 #perturb:0)
+#143    40.95s best:51196 next:[29141,51195] graph_dec_lns (d=8.32e-01 s=551 t=0.10 p=0.67 stall=0 h=base)
+#144    41.73s best:50961 next:[29141,50960] scheduling_time_window_lns (d=9.98e-01 s=600 t=0.10 p=1.00 stall=0 h=base)
+#145    42.78s best:50932 next:[29141,50931] scheduling_precedences_lns (d=6.66e-01 s=602 t=0.10 p=0.55 stall=1 h=base)
+#146    46.43s best:50829 next:[29141,50828] scheduling_intervals_lns (d=6.46e-01 s=645 t=0.10 p=0.56 stall=0 h=base)
+#147    46.50s best:50828 next:[29141,50827] ls_lin_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:43} gen{mvs:5 evals:4} comp{mvs:5 btracks:0} #w_updates:0 #perturb:0)
+#148    46.60s best:50825 next:[29141,50824] rnd_var_lns (d=8.73e-01 s=693 t=0.10 p=0.56 stall=0 h=base)
+#149    46.60s best:50822 next:[29141,50821] ls_lin_restart(batch:1 lin{mvs:5 evals:181} #w_updates:0 #perturb:0)
+#150    46.64s best:50817 next:[29141,50816] rnd_var_lns (d=8.73e-01 s=689 t=0.10 p=0.56 stall=0 h=base)
+#151    46.64s best:50812 next:[29141,50811] rnd_var_lns (d=8.73e-01 s=689 t=0.10 p=0.56 stall=0 h=base) [combined with: ls_lin_restart(batch...]
+#152    46.64s best:50779 next:[29141,50778] rnd_var_lns (d=8.73e-01 s=694 t=0.10 p=0.56 stall=0 h=base)
+#153    46.64s best:50778 next:[29141,50777] rnd_var_lns (d=8.73e-01 s=694 t=0.10 p=0.56 stall=0 h=base) [combined with: rnd_var_lns (d=8.73e...]
+#154    48.99s best:50776 next:[29141,50775] ls_restart_perturb(batch:1 lin{mvs:179 evals:1'332} #w_updates:165 #perturb:0)
+#155    49.12s best:50775 next:[29141,50774] rnd_cst_lns (d=9.07e-01 s=698 t=0.10 p=0.70 stall=1 h=base) [combined with: ls_restart_perturb(b...]
+#156    49.12s best:50772 next:[29141,50771] ls_lin_restart_perturb(batch:1 lin{mvs:5 evals:179} #w_updates:0 #perturb:0)
+#157    49.13s best:50770 next:[29141,50769] ls_restart(batch:1 lin{mvs:209 evals:2'094} #w_updates:180 #perturb:0)
+#158    49.15s best:50769 next:[29141,50768] graph_cst_lns (d=9.41e-01 s=701 t=0.10 p=0.73 stall=2 h=base)
+#159    49.15s best:50767 next:[29141,50766] graph_cst_lns (d=9.41e-01 s=701 t=0.10 p=0.73 stall=2 h=base) [combined with: ls_restart(batch:1 l...]
+#160    49.15s best:50765 next:[29141,50764] ls_restart_decay_perturb(batch:1 lin{mvs:4 evals:141} #w_updates:0 #perturb:0)
+#161    49.18s best:50762 next:[29141,50761] ls_lin_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:201} gen{mvs:67 evals:36} comp{mvs:9 btracks:29} #w_updates:0 #perturb:0)
+#162    49.23s best:50668 next:[29141,50667] graph_cst_lns (d=9.41e-01 s=702 t=0.10 p=0.73 stall=2 h=base)
+#163    49.23s best:50652 next:[29141,50651] graph_cst_lns (d=9.41e-01 s=702 t=0.10 p=0.73 stall=2 h=base) [combined with: ls_lin_restart_decay...]
+#164    49.93s best:50642 next:[29141,50641] graph_var_lns (d=4.52e-01 s=722 t=0.10 p=0.45 stall=6 h=base)
+#165    49.93s best:50626 next:[29141,50625] ls_restart_decay(batch:1 lin{mvs:12 evals:273} #w_updates:0 #perturb:0)
+#166    49.93s best:50625 next:[29141,50624] ls_lin_restart_perturb(batch:1 lin{mvs:4 evals:90} #w_updates:1 #perturb:0)
+#167    49.96s best:50619 next:[29141,50618] scheduling_time_window_lns (d=9.99e-01 s=719 t=0.10 p=1.00 stall=0 h=base)
+#168    51.49s best:50614 next:[29141,50613] rnd_var_lns (d=9.44e-01 s=733 t=0.10 p=0.65 stall=0 h=base)
+#169    52.20s best:50494 next:[29141,50493] rnd_var_lns (d=9.44e-01 s=732 t=0.10 p=0.65 stall=0 h=base)
+#170    52.37s best:50422 next:[29141,50421] graph_var_lns (d=7.11e-01 s=748 t=0.10 p=0.52 stall=1 h=base)
+#171    52.38s best:50421 next:[29141,50420] ls_restart(batch:1 lin{mvs:651 evals:5'284} #w_updates:601 #perturb:0)
+#172    52.39s best:50420 next:[29141,50419] ls_lin_restart(batch:1 lin{mvs:376 evals:3'098} #w_updates:342 #perturb:0)
+#173    52.87s best:50419 next:[29141,50418] ls_restart_perturb(batch:1 lin{mvs:219 evals:1'168} #w_updates:213 #perturb:0)
+#174    52.88s best:50418 next:[29141,50417] ls_lin_restart_compound(batch:1 lin{mvs:0 evals:494} gen{mvs:280 evals:228} comp{mvs:4 btracks:138} #w_updates:0 #perturb:0)
+#175    52.89s best:50407 next:[29141,50406] ls_restart(batch:1 lin{mvs:4 evals:156} #w_updates:0 #perturb:0)
+#176    52.98s best:50406 next:[29141,50405] ls_restart_decay_compound(batch:1 lin{mvs:0 evals:146} gen{mvs:70 evals:53} comp{mvs:4 btracks:33} #w_updates:0 #perturb:0)
+#177    52.99s best:50405 next:[29141,50404] ls_lin_restart(batch:1 lin{mvs:550 evals:3'911} #w_updates:517 #perturb:0)
+#178    52.99s best:50404 next:[29141,50403] ls_restart(batch:1 lin{mvs:86 evals:1'054} #w_updates:72 #perturb:0)
+#179    53.00s best:50403 next:[29141,50402] ls_lin_restart_perturb(batch:1 lin{mvs:210 evals:1'628} #w_updates:192 #perturb:0)
+#180    53.19s best:50361 next:[29141,50360] scheduling_intervals_lns (d=5.39e-01 s=736 t=0.10 p=0.50 stall=0 h=base)
+#181    53.32s best:50347 next:[29141,50346] graph_var_lns (d=7.53e-01 s=752 t=0.10 p=0.53 stall=0 h=base)
+#182    53.32s best:50346 next:[29141,50345] graph_var_lns (d=7.53e-01 s=752 t=0.10 p=0.53 stall=0 h=base) [combined with: ls_lin_restart_pertu...]
+#183    53.63s best:50215 next:[29141,50214] graph_var_lns (d=7.53e-01 s=754 t=0.10 p=0.53 stall=0 h=base)
+#184    53.63s best:50194 next:[29141,50193] graph_var_lns (d=7.53e-01 s=754 t=0.10 p=0.53 stall=0 h=base) [combined with: graph_var_lns (d=7.5...]
+#185    53.82s best:50081 next:[29141,50080] ls_lin_restart(batch:1 lin{mvs:4 evals:158} #w_updates:0 #perturb:0)
+#186    54.13s best:50080 next:[29141,50079] ls_lin_restart_perturb(batch:1 lin{mvs:191 evals:1'526} #w_updates:173 #perturb:0)
+#187    54.13s best:50079 next:[29141,50078] ls_restart_perturb(batch:1 lin{mvs:423 evals:3'251} #w_updates:391 #perturb:0) [combined with: ls_lin_restart_pertu...]
+#188    54.23s best:50078 next:[29141,50077] ls_lin_restart(batch:1 lin{mvs:594 evals:4'567} #w_updates:549 #perturb:0)
+#189    54.45s best:49906 next:[29141,49905] scheduling_resource_windows_lns (d=9.99e-01 s=771 t=0.10 p=1.00 stall=13 h=stalling)
+#190    56.78s best:49837 next:[29141,49836] graph_dec_lns (d=8.34e-01 s=788 t=0.10 p=0.64 stall=0 h=base)
+#191    56.79s best:49836 next:[29141,49835] ls_restart_compound(batch:1 lin{mvs:0 evals:387} gen{mvs:102 evals:77} comp{mvs:10 btracks:46} #w_updates:0 #perturb:0)
+#192    56.79s best:49835 next:[29141,49834] ls_lin_restart_decay(batch:1 lin{mvs:3 evals:120} #w_updates:0 #perturb:0)
+#193    58.18s best:49652 next:[29141,49651] graph_dec_lns (d=8.34e-01 s=787 t=0.10 p=0.64 stall=0 h=base)
+#194    59.21s best:49619 next:[29141,49618] graph_dec_lns (d=8.34e-01 s=789 t=0.10 p=0.64 stall=0 h=base)
+#195    60.03s best:49521 next:[29141,49520] scheduling_intervals_lns (d=6.43e-01 s=806 t=0.10 p=0.55 stall=0 h=base)
+#196    62.63s best:49519 next:[29141,49518] rnd_cst_lns (d=9.28e-01 s=818 t=0.10 p=0.73 stall=0 h=base)
+#197    62.83s best:49505 next:[29141,49504] ls_restart(batch:1 lin{mvs:8 evals:238} #w_updates:0 #perturb:0)
+#198    62.97s best:49504 next:[29141,49503] ls_lin_restart_perturb(batch:1 lin{mvs:433 evals:3'191} #w_updates:402 #perturb:0)
+#199    63.11s best:49503 next:[29141,49502] ls_lin_restart_decay(batch:1 lin{mvs:27 evals:177} #w_updates:16 #perturb:0)
+#200    63.11s best:49502 next:[29141,49501] ls_lin_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:42} gen{mvs:2 evals:1} comp{mvs:2 btracks:0} #w_updates:0 #perturb:0)
+#201    63.26s best:49501 next:[29141,49500] ls_lin_restart_decay(batch:1 lin{mvs:235 evals:1'200} #w_updates:119 #perturb:0)
+#202    65.96s best:49324 next:[29141,49323] scheduling_precedences_lns (d=5.96e-01 s=887 t=0.10 p=0.50 stall=0 h=base)
+#203    66.74s best:49267 next:[29141,49266] graph_var_lns (d=6.62e-01 s=904 t=0.10 p=0.50 stall=2 h=base)
+#204    66.94s best:49265 next:[29141,49264] ls_restart_decay_perturb(batch:1 lin{mvs:252 evals:1'950} #w_updates:124 #perturb:0)
+#205    66.95s best:49264 next:[29141,49263] ls_lin_restart_decay_perturb(batch:1 lin{mvs:58 evals:591} #w_updates:27 #perturb:0)
+#206    67.00s best:49263 next:[29141,49262] ls_lin_restart_decay_perturb(batch:1 lin{mvs:2 evals:46} #w_updates:0 #perturb:0)
+#207    67.14s best:49262 next:[29141,49261] ls_lin_restart_decay(batch:1 lin{mvs:3 evals:50} #w_updates:1 #perturb:0)
+#208    67.15s best:49260 next:[29141,49259] ls_restart_decay(batch:1 lin{mvs:200 evals:1'504} #w_updates:101 #perturb:0)
+#209    67.16s best:49258 next:[29141,49257] ls_lin_restart(batch:1 lin{mvs:271 evals:2'307} #w_updates:220 #perturb:0)
+#210    67.16s best:49256 next:[29141,49255] ls_restart(batch:1 lin{mvs:119 evals:633} #w_updates:115 #perturb:0)
+#211    67.17s best:49254 next:[29141,49253] ls_restart_decay(batch:1 lin{mvs:175 evals:945} #w_updates:86 #perturb:0)
+#212    67.17s best:49253 next:[29141,49252] ls_lin_restart_decay(batch:1 lin{mvs:177 evals:999} #w_updates:86 #perturb:0) [combined with: ls_restart_decay(bat...]
+#213    67.17s best:49252 next:[29141,49251] ls_lin_restart(batch:1 lin{mvs:11 evals:86} #w_updates:9 #perturb:0)
+#214    67.18s best:49250 next:[29141,49249] ls_lin_restart(batch:1 lin{mvs:714 evals:5'969} #w_updates:634 #perturb:0)
+#215    67.18s best:49249 next:[29141,49248] ls_lin_restart(batch:1 lin{mvs:12 evals:280} #w_updates:5 #perturb:0)
+#216    67.25s best:49248 next:[29141,49247] ls_restart_decay_compound(batch:1 lin{mvs:0 evals:2'166} gen{mvs:648 evals:505} comp{mvs:44 btracks:302} #w_updates:1 #perturb:0)
+#217    67.59s best:49247 next:[29141,49246] ls_restart(batch:1 lin{mvs:464 evals:4'440} #w_updates:375 #perturb:0)
+#218    67.99s best:49148 next:[29141,49147] graph_var_lns (d=7.08e-01 s=949 t=0.10 p=0.51 stall=0 h=base)
+#219    68.00s best:49147 next:[29141,49146] graph_var_lns (d=7.08e-01 s=949 t=0.10 p=0.51 stall=0 h=base) [combined with: ls_restart(batch:1 l...]
+#220    68.42s best:49080 next:[29141,49079] ls_restart(batch:1 lin{mvs:3 evals:85} #w_updates:0 #perturb:0)
+#221    68.42s best:49079 next:[29141,49078] ls_lin_restart_compound(batch:1 lin{mvs:0 evals:47} gen{mvs:15 evals:14} comp{mvs:15 btracks:0} #w_updates:0 #perturb:0)
+#222    68.43s best:49078 next:[29141,49077] ls_restart(batch:1 lin{mvs:302 evals:2'107} #w_updates:264 #perturb:0)
+#223    68.43s best:49077 next:[29141,49076] ls_lin_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:48} gen{mvs:14 evals:13} comp{mvs:14 btracks:0} #w_updates:0 #perturb:0)
+#224    68.80s best:48897 next:[29141,48896] scheduling_resource_windows_lns (d=1.00e+00 s=954 t=0.10 p=1.00 stall=1 h=base)
+#225    73.82s best:48847 next:[29141,48846] scheduling_precedences_lns (d=6.75e-01 s=1023 t=0.10 p=0.53 stall=0 h=base)
+#226    73.86s best:48846 next:[29141,48845] ls_restart_decay_compound(batch:1 lin{mvs:0 evals:512} gen{mvs:141 evals:130} comp{mvs:39 btracks:51} #w_updates:0 #perturb:0)
+#227    73.95s best:48845 next:[29141,48844] ls_restart(batch:1 lin{mvs:6 evals:140} #w_updates:2 #perturb:0)
+#228    74.04s best:48843 next:[29141,48842] ls_restart_decay_perturb(batch:1 lin{mvs:138 evals:1'075} #w_updates:69 #perturb:0)
+#229    74.05s best:48841 next:[29141,48840] ls_lin_restart(batch:1 lin{mvs:448 evals:2'844} #w_updates:427 #perturb:0)
+#230    74.17s best:48337 next:[29141,48336] scheduling_precedences_lns (d=6.75e-01 s=1022 t=0.10 p=0.53 stall=0 h=base)
+#231    74.23s best:48335 next:[29141,48334] ls_restart_decay_perturb(batch:1 lin{mvs:14 evals:290} #w_updates:7 #perturb:0)
+#232    74.26s best:48334 next:[29141,48333] ls_lin_restart_decay(batch:1 lin{mvs:214 evals:1'773} #w_updates:91 #perturb:0)
+#233    74.52s best:48331 next:[29141,48330] graph_var_lns (d=7.45e-01 s=1047 t=0.10 p=0.52 stall=3 h=base)
+#234    74.52s best:48329 next:[29141,48328] graph_var_lns (d=7.45e-01 s=1047 t=0.10 p=0.52 stall=3 h=base) [combined with: ls_lin_restart_decay...]
+#235    74.76s best:48327 next:[29141,48326] ls_restart_decay_compound(batch:1 lin{mvs:0 evals:1'146} gen{mvs:337 evals:323} comp{mvs:31 btracks:153} #w_updates:3 #perturb:0)
+#236    74.77s best:48326 next:[29141,48325] ls_lin_restart_compound_perturb(batch:1 lin{mvs:0 evals:474} gen{mvs:138 evals:114} comp{mvs:10 btracks:64} #w_updates:0 #perturb:0)
+#237    74.77s best:48325 next:[29141,48324] ls_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:45} gen{mvs:7 evals:6} comp{mvs:7 btracks:0} #w_updates:0 #perturb:0)
+#238    74.81s best:48324 next:[29141,48323] ls_lin_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:2'573} gen{mvs:925 evals:937} comp{mvs:59 btracks:433} #w_updates:8 #perturb:0)
+#239    74.82s best:48323 next:[29141,48322] ls_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:304} gen{mvs:88 evals:66} comp{mvs:4 btracks:42} #w_updates:0 #perturb:0)
+#240    74.82s best:48321 next:[29141,48320] ls_lin_restart(batch:1 lin{mvs:2 evals:83} #w_updates:0 #perturb:0)
+#241    74.83s best:48320 next:[29141,48319] ls_restart(batch:1 lin{mvs:153 evals:1'315} #w_updates:137 #perturb:0)
+#242    74.84s best:48319 next:[29141,48318] ls_restart_compound(batch:1 lin{mvs:0 evals:43} gen{mvs:3 evals:2} comp{mvs:3 btracks:0} #w_updates:0 #perturb:0)
+#243    74.89s best:48318 next:[29141,48317] ls_lin_restart_compound(batch:1 lin{mvs:0 evals:273} gen{mvs:112 evals:95} comp{mvs:4 btracks:54} #w_updates:0 #perturb:0)
+#244    75.70s best:48313 next:[29141,48312] graph_cst_lns (d=9.03e-01 s=1055 t=0.10 p=0.60 stall=0 h=base) [combined with: ls_lin_restart_compo...]
+#245    75.70s best:48311 next:[29141,48310] ls_restart_decay_perturb(batch:1 lin{mvs:4 evals:162} #w_updates:0 #perturb:0)
+#246    75.76s best:48310 next:[29141,48309] ls_restart_compound_perturb(batch:1 lin{mvs:0 evals:165} gen{mvs:109 evals:84} comp{mvs:5 btracks:52} #w_updates:0 #perturb:0)
+#247    75.76s best:48309 next:[29141,48308] ls_lin_restart_decay_perturb(batch:1 lin{mvs:210 evals:1'409} #w_updates:102 #perturb:0)
+#248    75.84s best:48301 next:[29141,48300] rnd_var_lns (d=8.58e-01 s=1081 t=0.10 p=0.52 stall=0 h=base) [hint]
+#249    75.85s best:48300 next:[29141,48299] ls_restart_perturb(batch:1 lin{mvs:485 evals:4'984} #w_updates:428 #perturb:0)
+#250    75.88s best:48299 next:[29141,48298] ls_lin_restart_decay_compound(batch:1 lin{mvs:0 evals:1'512} gen{mvs:584 evals:491} comp{mvs:22 btracks:281} #w_updates:1 #perturb:0)
+#251    76.02s best:48295 next:[29141,48294] rnd_var_lns (d=8.81e-01 s=1085 t=0.10 p=0.54 stall=0 h=base) [hint]
+#252    89.04s best:48178 next:[29141,48177] scheduling_precedences_lns (d=6.80e-01 s=1231 t=0.10 p=0.52 stall=0 h=base)
+#253    89.05s best:48176 next:[29141,48175] ls_lin_restart_compound(batch:1 lin{mvs:0 evals:87} gen{mvs:11 evals:9} comp{mvs:11 btracks:0} #w_updates:0 #perturb:0)
+#254    89.05s best:48172 next:[29141,48171] ls_lin_restart_decay(batch:1 lin{mvs:23 evals:291} #w_updates:17 #perturb:0)
+#255    89.05s best:48171 next:[29141,48170] ls_lin_restart_perturb(batch:1 lin{mvs:119 evals:757} #w_updates:113 #perturb:0)
+#256    89.08s best:48168 next:[29141,48167] ls_restart_perturb(batch:1 lin{mvs:39 evals:282} #w_updates:35 #perturb:0)
+#257    89.08s best:48167 next:[29141,48166] ls_restart_decay_perturb(batch:1 lin{mvs:2 evals:45} #w_updates:0 #perturb:0)
+#258    89.09s best:48162 next:[29141,48161] ls_restart_decay(batch:1 lin{mvs:10 evals:226} #w_updates:4 #perturb:0)
+#259    89.11s best:48160 next:[29141,48159] ls_lin_restart(batch:1 lin{mvs:7 evals:178} #w_updates:2 #perturb:0)
+#260    89.11s best:48158 next:[29141,48157] ls_lin_restart_decay(batch:1 lin{mvs:144 evals:1'269} #w_updates:69 #perturb:0)
+#261    89.14s best:48155 next:[29141,48154] ls_restart_perturb(batch:1 lin{mvs:50 evals:438} #w_updates:40 #perturb:0)
+#262    89.14s best:48154 next:[29141,48153] ls_restart(batch:1 lin{mvs:8 evals:185} #w_updates:3 #perturb:0)
+#263    89.14s best:48153 next:[29141,48152] ls_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:42} gen{mvs:2 evals:1} comp{mvs:2 btracks:0} #w_updates:0 #perturb:0)
+#264    89.17s best:48148 next:[29141,48147] ls_lin_restart_perturb(batch:1 lin{mvs:182 evals:1'303} #w_updates:168 #perturb:0)
+#265    89.95s best:48133 next:[29141,48132] scheduling_intervals_lns (d=3.33e-01 s=1272 t=0.10 p=0.44 stall=2 h=base)
+#266    95.39s best:47846 next:[29141,47845] lb_relax_lns_int (d=2.86e-01 s=1215 t=0.50 p=0.40 stall=0 h=base)
+#267   100.81s best:47811 next:[29141,47810] scheduling_intervals_lns (d=6.57e-01 s=1410 t=0.10 p=0.55 stall=0 h=base)
+#Bound 101.33s best:47811 next:[29142,47810] lb_tree_search (nodes=56/56 rc=0 decisions=7148 @root=49 restarts=4 lp_iters=[0, 0, 1'902, 2'714]) 
+#268   104.00s best:47763 next:[29142,47762] graph_dec_lns (d=8.42e-01 s=1465 t=0.10 p=0.59 stall=6 h=base)
+#269   104.01s best:47688 next:[29142,47687] ls_restart_compound_perturb(batch:1 lin{mvs:0 evals:318} gen{mvs:53 evals:33} comp{mvs:13 btracks:20} #w_updates:0 #perturb:0)
+#270   104.02s best:47687 next:[29142,47686] ls_lin_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:1'035} gen{mvs:270 evals:231} comp{mvs:28 btracks:121} #w_updates:1 #perturb:0)
+#271   104.92s best:47673 next:[29142,47672] scheduling_precedences_lns (d=5.48e-01 s=1471 t=0.10 p=0.48 stall=0 h=base)
+#272   106.55s best:47590 next:[29142,47589] rnd_var_lns (d=9.17e-01 s=1489 t=0.10 p=0.56 stall=9 h=base)
+#273   106.56s best:47589 next:[29142,47588] ls_lin_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:98} gen{mvs:3 evals:1} comp{mvs:3 btracks:0} #w_updates:0 #perturb:0)
+#274   106.56s best:47587 next:[29142,47586] ls_lin_restart(batch:1 lin{mvs:118 evals:666} #w_updates:113 #perturb:0)
+#275   106.57s best:47586 next:[29142,47585] ls_lin_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:292} gen{mvs:74 evals:53} comp{mvs:4 btracks:35} #w_updates:0 #perturb:0)
+#276   106.57s best:47585 next:[29142,47584] ls_lin_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:181} gen{mvs:88 evals:80} comp{mvs:12 btracks:38} #w_updates:0 #perturb:0)
+#277   106.59s best:47584 next:[29142,47583] ls_lin_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:887} gen{mvs:363 evals:307} comp{mvs:25 btracks:169} #w_updates:1 #perturb:0)
+#278   106.59s best:47583 next:[29142,47582] ls_lin_restart_compound_perturb(batch:1 lin{mvs:0 evals:125} gen{mvs:24 evals:21} comp{mvs:4 btracks:10} #w_updates:0 #perturb:0)
+#279   106.61s best:47582 next:[29142,47581] ls_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:586} gen{mvs:112 evals:95} comp{mvs:6 btracks:53} #w_updates:1 #perturb:0)
+#280   106.61s best:47581 next:[29142,47580] ls_restart(batch:1 lin{mvs:210 evals:1'937} #w_updates:164 #perturb:0)
+#281   106.62s best:47577 next:[29142,47576] ls_restart_decay_compound(batch:1 lin{mvs:0 evals:863} gen{mvs:238 evals:191} comp{mvs:44 btracks:97} #w_updates:1 #perturb:0)
+#282   106.63s best:47576 next:[29142,47575] ls_restart_decay_compound(batch:1 lin{mvs:0 evals:136} gen{mvs:50 evals:29} comp{mvs:4 btracks:23} #w_updates:0 #perturb:0)
+#283   106.63s best:47575 next:[29142,47574] ls_restart_decay(batch:1 lin{mvs:37 evals:397} #w_updates:18 #perturb:0)
+#284   107.35s best:47552 next:[29142,47551] scheduling_time_window_lns (d=1.00e+00 s=1506 t=0.10 p=1.00 stall=18 h=base)
+#285   118.49s best:47540 next:[29142,47539] rnd_cst_lns (d=8.65e-01 s=1677 t=0.10 p=0.55 stall=7 h=base)
+#286   118.49s best:47511 next:[29142,47510] rnd_cst_lns (d=8.65e-01 s=1678 t=0.10 p=0.55 stall=7 h=base)
+#287   118.50s best:47501 next:[29142,47500] ls_restart_decay(batch:1 lin{mvs:5 evals:180} #w_updates:0 #perturb:0)
+#288   118.50s best:47498 next:[29142,47497] ls_lin_restart_compound_perturb(batch:1 lin{mvs:0 evals:394} gen{mvs:42 evals:31} comp{mvs:14 btracks:14} #w_updates:0 #perturb:0)
+#289   118.50s best:47497 next:[29142,47496] ls_lin_restart_decay(batch:1 lin{mvs:44 evals:263} #w_updates:21 #perturb:0)
+#290   118.55s best:47495 next:[29142,47494] ls_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:305} gen{mvs:80 evals:70} comp{mvs:10 btracks:35} #w_updates:0 #perturb:0)
+#291   119.28s best:47436 next:[29142,47435] scheduling_time_window_lns (d=1.00e+00 s=1691 t=0.10 p=1.00 stall=4 h=base)
+#292   123.59s best:47421 next:[29142,47420] rnd_var_lns (d=9.37e-01 s=1782 t=0.10 p=0.57 stall=5 h=base)
+#293   123.68s best:47420 next:[29142,47419] ls_lin_restart(batch:1 lin{mvs:19 evals:124} #w_updates:16 #perturb:0)
+#294   123.69s best:47417 next:[29142,47416] ls_restart_decay_compound(batch:1 lin{mvs:0 evals:285} gen{mvs:126 evals:102} comp{mvs:12 btracks:57} #w_updates:0 #perturb:0)
+#295   123.69s best:47415 next:[29142,47414] ls_lin_restart_compound(batch:1 lin{mvs:0 evals:86} gen{mvs:5 evals:3} comp{mvs:5 btracks:0} #w_updates:0 #perturb:0)
+#296   123.70s best:47414 next:[29142,47413] ls_restart_compound_perturb(batch:1 lin{mvs:0 evals:738} gen{mvs:120 evals:90} comp{mvs:10 btracks:55} #w_updates:0 #perturb:0)
+#297   123.70s best:47413 next:[29142,47412] ls_lin_restart_decay(batch:1 lin{mvs:2 evals:46} #w_updates:0 #perturb:0)
+#298   125.98s best:47333 next:[29142,47332] rnd_cst_lns (d=9.45e-01 s=1824 t=0.10 p=0.63 stall=2 h=base)
+#299   125.98s best:47267 next:[29142,47266] ls_restart(batch:1 lin{mvs:7 evals:222} #w_updates:0 #perturb:0)
+#300   125.98s best:47266 next:[29142,47265] ls_lin_restart_decay_perturb(batch:1 lin{mvs:5 evals:58} #w_updates:3 #perturb:0)
+#301   125.99s best:47265 next:[29142,47264] ls_restart_decay_compound(batch:1 lin{mvs:0 evals:141} gen{mvs:34 evals:33} comp{mvs:4 btracks:15} #w_updates:0 #perturb:0)
+#302   125.99s best:47263 next:[29142,47262] ls_lin_restart_decay_compound(batch:1 lin{mvs:0 evals:363} gen{mvs:78 evals:69} comp{mvs:8 btracks:35} #w_updates:0 #perturb:0)
+#303   126.84s best:47244 next:[29142,47243] scheduling_precedences_lns (d=4.82e-01 s=1835 t=0.10 p=0.47 stall=5 h=base)
+#304   171.84s best:47241 next:[29142,47240] rnd_cst_lns (d=9.35e-01 s=2405 t=0.10 p=0.59 stall=2 h=base)
+#305   172.42s best:47230 next:[29142,47229] ls_restart_perturb(batch:1 lin{mvs:3 evals:106} #w_updates:0 #perturb:0)
+#306   172.43s best:47229 next:[29142,47228] ls_lin_restart_decay_compound(batch:1 lin{mvs:0 evals:506} gen{mvs:177 evals:154} comp{mvs:19 btracks:79} #w_updates:0 #perturb:0)
+#307   172.44s best:47226 next:[29142,47225] ls_restart(batch:1 lin{mvs:425 evals:2'974} #w_updates:386 #perturb:0)
+#308   172.44s best:47225 next:[29142,47224] ls_lin_restart_decay_compound(batch:1 lin{mvs:0 evals:375} gen{mvs:86 evals:80} comp{mvs:6 btracks:40} #w_updates:0 #perturb:0)
+#309   172.45s best:47224 next:[29142,47223] ls_restart_compound(batch:1 lin{mvs:0 evals:310} gen{mvs:83 evals:75} comp{mvs:13 btracks:35} #w_updates:0 #perturb:0)
+#310   172.49s best:47223 next:[29142,47222] ls_restart(batch:1 lin{mvs:46 evals:691} #w_updates:35 #perturb:0)
+#311   172.54s best:47221 next:[29142,47220] ls_lin_restart_perturb(batch:1 lin{mvs:117 evals:878} #w_updates:108 #perturb:0)
+#312   172.55s best:47220 next:[29142,47219] ls_restart_compound_perturb(batch:1 lin{mvs:0 evals:836} gen{mvs:260 evals:199} comp{mvs:44 btracks:108} #w_updates:0 #perturb:0)
+#313   172.56s best:47216 next:[29142,47215] ls_lin_restart_perturb(batch:1 lin{mvs:2 evals:85} #w_updates:0 #perturb:0)
+#314   172.58s best:47215 next:[29142,47214] ls_restart_decay_compound(batch:1 lin{mvs:0 evals:2'005} gen{mvs:617 evals:539} comp{mvs:39 btracks:289} #w_updates:1 #perturb:0)
+#315   172.59s best:47214 next:[29142,47213] ls_lin_restart_decay(batch:1 lin{mvs:34 evals:196} #w_updates:12 #perturb:0)
+#316   172.59s best:47213 next:[29142,47212] ls_restart_perturb(batch:1 lin{mvs:37 evals:482} #w_updates:27 #perturb:0)
+#317   172.64s best:47211 next:[29142,47210] ls_lin_restart_compound_perturb(batch:1 lin{mvs:0 evals:3'310} gen{mvs:955 evals:851} comp{mvs:79 btracks:438} #w_updates:1 #perturb:0)
+#318   172.69s best:47193 next:[29142,47192] graph_var_lns (d=7.62e-01 s=2434 t=0.10 p=0.51 stall=61 h=base)
+#319   172.69s best:47169 next:[29142,47168] graph_var_lns (d=7.62e-01 s=2434 t=0.10 p=0.51 stall=61 h=base) [combined with: ls_lin_restart_compo...]
+#320   172.70s best:47121 next:[29142,47120] ls_lin_restart(batch:1 lin{mvs:6 evals:211} #w_updates:0 #perturb:0)
+#321   172.74s best:47119 next:[29142,47118] ls_lin_restart_compound_perturb(batch:1 lin{mvs:0 evals:3'901} gen{mvs:959 evals:847} comp{mvs:45 btracks:457} #w_updates:2 #perturb:0)
+#322   172.75s best:47118 next:[29142,47117] ls_lin_restart_perturb(batch:1 lin{mvs:256 evals:2'163} #w_updates:229 #perturb:0)
+#323   172.75s best:47117 next:[29142,47116] ls_lin_restart_decay(batch:1 lin{mvs:20 evals:235} #w_updates:9 #perturb:0)
+#324   172.76s best:47116 next:[29142,47115] ls_lin_restart_perturb(batch:1 lin{mvs:541 evals:4'455} #w_updates:487 #perturb:0)
+#325   172.83s best:47115 next:[29142,47114] ls_restart(batch:1 lin{mvs:6 evals:142} #w_updates:2 #perturb:0)
+#326   172.85s best:47114 next:[29142,47113] ls_restart_compound(batch:1 lin{mvs:0 evals:1'806} gen{mvs:412 evals:366} comp{mvs:32 btracks:190} #w_updates:1 #perturb:0)
+#327   173.37s best:47109 next:[29142,47108] ls_restart_perturb(batch:1 lin{mvs:4 evals:164} #w_updates:0 #perturb:0)
+#328   173.37s best:47108 next:[29142,47107] ls_lin_restart_perturb(batch:1 lin{mvs:220 evals:1'310} #w_updates:201 #perturb:0)
+#329   173.72s best:47094 next:[29142,47093] lb_relax_lns_bool_h (d=2.19e-01 s=2446 t=0.50 p=0.40 stall=4 h=base)
+#330   174.70s best:46936 next:[29142,46935] scheduling_intervals_lns (d=3.83e-01 s=2481 t=0.10 p=0.47 stall=13 h=stalling)
+#Bound 193.76s best:46936 next:[29143,46935] lb_tree_search (nodes=18771/18773 rc=0 decisions=101061 @root=73 restarts=10 lp_iters=[0, 0, 124'735, 99'088]) 
+#331   194.32s best:46877 next:[29143,46876] scheduling_precedences_lns (d=7.48e-01 s=2750 t=0.10 p=0.53 stall=17 h=base)
+#332   220.21s best:46813 next:[29143,46812] rnd_var_lns (d=9.09e-01 s=3170 t=0.10 p=0.52 stall=27 h=base)
+#Bound 234.02s best:46813 next:[29144,46812] lb_tree_search (nodes=25856/25949 rc=0 decisions=136558 @root=77 restarts=10 lp_iters=[0, 0, 266'658, 152'889]) 
+#333   237.14s best:46731 next:[29144,46730] scheduling_precedences_lns (d=7.40e-01 s=3444 t=0.10 p=0.52 stall=9 h=base)
+#334   242.26s best:46681 next:[29144,46680] lb_relax_lns_bool_h (d=3.70e-01 s=3480 t=0.50 p=0.50 stall=0 h=base)
+#Bound 271.09s best:46681 next:[29145,46680] lb_tree_search (nodes=31085/31232 rc=0 decisions=166625 @root=80 restarts=10 lp_iters=[0, 0, 403'352, 194'081]) 
+#335   275.27s best:46585 next:[29145,46584] scheduling_precedences_lns (d=7.36e-01 s=3916 t=0.10 p=0.52 stall=7 h=base)
+#336   277.46s best:46553 next:[29145,46552] scheduling_intervals_lns (d=6.28e-01 s=3937 t=0.10 p=0.52 stall=0 h=base)
+#337   277.53s best:46413 next:[29145,46412] scheduling_intervals_lns (d=6.28e-01 s=3943 t=0.10 p=0.52 stall=0 h=base)
+#Bound 311.47s best:46413 next:[29146,46412] lb_tree_search (nodes=35612/35791 rc=0 decisions=198810 @root=83 restarts=10 lp_iters=[0, 0, 563'996, 229'766]) 
+#Bound 367.21s best:46413 next:[29147,46412] lb_tree_search (nodes=41642/41856 rc=0 decisions=243625 @root=88 restarts=10 lp_iters=[0, 0, 800'722, 284'935]) 
+#338   369.45s best:46339 next:[29147,46338] scheduling_precedences_lns (d=6.02e-01 s=5344 t=0.10 p=0.50 stall=7 h=base)
+#339   374.00s best:46335 next:[29147,46334] graph_dec_lns (d=8.12e-01 s=5436 t=0.10 p=0.52 stall=58 h=base)
+#340   374.00s best:46334 next:[29147,46333] ls_restart_perturb(batch:1 lin{mvs:3 evals:135} #w_updates:0 #perturb:0)
+#341   374.01s best:46332 next:[29147,46331] ls_lin_restart_decay(batch:1 lin{mvs:263 evals:1'466} #w_updates:130 #perturb:0)
+#342   374.15s best:46331 next:[29147,46330] ls_restart_decay_compound(batch:1 lin{mvs:0 evals:48} gen{mvs:2 evals:1} comp{mvs:2 btracks:0} #w_updates:0 #perturb:0)
+#343   374.17s best:46330 next:[29147,46329] ls_restart(batch:1 lin{mvs:475 evals:4'319} #w_updates:430 #perturb:0)
+#344   376.28s best:46306 next:[29147,46305] graph_dec_lns (d=8.31e-01 s=5449 t=0.10 p=0.52 stall=0 h=base)
+#345   390.96s best:46281 next:[29147,46280] scheduling_intervals_lns (d=5.80e-01 s=5583 t=0.10 p=0.51 stall=7 h=base)
+#346   399.76s best:46218 next:[29147,46217] scheduling_precedences_lns (d=7.23e-01 s=5772 t=0.10 p=0.51 stall=5 h=base)
+#347   403.42s best:46170 next:[29147,46169] rnd_cst_lns (d=9.38e-01 s=5809 t=0.10 p=0.54 stall=8 h=base)
+#348   406.75s best:46105 next:[29147,46104] scheduling_intervals_lns (d=7.45e-01 s=5866 t=0.10 p=0.53 stall=1 h=base)
+#349   408.59s best:46104 next:[29147,46103] ls_restart_decay_perturb(batch:1 lin{mvs:9 evals:83} #w_updates:7 #perturb:0)
+#350   408.59s best:46103 next:[29147,46102] ls_lin_restart_decay(batch:1 lin{mvs:122 evals:733} #w_updates:61 #perturb:0)
+#351   408.65s best:46099 next:[29147,46098] graph_arc_lns (d=9.48e-01 s=5886 t=0.10 p=0.55 stall=11 h=base)
+#352   408.65s best:46098 next:[29147,46097] graph_arc_lns (d=9.48e-01 s=5886 t=0.10 p=0.55 stall=11 h=base) [combined with: ls_lin_restart_decay...]
+#353   409.39s best:46070 next:[29147,46069] scheduling_time_window_lns (d=1.00e+00 s=5891 t=0.10 p=0.99 stall=13 h=stalling)
+#354   411.31s best:46032 next:[29147,46031] graph_dec_lns (d=7.70e-01 s=5915 t=0.10 p=0.51 stall=0 h=base)
+#355   411.32s best:45948 next:[29147,45947] ls_lin_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:250} gen{mvs:8 evals:0} comp{mvs:8 btracks:0} #w_updates:0 #perturb:0)
+#356   411.43s best:45947 next:[29147,45946] ls_lin_restart_compound(batch:1 lin{mvs:0 evals:1'826} gen{mvs:448 evals:349} comp{mvs:20 btracks:214} #w_updates:2 #perturb:0)
+#357   411.44s best:45946 next:[29147,45945] ls_lin_restart_perturb(batch:1 lin{mvs:11 evals:94} #w_updates:9 #perturb:0)
+#358   411.44s best:45945 next:[29147,45944] ls_lin_restart_decay(batch:1 lin{mvs:195 evals:1'317} #w_updates:95 #perturb:0)
+#359   411.47s best:45944 next:[29147,45943] ls_lin_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:2'891} gen{mvs:589 evals:540} comp{mvs:39 btracks:275} #w_updates:5 #perturb:0)
+#360   411.47s best:45943 next:[29147,45942] ls_restart_perturb(batch:1 lin{mvs:56 evals:371} #w_updates:52 #perturb:0) [combined with: ls_lin_restart_decay...]
+#361   411.48s best:45942 next:[29147,45941] ls_restart_perturb(batch:1 lin{mvs:242 evals:1'840} #w_updates:228 #perturb:0)
+#362   411.49s best:45941 next:[29147,45940] ls_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:571} gen{mvs:262 evals:231} comp{mvs:4 btracks:129} #w_updates:0 #perturb:0)
+#363   411.49s best:45938 next:[29147,45937] ls_restart_decay_perturb(batch:1 lin{mvs:4 evals:134} #w_updates:0 #perturb:0)
+#364   411.50s best:45937 next:[29147,45936] ls_lin_restart_compound_perturb(batch:1 lin{mvs:0 evals:644} gen{mvs:244 evals:208} comp{mvs:4 btracks:120} #w_updates:0 #perturb:0) [combined with: ls_restart_decay_per...]
+#365   411.51s best:45936 next:[29147,45935] ls_lin_restart_compound_perturb(batch:1 lin{mvs:0 evals:222} gen{mvs:19 evals:9} comp{mvs:3 btracks:8} #w_updates:0 #perturb:0)
+#366   411.59s best:45934 next:[29147,45933] ls_restart_compound(batch:1 lin{mvs:0 evals:91} gen{mvs:3 evals:1} comp{mvs:3 btracks:0} #w_updates:0 #perturb:0)
+#367   411.60s best:45933 next:[29147,45932] ls_restart(batch:1 lin{mvs:143 evals:962} #w_updates:135 #perturb:0)
+#368   412.50s best:45928 next:[29147,45927] scheduling_time_window_lns (d=1.00e+00 s=5976 t=0.10 p=0.99 stall=0 h=base)
+#369   413.37s best:45892 next:[29147,45891] graph_dec_lns (d=8.30e-01 s=5971 t=0.10 p=0.52 stall=0 h=base)
+#370   413.37s best:45888 next:[29147,45887] graph_dec_lns (d=8.30e-01 s=5971 t=0.10 p=0.52 stall=0 h=base) [combined with: scheduling_time_wind...]
+#371   413.37s best:45882 next:[29147,45881] ls_restart_decay(batch:1 lin{mvs:4 evals:175} #w_updates:0 #perturb:0)
+#372   413.42s best:45880 next:[29147,45879] ls_lin_restart_perturb(batch:1 lin{mvs:890 evals:9'753} #w_updates:777 #perturb:0)
+#373   414.09s best:45849 next:[29147,45848] scheduling_time_window_lns (d=1.00e+00 s=5999 t=0.10 p=0.99 stall=0 h=base)
+#Bound 443.62s best:45849 next:[29148,45848] lb_tree_search (nodes=51352/51613 rc=0 decisions=306478 @root=95 restarts=10 lp_iters=[0, 0, 1'112'321, 369'874]) 
+#374   455.10s best:45812 next:[29148,45811] scheduling_intervals_lns (d=6.89e-01 s=6614 t=0.10 p=0.52 stall=5 h=base)
+#375   462.75s best:45459 next:[29148,45458] lb_relax_lns_bool (d=1.62e-01 s=6648 t=0.50 p=0.42 stall=11 h=base)
+#376   465.03s best:45401 next:[29148,45400] scheduling_precedences_lns (d=6.70e-01 s=6688 t=0.10 p=0.50 stall=13 h=base)
+#377   473.36s best:45348 next:[29148,45347] scheduling_precedences_lns (d=6.96e-01 s=6811 t=0.10 p=0.51 stall=0 h=base)
+#378   473.69s best:45343 next:[29148,45342] scheduling_precedences_lns (d=6.96e-01 s=6822 t=0.10 p=0.51 stall=0 h=base) [combined with: scheduling_precedenc...]
+#379   473.76s best:45342 next:[29148,45341] ls_restart_decay(batch:1 lin{mvs:155 evals:1'520} #w_updates:84 #perturb:0)
+#380   473.76s best:45340 next:[29148,45339] ls_lin_restart_perturb(batch:1 lin{mvs:4 evals:97} #w_updates:1 #perturb:0)
+#381   473.76s best:45339 next:[29148,45338] ls_restart_compound(batch:1 lin{mvs:0 evals:116} gen{mvs:35 evals:20} comp{mvs:5 btracks:15} #w_updates:0 #perturb:0)
+#382   473.78s best:45338 next:[29148,45337] ls_lin_restart_compound(batch:1 lin{mvs:0 evals:743} gen{mvs:246 evals:213} comp{mvs:12 btracks:117} #w_updates:0 #perturb:0)
+#383   473.83s best:45337 next:[29148,45336] ls_restart_decay_compound(batch:1 lin{mvs:0 evals:46} gen{mvs:2 evals:1} comp{mvs:2 btracks:0} #w_updates:0 #perturb:0)
+#384   474.52s best:45285 next:[29148,45284] scheduling_resource_windows_lns (d=1.00e+00 s=6857 t=0.10 p=0.98 stall=0 h=base)
+#385   510.29s best:45244 next:[29148,45243] scheduling_precedences_lns (d=7.40e-01 s=7295 t=0.10 p=0.51 stall=5 h=base)
+#386   510.31s best:45243 next:[29148,45242] ls_lin_restart_perturb(batch:1 lin{mvs:624 evals:5'284} #w_updates:573 #perturb:0)
+#387   511.75s best:45242 next:[29148,45241] ls_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:165} gen{mvs:113 evals:89} comp{mvs:5 btracks:54} #w_updates:0 #perturb:0)
+#388   511.75s best:45241 next:[29148,45240] ls_lin_restart_decay(batch:1 lin{mvs:40 evals:346} #w_updates:20 #perturb:0)
+#389   511.77s best:45238 next:[29148,45237] ls_restart_decay_compound(batch:1 lin{mvs:0 evals:766} gen{mvs:292 evals:236} comp{mvs:8 btracks:142} #w_updates:1 #perturb:0)
+#390   511.77s best:45237 next:[29148,45236] ls_lin_restart_perturb(batch:1 lin{mvs:195 evals:1'374} #w_updates:183 #perturb:0)
+#391   511.78s best:45236 next:[29148,45235] ls_restart_perturb(batch:1 lin{mvs:307 evals:1'771} #w_updates:296 #perturb:0)
+#392   511.78s best:45235 next:[29148,45234] ls_lin_restart_compound_perturb(batch:1 lin{mvs:0 evals:46} gen{mvs:4 evals:3} comp{mvs:4 btracks:0} #w_updates:0 #perturb:0)
+#393   511.81s best:45234 next:[29148,45233] ls_restart_compound_perturb(batch:1 lin{mvs:0 evals:1'558} gen{mvs:579 evals:476} comp{mvs:23 btracks:278} #w_updates:1 #perturb:0)
+#394   511.82s best:45232 next:[29148,45231] ls_lin_restart_perturb(batch:1 lin{mvs:518 evals:3'756} #w_updates:489 #perturb:0)
+#395   512.52s best:45212 next:[29148,45211] scheduling_resource_windows_lns (d=1.00e+00 s=7331 t=0.10 p=0.98 stall=12 h=stalling)
+#396   536.50s best:45136 next:[29148,45135] scheduling_precedences_lns (d=6.97e-01 s=7807 t=0.10 p=0.51 stall=8 h=base)
+#397   538.01s best:45126 next:[29148,45125] rnd_var_lns (d=9.21e-01 s=7839 t=0.10 p=0.51 stall=99 h=stalling)
+#Bound 538.53s best:45126 next:[29149,45125] lb_tree_search (nodes=60329/60612 rc=0 decisions=364452 @root=108 restarts=10 lp_iters=[0, 0, 1'408'700, 446'514]) 
+#398   550.34s best:45113 next:[29149,45112] scheduling_precedences_lns (d=6.97e-01 s=8010 t=0.10 p=0.51 stall=0 h=base)
+#399   555.65s best:45036 next:[29149,45035] lb_relax_lns_bool (d=8.78e-02 s=8014 t=0.50 p=0.38 stall=2 h=base)
+#400   555.65s best:45023 next:[29149,45022] lb_relax_lns_bool (d=8.78e-02 s=8014 t=0.50 p=0.38 stall=2 h=base) [combined with: lb_relax_lns_bool_h ...]
+#401   559.45s best:44967 next:[29149,44966] graph_dec_lns (d=8.45e-01 s=8108 t=0.10 p=0.52 stall=7 h=base)
+#402   559.54s best:44966 next:[29149,44965] ls_lin_restart_decay_perturb(batch:1 lin{mvs:18 evals:123} #w_updates:16 #perturb:0)
+#403   560.13s best:44957 next:[29149,44956] scheduling_resource_windows_lns (d=1.00e+00 s=8133 t=0.10 p=0.98 stall=13 h=stalling)
+#404   584.85s best:44929 next:[29149,44928] scheduling_precedences_lns (d=6.96e-01 s=8463 t=0.10 p=0.51 stall=7 h=base)
+#405   615.62s best:44928 next:[29149,44927] scheduling_intervals_lns (d=7.05e-01 s=8873 t=0.10 p=0.52 stall=9 h=base)
+#406   642.86s best:44927 next:[29149,44926] graph_dec_lns (d=8.30e-01 s=9303 t=0.10 p=0.51 stall=14 h=stalling)
+#407   642.91s best:44922 next:[29149,44921] ls_restart_compound_perturb(batch:1 lin{mvs:0 evals:205} gen{mvs:12 evals:11} comp{mvs:6 btracks:3} #w_updates:0 #perturb:0)
+#408   642.91s best:44921 next:[29149,44920] ls_restart_decay_perturb(batch:1 lin{mvs:242 evals:1'484} #w_updates:119 #perturb:0)
+#Bound 649.81s best:44921 next:[29150,44920] lb_tree_search (nodes=70668/70973 rc=0 decisions=429568 @root=121 restarts=10 lp_iters=[0, 0, 1'757'531, 531'605]) 
+#409   740.57s best:44781 next:[29150,44780] scheduling_intervals_lns (d=5.25e-01 s=10762 t=0.10 p=0.50 stall=0 h=base)
+#Bound 786.93s best:44781 next:[29151,44780] lb_tree_search (nodes=83407/83740 rc=0 decisions=507200 @root=134 restarts=10 lp_iters=[0, 0, 2'184'579, 640'108]) 
+#410   800.96s best:44741 next:[29151,44740] scheduling_intervals_lns (d=6.22e-01 s=11613 t=0.10 p=0.51 stall=8 h=base)
+#411   879.07s best:44699 next:[29151,44698] scheduling_precedences_lns (d=6.92e-01 s=12700 t=0.10 p=0.50 stall=8 h=base)
+#412   899.84s best:44695 next:[29151,44694] rins_pump_lns (d=7.91e-01 s=12961 t=0.10 p=0.50 stall=3 h=base)
+#Bound 912.22s best:44695 next:[29152,44694] lb_tree_search (nodes=96634/96975 rc=0 decisions=598207 @root=144 restarts=10 lp_iters=[0, 0, 2'660'561, 754'306]) 
+#413   923.16s best:44688 next:[29152,44687] scheduling_precedences_lns (d=6.93e-01 s=13318 t=0.10 p=0.50 stall=9 h=base)
+#414   934.63s best:44686 next:[29152,44685] scheduling_intervals_lns (d=6.69e-01 s=13471 t=0.10 p=0.51 stall=5 h=base)
+#415   989.51s best:44679 next:[29152,44678] scheduling_precedences_lns (d=5.66e-01 s=14351 t=0.10 p=0.49 stall=1 h=base)
+#416   989.64s best:44678 next:[29152,44677] ls_lin_restart_decay(batch:1 lin{mvs:59 evals:367} #w_updates:41 #perturb:0)
+#417   989.66s best:44676 next:[29152,44675] ls_restart_perturb(batch:1 lin{mvs:610 evals:6'184} #w_updates:545 #perturb:0)
+#418   990.21s best:44668 next:[29152,44667] scheduling_resource_windows_lns (d=1.00e+00 s=14366 t=0.11 p=0.97 stall=83 h=base)
+#Bound 1057.85s best:44668 next:[29153,44667] lb_tree_search (nodes=111362/111716 rc=0 decisions=697205 @root=158 restarts=10 lp_iters=[0, 0, 3'163'682, 885'811]) 
+#Bound 1205.96s best:44668 next:[29154,44667] lb_tree_search (nodes=127332/127698 rc=0 decisions=800483 @root=172 restarts=10 lp_iters=[0, 0, 3'738'827, 1'035'942]) 
+#Bound 1346.51s best:44668 next:[29155,44667] lb_tree_search (nodes=140943/141327 rc=0 decisions=901046 @root=183 restarts=10 lp_iters=[0, 0, 4'380'784, 1'161'862]) 
+#Bound 1529.81s best:44668 next:[29156,44667] lb_tree_search (nodes=161045/161437 rc=0 decisions=1041670 @root=197 restarts=10 lp_iters=[0, 0, 5'127'199, 1'354'476]) 
+#Bound 1732.06s best:44668 next:[29157,44667] lb_tree_search (nodes=184994/185403 rc=0 decisions=1197745 @root=213 restarts=10 lp_iters=[0, 0, 6'009'479, 1'569'774]) 
+#Bound 1956.94s best:44668 next:[29158,44667] lb_tree_search (nodes=206696/207118 rc=0 decisions=1353481 @root=228 restarts=10 lp_iters=[0, 0, 6'992'627, 1'767'511]) 
+#Bound 2197.16s best:44668 next:[29159,44667] lb_tree_search (nodes=232650/233091 rc=0 decisions=1521525 @root=245 restarts=10 lp_iters=[0, 0, 8'010'646, 1'988'691]) 
+#Bound 2474.58s best:44668 next:[29160,44667] lb_tree_search (nodes=261428/261878 rc=0 decisions=1712119 @root=264 restarts=10 lp_iters=[0, 0, 9'151'887, 2'245'193]) 
+#Bound 2767.56s best:44668 next:[29161,44667] lb_tree_search (nodes=294067/294525 rc=0 decisions=1923478 @root=285 restarts=10 lp_iters=[0, 0, 10'420'096, 2'532'961]) 
+#Bound 3067.84s best:44668 next:[29162,44667] lb_tree_search (nodes=322084/322550 rc=0 decisions=2132646 @root=306 restarts=10 lp_iters=[0, 0, 11'776'017, 2'814'604]) 
+#Bound 3383.69s best:44668 next:[29163,44667] lb_tree_search (nodes=352922/353396 rc=0 decisions=2354150 @root=328 restarts=10 lp_iters=[0, 0, 13'192'509, 3'118'876]) 
+#Bound 3730.64s best:44668 next:[29164,44667] lb_tree_search (nodes=384584/385072 rc=0 decisions=2584146 @root=351 restarts=10 lp_iters=[0, 0, 14'669'934, 3'416'743]) 
+#419   4033.13s best:44637 next:[29164,44636] scheduling_precedences_lns (d=6.82e-01 s=57458 t=0.10 p=0.50 stall=10 h=base)
+#420   4033.15s best:44635 next:[29164,44634] ls_lin_restart(batch:1 lin{mvs:44 evals:574} #w_updates:36 #perturb:0)
+#421   4033.20s best:44634 next:[29164,44633] ls_lin_restart(batch:1 lin{mvs:215 evals:2'050} #w_updates:193 #perturb:0)
+#422   4033.25s best:44633 next:[29164,44632] ls_restart_perturb(batch:1 lin{mvs:432 evals:4'245} #w_updates:388 #perturb:0)
+#423   4033.36s best:44610 next:[29164,44609] rnd_var_lns (d=9.20e-01 s=57469 t=0.14 p=0.50 stall=43 h=stalling)
+#424   4041.99s best:44605 next:[29164,44604] graph_dec_lns (d=8.25e-01 s=57590 t=0.12 p=0.50 stall=326 h=base)
+#425   4045.54s best:44460 next:[29164,44459] graph_dec_lns (d=8.25e-01 s=57594 t=0.12 p=0.50 stall=326 h=base)
+#426   4046.18s best:44448 next:[29164,44447] ls_restart_decay_perturb(batch:1 lin{mvs:4 evals:181} #w_updates:0 #perturb:0)
+#427   4046.19s best:44443 next:[29164,44442] ls_lin_restart(batch:1 lin{mvs:167 evals:1'277} #w_updates:153 #perturb:0)
+#428   4046.33s best:44440 next:[29164,44439] ls_lin_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:507} gen{mvs:120 evals:93} comp{mvs:8 btracks:56} #w_updates:0 #perturb:0)
+#429   4047.50s best:44416 next:[29164,44415] quick_restart
+#430   4047.86s best:44412 next:[29164,44411] quick_restart
+#431   4050.52s best:44408 next:[29164,44407] quick_restart
+#432   4051.00s best:44405 next:[29164,44404] ls_restart(batch:1 lin{mvs:11 evals:218} #w_updates:6 #perturb:0)
+#433   4051.03s best:44402 next:[29164,44401] ls_lin_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:2'352} gen{mvs:744 evals:749} comp{mvs:36 btracks:354} #w_updates:3 #perturb:0)
+#434   4052.81s best:44400 next:[29164,44399] graph_cst_lns (d=9.35e-01 s=57653 t=0.10 p=0.50 stall=0 h=base)
+#435   4052.82s best:44396 next:[29164,44395] ls_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:296} gen{mvs:19 evals:8} comp{mvs:5 btracks:7} #w_updates:0 #perturb:0)
+#436   4052.91s best:44395 next:[29164,44394] ls_restart_decay_compound(batch:1 lin{mvs:0 evals:782} gen{mvs:147 evals:114} comp{mvs:13 btracks:67} #w_updates:0 #perturb:0)
+#437   4052.92s best:44394 next:[29164,44393] ls_lin_restart_decay_compound(batch:1 lin{mvs:0 evals:149} gen{mvs:24 evals:23} comp{mvs:4 btracks:10} #w_updates:0 #perturb:0)
+#438   4052.94s best:44393 next:[29164,44392] ls_restart_decay_compound(batch:1 lin{mvs:0 evals:850} gen{mvs:447 evals:532} comp{mvs:57 btracks:195} #w_updates:6 #perturb:0)
+#439   4052.95s best:44391 next:[29164,44390] ls_lin_restart_decay_compound(batch:1 lin{mvs:0 evals:266} gen{mvs:15 evals:14} comp{mvs:13 btracks:1} #w_updates:0 #perturb:0)
+#440   4052.95s best:44389 next:[29164,44388] ls_restart_decay(batch:1 lin{mvs:61 evals:377} #w_updates:27 #perturb:0)
+#441   4052.97s best:44388 next:[29164,44387] ls_lin_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:2'417} gen{mvs:462 evals:481} comp{mvs:70 btracks:196} #w_updates:4 #perturb:0)
+#442   4052.98s best:44387 next:[29164,44386] ls_restart_decay_perturb(batch:1 lin{mvs:3 evals:138} #w_updates:0 #perturb:0)
+#443   4053.07s best:44385 next:[29164,44384] ls_restart_decay_perturb(batch:1 lin{mvs:41 evals:271} #w_updates:19 #perturb:0)
+#444   4053.17s best:44383 next:[29164,44382] ls_lin_restart_perturb(batch:1 lin{mvs:209 evals:1'304} #w_updates:196 #perturb:0)
+#445   4053.27s best:44382 next:[29164,44381] ls_lin_restart_perturb(batch:1 lin{mvs:545 evals:4'935} #w_updates:488 #perturb:0)
+#446   4053.27s best:44381 next:[29164,44380] ls_restart_decay(batch:1 lin{mvs:63 evals:651} #w_updates:31 #perturb:0)
+#447   4053.28s best:44380 next:[29164,44379] ls_lin_restart(batch:1 lin{mvs:347 evals:2'564} #w_updates:325 #perturb:0)
+#448   4053.34s best:44379 next:[29164,44378] ls_lin_restart_decay_compound(batch:1 lin{mvs:0 evals:187} gen{mvs:74 evals:47} comp{mvs:6 btracks:34} #w_updates:0 #perturb:0)
+#449   4057.72s best:44374 next:[29164,44373] scheduling_intervals_lns (d=5.58e-01 s=57723 t=0.10 p=0.50 stall=0 h=base)
+#450   4065.50s best:44372 next:[29164,44371] scheduling_intervals_lns (d=5.72e-01 s=57866 t=0.10 p=0.50 stall=0 h=base)
+#451   4069.29s best:44371 next:[29164,44370] graph_arc_lns (d=9.13e-01 s=57951 t=0.10 p=0.50 stall=6 h=base)
+#452   4069.30s best:44351 next:[29164,44350] ls_restart_decay_perturb(batch:1 lin{mvs:19 evals:435} #w_updates:0 #perturb:0)
+#Bound 4081.09s best:44351 next:[29165,44350] lb_tree_search (nodes=417972/418468 rc=0 decisions=2829653 @root=376 restarts=10 lp_iters=[0, 0, 16'240'041, 3'728'600]) 
+#453   4146.63s best:44327 next:[29165,44326] graph_dec_lns (d=8.42e-01 s=58934 t=0.12 p=0.50 stall=12 h=base)
+#454   4146.71s best:44325 next:[29165,44324] ls_restart(batch:1 lin{mvs:4 evals:165} #w_updates:0 #perturb:0)
+#455   4364.24s best:44322 next:[29165,44321] graph_dec_lns (d=8.31e-01 s=62010 t=0.12 p=0.50 stall=34 h=base)
+#456   4383.06s best:44308 next:[29165,44307] scheduling_intervals_lns (d=5.87e-01 s=62285 t=0.10 p=0.50 stall=10 h=stalling)
+#Bound 4487.81s best:44308 next:[29166,44307] lb_tree_search (nodes=452699/453207 rc=0 decisions=3093560 @root=406 restarts=10 lp_iters=[0, 0, 18'002'158, 4'052'877]) 
+#457   4860.45s best:44276 next:[29166,44275] graph_dec_lns (d=8.19e-01 s=68891 t=0.12 p=0.50 stall=81 h=stalling)
+#458   4860.47s best:44245 next:[29166,44244] ls_lin_restart_decay_compound(batch:1 lin{mvs:0 evals:435} gen{mvs:44 evals:17} comp{mvs:8 btracks:18} #w_updates:0 #perturb:0)
+#459   4878.95s best:44227 next:[29166,44226] rnd_var_lns (d=9.22e-01 s=69131 t=0.15 p=0.50 stall=186 h=stalling)
+#460   4879.20s best:44225 next:[29166,44224] ls_lin_restart_compound(batch:1 lin{mvs:0 evals:93} gen{mvs:6 evals:4} comp{mvs:6 btracks:0} #w_updates:0 #perturb:0)
+#461   4879.20s best:44224 next:[29166,44223] ls_restart_perturb(batch:1 lin{mvs:150 evals:1'674} #w_updates:130 #perturb:0) [combined with: ls_lin_restart_compo...]
+#462   4879.99s best:44220 next:[29166,44219] scheduling_precedences_lns (d=6.35e-01 s=69154 t=0.10 p=0.50 stall=1 h=base)
+#Bound 4941.55s best:44220 next:[29167,44219] lb_tree_search (nodes=493297/493819 rc=1 decisions=3408218 @root=437 restarts=10 lp_iters=[0, 0, 19'867'333, 4'415'300]) 
+#463   5380.99s best:44219 next:[29167,44218] graph_dec_lns (d=8.40e-01 s=76117 t=0.13 p=0.50 stall=9 h=base)
+#464   5381.23s best:44152 next:[29167,44151] ls_restart_decay(batch:1 lin{mvs:2 evals:90} #w_updates:0 #perturb:0)
+#Bound 5403.24s best:44152 next:[29168,44151] lb_tree_search (nodes=529392/529930 rc=1 decisions=3718663 @root=471 restarts=10 lp_iters=[0, 0, 21'834'464, 4'742'815]) 
+#Bound 5916.92s best:44152 next:[29169,44151] lb_tree_search (nodes=568765/569358 rc=1 decisions=4072850 @root=507 restarts=10 lp_iters=[0, 0, 24'104'281, 5'105'309]) 
+#Bound 6396.91s best:44152 next:[29170,44151] lb_tree_search (nodes=600579/601192 rc=1 decisions=4404070 @root=541 restarts=10 lp_iters=[0, 0, 26'411'471, 5'408'438]) 
+#Bound 6884.73s best:44152 next:[29171,44151] lb_tree_search (nodes=629957/630659 rc=1 decisions=4722293 @root=573 restarts=10 lp_iters=[0, 0, 28'759'497, 5'702'026]) 
+#Bound 7397.73s best:44152 next:[29172,44151] lb_tree_search (nodes=661914/662626 rc=1 decisions=5069249 @root=608 restarts=10 lp_iters=[0, 0, 31'256'570, 6'016'749]) 
+#Bound 7979.05s best:44152 next:[29173,44151] lb_tree_search (nodes=705449/706187 rc=1 decisions=5463536 @root=647 restarts=10 lp_iters=[0, 0, 34'028'034, 6'419'703]) 
+#465   8309.50s best:44101 next:[29173,44100] rnd_var_lns (d=9.23e-01 s=117211 t=0.19 p=0.50 stall=0 h=base)
+#466   8311.01s best:44098 next:[29173,44097] quick_restart_no_lp
+#467   8311.32s best:44097 next:[29173,44096] ls_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:95} gen{mvs:21 evals:16} comp{mvs:9 btracks:6} #w_updates:0 #perturb:0)
+#468   8311.45s best:44096 next:[29173,44095] ls_lin_restart_compound(batch:1 lin{mvs:0 evals:396} gen{mvs:119 evals:98} comp{mvs:5 btracks:57} #w_updates:0 #perturb:0)
+#469   8311.46s best:44095 next:[29173,44094] ls_restart(batch:1 lin{mvs:534 evals:5'730} #w_updates:473 #perturb:0)
+#470   8311.47s best:44089 next:[29173,44088] scheduling_intervals_lns (d=6.19e-01 s=117248 t=0.10 p=0.50 stall=9 h=base)
+#Bound 8580.72s best:44089 next:[29174,44088] lb_tree_search (nodes=746695/747474 rc=1 decisions=5851571 @root=688 restarts=10 lp_iters=[0, 0, 36'970'786, 6'809'707]) 
+#471   8598.45s best:44085 next:[29174,44084] scheduling_precedences_lns (d=6.40e-01 s=121168 t=0.10 p=0.50 stall=10 h=base)
+#472   8630.89s best:44082 next:[29174,44081] scheduling_intervals_lns (d=6.19e-01 s=121555 t=0.10 p=0.50 stall=7 h=base)
+#473   8647.31s best:44059 next:[29174,44058] scheduling_precedences_lns (d=5.87e-01 s=121851 t=0.10 p=0.50 stall=8 h=base)
+#474   8722.23s best:44042 next:[29174,44041] graph_dec_lns (d=8.33e-01 s=122874 t=0.15 p=0.50 stall=27 h=base)
+#475   8722.24s best:44032 next:[29174,44031] ls_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:142} gen{mvs:4 evals:1} comp{mvs:4 btracks:0} #w_updates:0 #perturb:0)
+#476   8843.91s best:44030 next:[29174,44029] scheduling_precedences_lns (d=6.25e-01 s=124613 t=0.10 p=0.50 stall=9 h=base)
+#477   9027.36s best:44014 next:[29174,44013] scheduling_precedences_lns (d=6.66e-01 s=127142 t=0.10 p=0.50 stall=9 h=base)
+#478   9032.11s best:43998 next:[29174,43997] graph_dec_lns (d=8.24e-01 s=127230 t=0.15 p=0.50 stall=45 h=base)
+#479   9032.11s best:43959 next:[29174,43958] ls_restart_perturb(batch:1 lin{mvs:9 evals:302} #w_updates:0 #perturb:0)
+#480   9032.12s best:43955 next:[29174,43954] ls_lin_restart_perturb(batch:1 lin{mvs:169 evals:1'222} #w_updates:157 #perturb:0)
+#481   9032.13s best:43953 next:[29174,43952] ls_restart_compound(batch:1 lin{mvs:0 evals:384} gen{mvs:78 evals:60} comp{mvs:6 btracks:36} #w_updates:0 #perturb:0)
+#482   9032.13s best:43949 next:[29174,43948] ls_lin_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:670} gen{mvs:148 evals:122} comp{mvs:12 btracks:68} #w_updates:0 #perturb:0)
+#483   9032.14s best:43947 next:[29174,43946] ls_restart_compound_perturb(batch:1 lin{mvs:0 evals:299} gen{mvs:14 evals:8} comp{mvs:6 btracks:4} #w_updates:0 #perturb:0)
+#484   9032.14s best:43944 next:[29174,43943] ls_lin_restart_decay(batch:1 lin{mvs:54 evals:364} #w_updates:29 #perturb:0)
+#485   9032.14s best:43941 next:[29174,43940] ls_restart_decay(batch:1 lin{mvs:13 evals:267} #w_updates:7 #perturb:0)
+#486   9032.29s best:43938 next:[29174,43937] ls_lin_restart_compound_perturb(batch:1 lin{mvs:0 evals:945} gen{mvs:292 evals:253} comp{mvs:10 btracks:141} #w_updates:1 #perturb:0)
+#487   9033.25s best:43936 next:[29174,43935] scheduling_time_window_lns (d=1.00e+00 s=127255 t=0.38 p=1.00 stall=3343 h=stalling)
+#Bound 9119.93s best:43936 next:[29175,43935] lb_tree_search (nodes=768700/769488 rc=1 decisions=6187240 @root=722 restarts=10 lp_iters=[0, 0, 39'735'613, 7'046'928]) 
+#488   9157.51s best:43889 next:[29175,43888] scheduling_intervals_lns (d=5.72e-01 s=128926 t=0.10 p=0.50 stall=0 h=base)
+#489   9323.56s best:43881 next:[29175,43880] graph_dec_lns (d=8.24e-01 s=131255 t=0.15 p=0.50 stall=45 h=stalling)
+#490   9323.90s best:43878 next:[29175,43877] ls_restart_decay(batch:1 lin{mvs:7 evals:152} #w_updates:3 #perturb:0)
+#491   9323.90s best:43876 next:[29175,43875] ls_lin_restart_decay(batch:1 lin{mvs:12 evals:305} #w_updates:5 #perturb:0)
+#492   9323.90s best:43875 next:[29175,43874] ls_restart_perturb(batch:1 lin{mvs:217 evals:2'790} #w_updates:185 #perturb:0)
+#493   9323.91s best:43872 next:[29175,43871] ls_lin_restart(batch:1 lin{mvs:144 evals:911} #w_updates:136 #perturb:0)
+#494   9324.36s best:43868 next:[29175,43867] scheduling_resource_windows_lns (d=1.00e+00 s=131307 t=0.39 p=1.00 stall=3403 h=stalling)
+#495   9350.90s best:43866 next:[29175,43865] scheduling_precedences_lns (d=6.72e-01 s=131641 t=0.10 p=0.50 stall=4 h=base)
+#496   9350.95s best:43865 next:[29175,43864] ls_lin_restart_decay_perturb(batch:1 lin{mvs:233 evals:2'370} #w_updates:104 #perturb:0)
+#497   9350.96s best:43864 next:[29175,43863] ls_restart_perturb(batch:1 lin{mvs:541 evals:5'372} #w_updates:355 #perturb:0)
+#498   9350.97s best:43863 next:[29175,43862] ls_lin_restart(batch:1 lin{mvs:625 evals:8'988} #w_updates:523 #perturb:0)
+#499   9351.38s best:43860 next:[29175,43859] rnd_var_lns (d=9.21e-01 s=131650 t=0.20 p=0.50 stall=204 h=base)
+#500   9351.39s best:43859 next:[29175,43858] ls_restart(batch:1 lin{mvs:689 evals:6'675} #w_updates:483 #perturb:0)
+#501   9351.40s best:43858 next:[29175,43857] ls_lin_restart_perturb(batch:1 lin{mvs:124 evals:1'972} #w_updates:98 #perturb:0)
+#502   9351.45s best:43857 next:[29175,43856] ls_lin_restart_decay_perturb(batch:1 lin{mvs:153 evals:1'935} #w_updates:72 #perturb:0)
+#503   9351.97s best:43848 next:[29175,43847] quick_restart_no_lp
+#504   9352.14s best:43847 next:[29175,43846] scheduling_time_window_lns (d=1.00e+00 s=131658 t=0.39 p=1.00 stall=10 h=base)
+#505   9361.59s best:43807 next:[29175,43806] rnd_var_lns (d=9.26e-01 s=131743 t=0.20 p=0.50 stall=4 h=base)
+#506   9513.66s best:43773 next:[29175,43772] scheduling_precedences_lns (d=6.27e-01 s=133948 t=0.10 p=0.50 stall=3 h=base)
+#507   9517.05s best:43663 next:[29175,43662] graph_dec_lns (d=8.28e-01 s=133964 t=0.15 p=0.50 stall=22 h=base)
+#508   9517.09s best:43594 next:[29175,43593] ls_restart_decay(batch:1 lin{mvs:4 evals:178} #w_updates:0 #perturb:0)
+#509   9527.96s best:43587 next:[29175,43586] lb_relax_lns_int (d=2.54e-01 s=134004 t=0.62 p=0.50 stall=563 h=base)
+#510   9536.67s best:43531 next:[29175,43530] scheduling_intervals_lns (d=6.17e-01 s=134169 t=0.10 p=0.50 stall=10 h=stalling)
+#511   9556.62s best:43530 next:[29175,43529] scheduling_intervals_lns (d=5.91e-01 s=134516 t=0.10 p=0.50 stall=0 h=base)
+#Bound 9706.92s best:43530 next:[29176,43529] lb_tree_search (nodes=791591/792393 rc=1 decisions=6539387 @root=760 restarts=10 lp_iters=[0, 0, 42'654'907, 7'295'723]) 
+#512   10202.11s best:43506 next:[29176,43505] scheduling_intervals_lns (d=6.17e-01 s=143382 t=0.10 p=0.50 stall=4 h=base)
+#513   10224.55s best:43451 next:[29176,43450] scheduling_precedences_lns (d=6.53e-01 s=143730 t=0.10 p=0.50 stall=11 h=base)
+#Bound 10378.47s best:43451 next:[29177,43450] lb_tree_search (nodes=826288/827107 rc=1 decisions=6980948 @root=807 restarts=10 lp_iters=[0, 0, 45'915'972, 7'641'957]) 
+#514   10994.73s best:43446 next:[29177,43445] scheduling_precedences_lns (d=6.29e-01 s=154305 t=0.10 p=0.50 stall=3 h=base)
+#Bound 11058.33s best:43446 next:[29178,43445] lb_tree_search (nodes=862871/863720 rc=1 decisions=7407169 @root=851 restarts=10 lp_iters=[0, 0, 49'334'364, 8'002'831]) 
+#515   11232.57s best:43422 next:[29178,43421] scheduling_intervals_lns (d=5.57e-01 s=157565 t=0.10 p=0.50 stall=8 h=base)
+#516   11237.43s best:43419 next:[29178,43418] graph_cst_lns (d=9.25e-01 s=157608 t=0.10 p=0.50 stall=12 h=base)
+#517   11310.79s best:43357 next:[29178,43356] rnd_var_lns (d=9.23e-01 s=158670 t=0.23 p=0.50 stall=341 h=base)
+#518   11362.33s best:43343 next:[29178,43342] scheduling_intervals_lns (d=5.83e-01 s=159328 t=0.10 p=0.50 stall=0 h=base)
+#519   11372.50s best:43332 next:[29178,43331] lb_relax_lns_int (d=4.01e-01 s=159344 t=0.63 p=0.51 stall=5 h=base)
+#520   11378.18s best:43313 next:[29178,43312] graph_dec_lns (d=8.16e-01 s=159598 t=0.17 p=0.50 stall=262 h=base)
+#521   11382.29s best:43266 next:[29178,43265] scheduling_intervals_lns (d=5.92e-01 s=159624 t=0.10 p=0.50 stall=0 h=base)
+#522   11389.11s best:43249 next:[29178,43248] graph_dec_lns (d=8.20e-01 s=159719 t=0.17 p=0.50 stall=1 h=base)
+#523   11390.77s best:43246 next:[29178,43245] ls_restart_decay(batch:1 lin{mvs:4 evals:184} #w_updates:0 #perturb:0)
+#524   11510.01s best:43237 next:[29178,43236] graph_dec_lns (d=8.43e-01 s=161316 t=0.17 p=0.50 stall=15 h=base)
+#525   11510.30s best:43234 next:[29178,43233] quick_restart
+#526   11510.75s best:43228 next:[29178,43227] scheduling_resource_windows_lns (d=1.00e+00 s=161325 t=0.53 p=1.00 stall=742 h=stalling) [hint]
+#527   11629.29s best:43207 next:[29178,43206] scheduling_precedences_lns (d=6.48e-01 s=162939 t=0.10 p=0.50 stall=0 h=base)
+#528   11632.38s best:43198 next:[29178,43197] scheduling_intervals_lns (d=6.16e-01 s=162954 t=0.10 p=0.50 stall=17 h=base)
+#529   11632.43s best:43196 next:[29178,43195] ls_lin_restart_decay_perturb(batch:1 lin{mvs:188 evals:2'371} #w_updates:90 #perturb:0)
+#530   11632.58s best:43195 next:[29178,43194] ls_lin_restart_decay_compound(batch:1 lin{mvs:0 evals:1'112} gen{mvs:308 evals:218} comp{mvs:6 btracks:151} #w_updates:1 #perturb:0)
+#531   11632.67s best:43194 next:[29178,43193] ls_lin_restart_perturb(batch:1 lin{mvs:321 evals:2'195} #w_updates:305 #perturb:0)
+#532   11632.86s best:43193 next:[29178,43192] quick_restart_no_lp
+#533   11632.97s best:43189 next:[29178,43188] scheduling_intervals_lns (d=6.16e-01 s=162955 t=0.10 p=0.50 stall=17 h=stalling)
+#534   11668.04s best:43087 next:[29178,43086] graph_dec_lns (d=8.28e-01 s=163512 t=0.17 p=0.50 stall=21 h=base)
+#535   11668.56s best:43012 next:[29178,43011] ls_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:231} gen{mvs:8 evals:0} comp{mvs:8 btracks:0} #w_updates:0 #perturb:0)
+#536   11668.81s best:42981 next:[29178,42980] scheduling_resource_windows_lns (d=1.00e+00 s=163542 t=0.54 p=1.00 stall=56 h=base)
+#537   11678.30s best:42913 next:[29178,42912] rnd_var_lns (d=9.27e-01 s=163662 t=0.23 p=0.50 stall=60 h=base)
+#538   11708.53s best:42861 next:[29178,42860] rnd_cst_lns (d=9.25e-01 s=164042 t=0.10 p=0.50 stall=2 h=base)
+#539   11709.13s best:42859 next:[29178,42858] quick_restart_no_lp
+#540   11709.42s best:42858 next:[29178,42857] ls_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:287} gen{mvs:70 evals:54} comp{mvs:6 btracks:32} #w_updates:0 #perturb:0)
+#541   11709.43s best:42856 next:[29178,42855] ls_restart(batch:1 lin{mvs:447 evals:4'603} #w_updates:395 #perturb:0)
+#542   11709.52s best:42855 next:[29178,42854] ls_restart_decay_compound(batch:1 lin{mvs:0 evals:317} gen{mvs:103 evals:80} comp{mvs:5 btracks:49} #w_updates:0 #perturb:0)
+#543   11709.53s best:42854 next:[29178,42853] ls_restart_perturb(batch:1 lin{mvs:430 evals:3'848} #w_updates:390 #perturb:0)
+#544   11709.54s best:42848 next:[29178,42847] ls_restart_compound(batch:1 lin{mvs:0 evals:817} gen{mvs:226 evals:155} comp{mvs:12 btracks:107} #w_updates:0 #perturb:0)
+#545   11709.56s best:42847 next:[29178,42846] ls_restart(batch:1 lin{mvs:703 evals:7'291} #w_updates:638 #perturb:0)
+#546   11709.59s best:42846 next:[29178,42845] ls_lin_restart(batch:1 lin{mvs:146 evals:2'175} #w_updates:117 #perturb:0)
+#547   11709.82s best:42845 next:[29178,42844] ls_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:202} gen{mvs:81 evals:70} comp{mvs:5 btracks:38} #w_updates:0 #perturb:0)
+#Bound 11865.69s best:42845 next:[29179,42844] lb_tree_search (nodes=911152/912017 rc=1 decisions=7889288 @root=904 restarts=10 lp_iters=[0, 0, 53'105'125, 8'467'297]) 
+#548   12411.37s best:42806 next:[29179,42805] scheduling_precedences_lns (d=6.48e-01 s=173720 t=0.10 p=0.50 stall=8 h=base)
+#549   12412.20s best:42654 next:[29179,42653] scheduling_resource_windows_lns (d=1.00e+00 s=173738 t=0.59 p=1.00 stall=273 h=base)
+#550   12577.67s best:42643 next:[29179,42642] scheduling_intervals_lns (d=5.84e-01 s=175996 t=0.10 p=0.50 stall=1 h=base)
+#Bound 12662.96s best:42643 next:[29180,42642] lb_tree_search (nodes=960835/961718 rc=1 decisions=8377080 @root=953 restarts=10 lp_iters=[0, 0, 56'963'823, 8'938'413]) 
+#Bound 13513.80s best:42643 next:[29181,42642] lb_tree_search (nodes=1012005/1012901 rc=1 decisions=8880199 @root=1004 restarts=10 lp_iters=[0, 0, 60'930'667, 9'422'950]) 
+#Bound 14320.44s best:42643 next:[29182,42642] lb_tree_search (nodes=1065736/1066648 rc=1 decisions=9398494 @root=1056 restarts=10 lp_iters=[0, 0, 64'910'337, 9'972'674]) 
+#551   15135.98s best:42529 next:[29182,42528] graph_dec_lns (d=8.31e-01 s=211032 t=0.19 p=0.50 stall=11 h=base)
+#552   15135.99s best:42457 next:[29182,42456] ls_restart_compound_perturb(batch:1 lin{mvs:0 evals:221} gen{mvs:8 evals:1} comp{mvs:8 btracks:0} #w_updates:0 #perturb:0)
+#Bound 15178.29s best:42457 next:[29183,42456] lb_tree_search (nodes=1122920/1123843 rc=1 decisions=9946920 @root=1111 restarts=10 lp_iters=[0, 0, 69'152'163, 10'554'146]) 
+#553   15723.81s best:42449 next:[29183,42448] scheduling_precedences_lns (d=6.32e-01 s=218995 t=0.10 p=0.50 stall=4 h=base)
+#554   15724.53s best:42441 next:[29183,42440] scheduling_resource_windows_lns (d=1.00e+00 s=219021 t=0.96 p=1.00 stall=1243 h=stalling)
+#555   15734.48s best:42412 next:[29183,42411] scheduling_precedences_lns (d=6.05e-01 s=219247 t=0.10 p=0.50 stall=1 h=base)
+#556   15744.74s best:42392 next:[29183,42391] graph_dec_lns (d=8.21e-01 s=219326 t=0.19 p=0.50 stall=66 h=base)
+#557   15744.74s best:42383 next:[29183,42382] ls_restart_perturb(batch:1 lin{mvs:6 evals:222} #w_updates:0 #perturb:0)
+#558   15744.78s best:42382 next:[29183,42381] ls_lin_restart_decay_compound(batch:1 lin{mvs:0 evals:1'499} gen{mvs:698 evals:827} comp{mvs:48 btracks:325} #w_updates:6 #perturb:0)
+#559   15745.50s best:42373 next:[29183,42372] scheduling_resource_windows_lns (d=1.00e+00 s=219333 t=0.96 p=1.00 stall=7 h=base)
+#560   15761.41s best:42325 next:[29183,42324] scheduling_precedences_lns (d=6.10e-01 s=219466 t=0.10 p=0.50 stall=1 h=base)
+#561   15761.69s best:42324 next:[29183,42323] ls_lin_restart_perturb(batch:1 lin{mvs:1'632 evals:17'882} #w_updates:1'372 #perturb:0)
+#562   15761.71s best:42323 next:[29183,42322] ls_lin_restart(batch:1 lin{mvs:1'267 evals:12'930} #w_updates:998 #perturb:0)
+#563   15761.74s best:42322 next:[29183,42321] ls_lin_restart_perturb(batch:1 lin{mvs:2'607 evals:30'851} #w_updates:2'250 #perturb:0)
+#564   15761.80s best:42321 next:[29183,42320] ls_lin_restart(batch:1 lin{mvs:386 evals:3'237} #w_updates:318 #perturb:0)
+#565   15768.22s best:42289 next:[29183,42288] scheduling_intervals_lns (d=6.01e-01 s=219579 t=0.10 p=0.50 stall=6 h=base)
+#566   15887.02s best:42287 next:[29183,42286] quick_restart_no_lp
+#567   15887.14s best:42286 next:[29183,42285] ls_lin_restart(batch:1 lin{mvs:392 evals:3'059} #w_updates:360 #perturb:0)
+#568   15887.19s best:42284 next:[29183,42283] ls_lin_restart(batch:1 lin{mvs:19 evals:206} #w_updates:13 #perturb:0)
+#569   15887.26s best:42283 next:[29183,42282] ls_lin_restart(batch:1 lin{mvs:50 evals:605} #w_updates:40 #perturb:0)
+#570   15887.31s best:42282 next:[29183,42281] ls_lin_restart_compound_perturb(batch:1 lin{mvs:0 evals:1'237} gen{mvs:133 evals:82} comp{mvs:5 btracks:64} #w_updates:0 #perturb:0)
+#571   15887.31s best:42281 next:[29183,42280] ls_lin_restart_decay(batch:1 lin{mvs:55 evals:492} #w_updates:27 #perturb:0)
+#572   15887.32s best:42280 next:[29183,42279] ls_lin_restart_compound_perturb(batch:1 lin{mvs:0 evals:878} gen{mvs:222 evals:185} comp{mvs:6 btracks:108} #w_updates:0 #perturb:0)
+#573   15887.33s best:42279 next:[29183,42278] ls_restart_compound_perturb(batch:1 lin{mvs:0 evals:2'919} gen{mvs:350 evals:203} comp{mvs:6 btracks:172} #w_updates:1 #perturb:0) [combined with: ls_lin_restart_compo...]
+#574   15887.34s best:42278 next:[29183,42277] ls_restart_decay(batch:1 lin{mvs:3 evals:133} #w_updates:0 #perturb:0)
+#575   15887.34s best:42277 next:[29183,42276] ls_restart_perturb(batch:1 lin{mvs:210 evals:2'250} #w_updates:156 #perturb:0)
+#576   15887.35s best:42275 next:[29183,42274] ls_restart(batch:1 lin{mvs:265 evals:2'269} #w_updates:186 #perturb:0)
+#577   15887.40s best:42274 next:[29183,42273] ls_restart_decay_perturb(batch:1 lin{mvs:295 evals:3'012} #w_updates:117 #perturb:0)
+#578   15887.40s best:42273 next:[29183,42272] ls_restart_decay_perturb(batch:1 lin{mvs:2 evals:51} #w_updates:0 #perturb:0)
+#579   15887.42s best:42272 next:[29183,42271] ls_lin_restart(batch:1 lin{mvs:374 evals:2'972} #w_updates:293 #perturb:0)
+#580   15887.42s best:42271 next:[29183,42270] ls_lin_restart_perturb(batch:1 lin{mvs:104 evals:1'519} #w_updates:85 #perturb:0)
+#581   15887.43s best:42270 next:[29183,42269] ls_lin_restart_decay(batch:1 lin{mvs:92 evals:1'035} #w_updates:44 #perturb:0)
+#582   15887.43s best:42269 next:[29183,42268] ls_lin_restart_perturb(batch:1 lin{mvs:23 evals:270} #w_updates:18 #perturb:0)
+#583   15887.44s best:42268 next:[29183,42267] ls_lin_restart(batch:1 lin{mvs:406 evals:5'075} #w_updates:317 #perturb:0)
+#584   15887.44s best:42266 next:[29183,42265] ls_lin_restart_perturb(batch:1 lin{mvs:354 evals:4'440} #w_updates:269 #perturb:0)
+#585   15887.45s best:42264 next:[29183,42263] ls_restart_perturb(batch:1 lin{mvs:5 evals:147} #w_updates:1 #perturb:0)
+#586   15887.45s best:42263 next:[29183,42262] ls_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:790} gen{mvs:120 evals:63} comp{mvs:6 btracks:57} #w_updates:0 #perturb:0)
+#587   15887.47s best:42262 next:[29183,42261] ls_lin_restart_compound(batch:1 lin{mvs:0 evals:3'363} gen{mvs:605 evals:553} comp{mvs:39 btracks:283} #w_updates:3 #perturb:0) [combined with: ls_restart_decay_com...]
+#588   15887.48s best:42261 next:[29183,42260] ls_lin_restart_decay_perturb(batch:1 lin{mvs:297 evals:3'049} #w_updates:117 #perturb:0)
+#589   15887.54s best:42260 next:[29183,42259] ls_restart_decay_compound(batch:1 lin{mvs:0 evals:48} gen{mvs:3 evals:2} comp{mvs:3 btracks:0} #w_updates:0 #perturb:0)
+#590   15887.54s best:42259 next:[29183,42258] ls_restart_compound(batch:1 lin{mvs:0 evals:48} gen{mvs:4 evals:3} comp{mvs:4 btracks:0} #w_updates:0 #perturb:0)
+#591   15887.56s best:42258 next:[29183,42257] ls_lin_restart_compound(batch:1 lin{mvs:0 evals:3'885} gen{mvs:723 evals:696} comp{mvs:71 btracks:326} #w_updates:9 #perturb:0) [combined with: ls_restart_compound(...]
+#592   15887.60s best:42257 next:[29183,42256] ls_restart_perturb(batch:1 lin{mvs:704 evals:7'567} #w_updates:566 #perturb:0)
+#593   15887.83s best:42255 next:[29183,42254] graph_var_lns (d=7.64e-01 s=221224 t=0.64 p=0.50 stall=4761 h=base)
+#594   15887.88s best:42254 next:[29183,42253] ls_lin_restart_perturb(batch:1 lin{mvs:474 evals:5'143} #w_updates:385 #perturb:0)
+#595   15887.94s best:42252 next:[29183,42251] ls_lin_restart_perturb(batch:1 lin{mvs:596 evals:5'116} #w_updates:483 #perturb:0)
+#596   15888.19s best:42251 next:[29183,42250] ls_restart_perturb(batch:1 lin{mvs:169 evals:948} #w_updates:130 #perturb:0)
+#597   15888.19s best:42250 next:[29183,42249] ls_lin_restart_decay_compound(batch:1 lin{mvs:0 evals:49} gen{mvs:4 evals:3} comp{mvs:4 btracks:0} #w_updates:0 #perturb:0)
+#598   15888.24s best:42249 next:[29183,42248] ls_lin_restart_decay(batch:1 lin{mvs:183 evals:1'909} #w_updates:87 #perturb:0)
+#599   15888.30s best:42248 next:[29183,42247] ls_lin_restart_perturb(batch:1 lin{mvs:556 evals:5'915} #w_updates:462 #perturb:0)
+#600   15888.40s best:42247 next:[29183,42246] ls_restart(batch:1 lin{mvs:351 evals:3'248} #w_updates:287 #perturb:0)
+#601   15888.41s best:42246 next:[29183,42245] ls_lin_restart(batch:1 lin{mvs:317 evals:3'824} #w_updates:242 #perturb:0)
+#602   15888.42s best:42245 next:[29183,42244] ls_restart(batch:1 lin{mvs:685 evals:8'031} #w_updates:570 #perturb:0)
+#603   15888.44s best:42244 next:[29183,42243] ls_restart(batch:1 lin{mvs:366 evals:4'285} #w_updates:288 #perturb:0)
+#604   15888.60s best:42243 next:[29183,42242] ls_lin_restart_decay_perturb(batch:1 lin{mvs:201 evals:2'484} #w_updates:95 #perturb:0)
+#605   15889.30s best:42242 next:[29183,42241] quick_restart_no_lp
+#606   15891.01s best:42241 next:[29183,42240] graph_arc_lns (d=9.14e-01 s=221268 t=0.11 p=0.50 stall=15 h=base)
+#607   15891.01s best:42240 next:[29183,42239] graph_arc_lns (d=9.14e-01 s=221268 t=0.11 p=0.50 stall=15 h=base) [combined with: quick_restart_no_lp...]
+#608   15891.02s best:42239 next:[29183,42238] ls_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:355} gen{mvs:33 evals:13} comp{mvs:3 btracks:15} #w_updates:0 #perturb:0)
+#609   15891.02s best:42238 next:[29183,42237] ls_lin_restart_decay(batch:1 lin{mvs:130 evals:2'033} #w_updates:57 #perturb:0)
+#610   15892.71s best:42236 next:[29183,42235] quick_restart_no_lp
+#611   15894.48s best:42234 next:[29183,42233] scheduling_precedences_lns (d=6.48e-01 s=221278 t=0.10 p=0.50 stall=4 h=base)
+#612   15991.32s best:42219 next:[29183,42218] scheduling_intervals_lns (d=5.87e-01 s=222682 t=0.10 p=0.50 stall=9 h=base)
+#Bound 16068.89s best:42219 next:[29184,42218] lb_tree_search (nodes=1176722/1177650 rc=1 decisions=10489636 @root=1169 restarts=10 lp_iters=[0, 0, 73'490'090, 11'090'711]) 
+#Bound 17005.80s best:42219 next:[29185,42218] lb_tree_search (nodes=1235780/1236716 rc=1 decisions=11072274 @root=1228 restarts=10 lp_iters=[0, 0, 78'159'443, 11'668'855]) 
+#Bound 17999.92s best:42219 next:[29186,42218] lb_tree_search (nodes=1296240/1297183 rc=1 decisions=11671439 @root=1288 restarts=10 lp_iters=[0, 0, 83'056'426, 12'272'810]) 
+#Bound 18974.30s best:42219 next:[29187,42218] lb_tree_search (nodes=1357206/1358166 rc=1 decisions=12285875 @root=1349 restarts=10 lp_iters=[0, 0, 88'161'978, 12'871'749]) 
+#Bound 20024.15s best:42219 next:[29188,42218] lb_tree_search (nodes=1424229/1425198 rc=1 decisions=12931251 @root=1415 restarts=10 lp_iters=[0, 0, 93'472'734, 13'518'336]) 
+#Bound 21035.55s best:42219 next:[29189,42218] lb_tree_search (nodes=1487724/1488738 rc=1 decisions=13551869 @root=1478 restarts=10 lp_iters=[0, 0, 98'657'276, 14'122'441]) 
+#Bound 22106.96s best:42219 next:[29190,42218] lb_tree_search (nodes=1553697/1554728 rc=1 decisions=14189127 @root=1542 restarts=10 lp_iters=[0, 0, 103'997'266, 14'742'138]) 
+#Bound 23201.49s best:42219 next:[29191,42218] lb_tree_search (nodes=1614866/1615929 rc=1 decisions=14818877 @root=1605 restarts=10 lp_iters=[0, 0, 109'406'652, 15'336'899]) 
+#Bound 24276.41s best:42219 next:[29192,42218] lb_tree_search (nodes=1672341/1673425 rc=1 decisions=15447743 @root=1669 restarts=10 lp_iters=[0, 0, 114'891'743, 15'898'732]) 
+#Bound 25385.33s best:42219 next:[29193,42218] lb_tree_search (nodes=1732899/1733989 rc=1 decisions=16102761 @root=1735 restarts=10 lp_iters=[0, 0, 120'594'391, 16'486'636]) 
+#Bound 26558.54s best:42219 next:[29194,42218] lb_tree_search (nodes=1799636/1800731 rc=1 decisions=16782393 @root=1804 restarts=10 lp_iters=[0, 0, 126'458'731, 17'134'311]) 
+#Bound 27763.40s best:42219 next:[29195,42218] lb_tree_search (nodes=1865815/1866929 rc=1 decisions=17475652 @root=1874 restarts=10 lp_iters=[0, 0, 132'487'033, 17'786'723]) 
+#Bound 28933.33s best:42219 next:[29196,42218] lb_tree_search (nodes=1925797/1926924 rc=1 decisions=18161825 @root=1943 restarts=10 lp_iters=[0, 0, 138'529'369, 18'380'900]) 
+#Bound 30110.83s best:42219 next:[29197,42218] lb_tree_search (nodes=1985732/1986864 rc=1 decisions=18861572 @root=2013 restarts=10 lp_iters=[0, 0, 144'790'285, 18'978'821]) 
+#Bound 31350.06s best:42219 next:[29198,42218] lb_tree_search (nodes=2048187/2049327 rc=1 decisions=19580455 @root=2086 restarts=10 lp_iters=[0, 0, 151'241'820, 19'603'171]) 
+#Bound 32616.18s best:42219 next:[29199,42218] lb_tree_search (nodes=2116963/2118106 rc=1 decisions=20330167 @root=2161 restarts=10 lp_iters=[0, 0, 157'956'850, 20'276'240]) 
+#Bound 33931.22s best:42219 next:[29200,42218] lb_tree_search (nodes=2187966/2189111 rc=1 decisions=21100817 @root=2239 restarts=10 lp_iters=[0, 0, 164'801'103, 20'967'586]) 
+#Bound 35255.16s best:42219 next:[29201,42218] lb_tree_search (nodes=2253278/2254427 rc=1 decisions=21869030 @root=2316 restarts=10 lp_iters=[0, 0, 171'710'973, 21'614'771]) 
+#Bound 36644.41s best:42219 next:[29202,42218] lb_tree_search (nodes=2320391/2321550 rc=1 decisions=22667993 @root=2397 restarts=10 lp_iters=[0, 0, 179'000'585, 22'287'733]) 
+#Bound 38117.68s best:42219 next:[29203,42218] lb_tree_search (nodes=2395239/2396402 rc=1 decisions=23513793 @root=2482 restarts=10 lp_iters=[0, 0, 186'585'372, 23'022'344]) 
+#Bound 39607.47s best:42219 next:[29204,42218] lb_tree_search (nodes=2475655/2476824 rc=1 decisions=24386379 @root=2570 restarts=10 lp_iters=[0, 0, 194'430'068, 23'819'469]) 
+#613   39707.40s best:42029 next:[29204,42028] graph_dec_lns (d=8.33e-01 s=539732 t=0.36 p=0.50 stall=51 h=base)
+#614   39707.89s best:42028 next:[29204,42027] quick_restart
+#615   39708.53s best:42027 next:[29204,42026] quick_restart_no_lp
+#616   39708.68s best:42026 next:[29204,42025] quick_restart_no_lp
+#617   39708.70s best:42006 next:[29204,42005] ls_restart_perturb(batch:1 lin{mvs:5 evals:202} #w_updates:0 #perturb:0)
+#618   39708.70s best:42005 next:[29204,42004] ls_lin_restart(batch:1 lin{mvs:15 evals:109} #w_updates:13 #perturb:0)
+#619   39709.13s best:42004 next:[29204,42003] quick_restart
+#620   39709.47s best:42002 next:[29204,42001] quick_restart
+#621   39709.53s best:41910 next:[29204,41909] scheduling_time_window_lns (d=1.00e+00 s=539861 t=26.10 p=1.00 stall=8371 h=stalling)
+#622   39733.81s best:41908 next:[29204,41907] quick_restart
+#623   39733.82s best:41854 next:[29204,41853] ls_restart_compound(batch:1 lin{mvs:0 evals:142} gen{mvs:4 evals:0} comp{mvs:4 btracks:0} #w_updates:0 #perturb:0)
+#624   39733.82s best:41853 next:[29204,41852] ls_restart_perturb(batch:1 lin{mvs:10 evals:89} #w_updates:8 #perturb:0)
+#625   39733.83s best:41852 next:[29204,41851] ls_restart(batch:1 lin{mvs:118 evals:646} #w_updates:114 #perturb:0)
+#626   39733.83s best:41850 next:[29204,41849] ls_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:94} gen{mvs:4 evals:2} comp{mvs:4 btracks:0} #w_updates:0 #perturb:0)
+#627   39733.83s best:41849 next:[29204,41848] ls_restart_decay_perturb(batch:1 lin{mvs:87 evals:1'184} #w_updates:39 #perturb:0)
+#628   39733.84s best:41847 next:[29204,41846] ls_lin_restart(batch:1 lin{mvs:160 evals:1'249} #w_updates:146 #perturb:0)
+#629   39733.84s best:41846 next:[29204,41845] ls_lin_restart(batch:1 lin{mvs:160 evals:1'249} #w_updates:146 #perturb:0) [combined with: ls_restart_decay_per...]
+#630   39733.92s best:41845 next:[29204,41844] ls_lin_restart_perturb(batch:1 lin{mvs:152 evals:1'127} #w_updates:141 #perturb:0)
+#631   39734.68s best:41840 next:[29204,41839] ls_restart(batch:1 lin{mvs:176 evals:3'285} #w_updates:132 #perturb:0)
+#632   39734.74s best:41839 next:[29204,41838] ls_restart(batch:1 lin{mvs:472 evals:2'835} #w_updates:437 #perturb:0)
+#633   39734.79s best:41838 next:[29204,41837] ls_restart_decay_perturb(batch:1 lin{mvs:221 evals:2'440} #w_updates:95 #perturb:0)
+#634   39734.80s best:41836 next:[29204,41835] ls_lin_restart_decay_compound(batch:1 lin{mvs:0 evals:848} gen{mvs:314 evals:244} comp{mvs:28 btracks:143} #w_updates:0 #perturb:0)
+#635   39734.81s best:41835 next:[29204,41834] ls_restart_compound(batch:1 lin{mvs:0 evals:48} gen{mvs:2 evals:1} comp{mvs:2 btracks:0} #w_updates:0 #perturb:0)
+#636   39734.81s best:41834 next:[29204,41833] ls_lin_restart_decay(batch:1 lin{mvs:6 evals:153} #w_updates:2 #perturb:0)
+#637   39736.41s best:41833 next:[29204,41832] ls_restart_compound_perturb(batch:1 lin{mvs:0 evals:566} gen{mvs:140 evals:93} comp{mvs:20 btracks:60} #w_updates:0 #perturb:0)
+#638   39736.42s best:41832 next:[29204,41831] ls_lin_restart_decay_compound(batch:1 lin{mvs:0 evals:149} gen{mvs:70 evals:38} comp{mvs:4 btracks:33} #w_updates:0 #perturb:0)
+#639   39736.46s best:41831 next:[29204,41830] rnd_cst_lns (d=9.14e-01 s=540172 t=0.10 p=0.50 stall=17 h=base) [combined with: ls_lin_restart_decay...]
+#640   39737.18s best:41811 next:[29204,41810] rnd_cst_lns (d=9.13e-01 s=540154 t=0.10 p=0.50 stall=16 h=base)
+#641   39737.91s best:41801 next:[29204,41800] ls_restart_compound_perturb(batch:1 lin{mvs:0 evals:245} gen{mvs:11 evals:2} comp{mvs:11 btracks:0} #w_updates:0 #perturb:0)
+#642   39737.94s best:41798 next:[29204,41797] ls_lin_restart_compound_perturb(batch:1 lin{mvs:0 evals:5'984} gen{mvs:879 evals:666} comp{mvs:67 btracks:406} #w_updates:4 #perturb:0)
+#643   39890.17s best:41791 next:[29204,41790] graph_dec_lns (d=8.40e-01 s=542244 t=0.36 p=0.50 stall=10 h=base)
+#644   39891.64s best:41789 next:[29204,41788] quick_restart_no_lp
+#645   39891.92s best:41783 next:[29204,41782] quick_restart
+#646   39892.00s best:41773 next:[29204,41772] ls_restart_compound_perturb(batch:1 lin{mvs:0 evals:1'055} gen{mvs:97 evals:79} comp{mvs:27 btracks:35} #w_updates:1 #perturb:0)
+#647   39892.10s best:41772 next:[29204,41771] ls_restart(batch:1 lin{mvs:860 evals:11'821} #w_updates:609 #perturb:0)
+#648   39892.14s best:41771 next:[29204,41770] ls_lin_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:6'659} gen{mvs:1'005 evals:660} comp{mvs:11 btracks:497} #w_updates:3 #perturb:0)
+#Bound 41227.96s best:41771 next:[29205,41770] lb_tree_search (nodes=2558978/2560160 rc=1 decisions=25277011 @root=2660 restarts=10 lp_iters=[0, 0, 202'536'332, 24'648'824]) 
+#Bound 42831.64s best:41771 next:[29206,41770] lb_tree_search (nodes=2643908/2645096 rc=2 decisions=26191166 @root=2753 restarts=10 lp_iters=[0, 0, 210'925'958, 25'480'732]) 
+#Bound 44520.72s best:41771 next:[29207,41770] lb_tree_search (nodes=2731631/2732829 rc=2 decisions=27128424 @root=2848 restarts=10 lp_iters=[0, 0, 219'416'452, 26'342'701]) 
+#Bound 46277.53s best:41771 next:[29208,41770] lb_tree_search (nodes=2816972/2818172 rc=2 decisions=28087827 @root=2944 restarts=10 lp_iters=[0, 0, 228'191'347, 27'191'164]) 
+#Bound 48131.13s best:41771 next:[29209,41770] lb_tree_search (nodes=2908804/2910011 rc=2 decisions=29092679 @root=3045 restarts=10 lp_iters=[0, 0, 237'354'626, 28'091'755]) 
+#Bound 50032.14s best:41771 next:[29210,41770] lb_tree_search (nodes=2999152/3000368 rc=2 decisions=30102474 @root=3147 restarts=10 lp_iters=[0, 0, 246'548'614, 28'969'938]) 
+#Bound 52000.75s best:41771 next:[29211,41770] lb_tree_search (nodes=3095506/3096780 rc=2 decisions=31157050 @root=3253 restarts=10 lp_iters=[0, 0, 256'219'789, 29'917'748]) 
+#Bound 54062.96s best:41771 next:[29212,41770] lb_tree_search (nodes=3194811/3196096 rc=2 decisions=32238767 @root=3362 restarts=10 lp_iters=[0, 0, 266'111'275, 30'874'716]) 
+#Bound 56131.84s best:41771 next:[29213,41770] lb_tree_search (nodes=3295868/3297157 rc=2 decisions=33347773 @root=3473 restarts=10 lp_iters=[0, 0, 276'271'596, 31'862'595]) 
+#Bound 58132.97s best:41771 next:[29214,41770] lb_tree_search (nodes=3379204/3380497 rc=2 decisions=34424786 @root=3582 restarts=10 lp_iters=[0, 0, 286'229'231, 32'686'973]) 
+#Bound 60321.46s best:41771 next:[29215,41770] lb_tree_search (nodes=3472869/3474178 rc=2 decisions=35581533 @root=3698 restarts=10 lp_iters=[0, 0, 296'957'621, 33'612'411]) 
+#Bound 62621.14s best:41771 next:[29216,41770] lb_tree_search (nodes=3576325/3577643 rc=2 decisions=36801859 @root=3821 restarts=10 lp_iters=[0, 0, 308'332'685, 34'636'839]) 
+#Bound 64963.42s best:41771 next:[29217,41770] lb_tree_search (nodes=3681524/3682853 rc=2 decisions=38044991 @root=3946 restarts=10 lp_iters=[0, 0, 319'885'409, 35'680'854]) 
+#Bound 67361.63s best:41771 next:[29218,41770] lb_tree_search (nodes=3783663/3785004 rc=2 decisions=39308179 @root=4073 restarts=10 lp_iters=[0, 0, 331'848'063, 36'708'194]) 
+#Bound 69795.02s best:41771 next:[29219,41770] lb_tree_search (nodes=3885669/3887018 rc=2 decisions=40580301 @root=4201 restarts=10 lp_iters=[0, 0, 343'981'833, 37'734'566]) 
+#Bound 72282.23s best:41771 next:[29220,41770] lb_tree_search (nodes=3987340/3988694 rc=2 decisions=41874253 @root=4331 restarts=10 lp_iters=[0, 0, 356'416'282, 38'775'348]) 
+#Bound 74527.47s best:41771 next:[29221,41770] lb_tree_search (nodes=4080177/4081537 rc=2 decisions=43158168 @root=4460 restarts=10 lp_iters=[0, 0, 368'788'661, 39'731'909]) 
+#Bound 76884.54s best:41771 next:[29222,41770] lb_tree_search (nodes=4180258/4181623 rc=3 decisions=44508054 @root=4596 restarts=10 lp_iters=[0, 0, 381'816'288, 40'754'563]) 
+#Bound 79459.32s best:41771 next:[29223,41770] lb_tree_search (nodes=4289321/4290690 rc=3 decisions=45903578 @root=4736 restarts=10 lp_iters=[0, 0, 395'188'918, 41'855'665]) 
+#649   79475.81s best:41732 next:[29223,41731] rnd_cst_lns (d=9.15e-01 s=1069601 t=0.10 p=0.50 stall=5 h=base)
+#650   79475.82s best:41564 next:[29223,41563] ls_restart_decay_compound_perturb(batch:1 lin{mvs:0 evals:106} gen{mvs:3 evals:0} comp{mvs:3 btracks:0} #w_updates:0 #perturb:0)
+#651   79521.01s best:41545 next:[29223,41544] scheduling_intervals_lns (d=5.95e-01 s=1070212 t=0.10 p=0.50 stall=3 h=base)
+#652   79742.93s best:41511 next:[29223,41510] graph_dec_lns (d=8.40e-01 s=1073192 t=0.75 p=0.50 stall=23 h=base)
+#653   79742.93s best:41507 next:[29223,41506] ls_restart_decay_compound(batch:1 lin{mvs:0 evals:188} gen{mvs:5 evals:0} comp{mvs:5 btracks:0} #w_updates:0 #perturb:0)
+#Bound 82080.86s best:41507 next:[29224,41506] lb_tree_search (nodes=4398450/4399821 rc=3 decisions=47313837 @root=4878 restarts=10 lp_iters=[0, 0, 408'597'245, 43'003'767]) 
+#Bound 84625.93s best:41507 next:[29225,41506] lb_tree_search (nodes=4501538/4502923 rc=3 decisions=48714817 @root=5019 restarts=10 lp_iters=[0, 0, 421'905'735, 44'088'100]) 
+#654   84663.03s best:41466 next:[29225,41465] scheduling_intervals_lns (d=6.07e-01 s=1139063 t=0.10 p=0.50 stall=2 h=base)
